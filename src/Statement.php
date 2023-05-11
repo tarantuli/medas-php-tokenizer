@@ -1,0 +1,163 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Medas\PhpTokenizer;
+
+class Statement implements \IteratorAggregate
+{
+    public bool $blankLineAfter = false;
+    public int $additionalDepth = 0;
+
+    private StatementTypes\StatementType|null $type = null;
+    /** @var Token[] */
+    private array $tokens = [];
+
+    public function __construct(public Block $block)
+    {
+    }
+
+    /**
+     * @return Token[]|\Generator
+     * @noinspection PhpDocSignatureInspection
+     */
+    public function getIterator(): \Generator
+    {
+        yield from $this->tokens;
+    }
+
+    public function type(callable $setter): StatementTypes\StatementType
+    {
+        if ($this->type === null) {
+            $this->type = $setter();
+        }
+
+        return $this->type;
+    }
+
+    public function setType(StatementTypes\StatementType $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function prependToken(Token $token): void
+    {
+        array_unshift($this->tokens, $token);
+
+        $token->block = $this->block;
+        $token->statement = $this;
+        $this->type = null;
+    }
+
+    public function appendToken(Token $token): void
+    {
+        $this->tokens[] = $token;
+
+        $token->block = $this->block;
+        $token->statement = $this;
+
+        $this->type = null;
+    }
+
+    public function moveTokenAfter(Token $token, Token $after): void
+    {
+        $this->removeToken($token);
+        $this->insertTokenAfter($token, $after);
+
+        $this->type = null;
+    }
+
+    public function removeToken(Token $token): void
+    {
+        if (false === $i = array_search($token, $this->tokens, true)) {
+            throw new Exceptions\TokenNotFoundinStatementException($token, $this);
+        }
+
+        unset($this->tokens[$i]);
+        $this->tokens = array_values($this->tokens);
+
+        $this->type = null;
+    }
+
+    public function insertTokenAfter(Token $token, Token $after): void
+    {
+        if (false === $i = array_search($after, $this->tokens, true)) {
+            throw new Exceptions\TokenNotFoundinStatementException($token, $this);
+        }
+
+        $token->block = $after->block;
+        $token->statement = $after->statement;
+        $token->inString = $after->inString;
+        $token->inAttribute = $after->inAttribute;
+
+        array_splice($this->tokens, $i + 1, 0, [$token]);
+        $this->tokens = array_values($this->tokens);
+
+        $this->type = null;
+    }
+
+    public function lastToken(): Token|null
+    {
+        return $this->tokens[count($this->tokens) - 1] ?? null;
+    }
+
+    public function firstToken(): Token|null
+    {
+        return $this->tokens[0] ?? null;
+    }
+
+    public function containsType(array|int|string $type): bool
+    {
+        foreach ($this->tokens as $token) {
+            if ($token->is($type)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function findToken(array|int|string $type): ?Token
+    {
+        foreach ($this->tokens as $token) {
+            if ($token->is($type)) {
+                return $token;
+            }
+        }
+
+        return null;
+    }
+
+    public function getTokenAfter(Token $token): Token|null
+    {
+        if (false === $i = array_search($token, $this->tokens, true)) {
+            throw new Exceptions\TokenNotFoundinStatementException($token, $this);
+        }
+
+        return $this->tokens[$i + 1] ?? null;
+    }
+
+    public function getToken(int $index): Token|null
+    {
+        if ($index < 0) {
+            return $this->tokens[count($this->tokens) + $index] ?? null;
+        }
+
+        return $this->tokens[$index] ?? null;
+    }
+
+    public function mergeWithPrevious(): void
+    {
+        $this->block->mergeWithPrevious($this);
+    }
+
+    public function previous(): Statement|null
+    {
+        return $this->block->getPreviousStatement($this);
+    }
+
+    public function next(): Statement|null
+    {
+        return $this->block->getNextStatement($this);
+    }
+}

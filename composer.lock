@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37aee232f479f3fb4890787893ce0e63",
+    "content-hash": "c80aa69612cfcfe10fbfb634295bdba2",
     "packages": [],
     "packages-dev": [
         {
@@ -120,6 +120,49 @@
                 "issues": "https://github.com/tarantuli/medas-console/issues"
             },
             "time": "2023-05-02T07:25:16+00:00"
+        },
+        {
+            "name": "morphp/medas-console-printer",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:tarantuli/medas-console-printer.git",
+                "reference": "6647f10f09048556c10d2326f24bcd1f7d6db13f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tarantuli/medas-console-printer/zipball/6647f10f09048556c10d2326f24bcd1f7d6db13f",
+                "reference": "6647f10f09048556c10d2326f24bcd1f7d6db13f",
+                "shasum": ""
+            },
+            "require": {
+                "morphp/medas-service-manager": "dev-dev"
+            },
+            "require-dev": {
+                "morphp/medas-config-manager": "dev-dev",
+                "morphp/medas-config-options": "dev-dev",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Medas\\ConsolePrinter\\": "src/",
+                    "Medas\\ConsolePrinterTest\\": "tests/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Patrick Morpey",
+                    "email": "patrick@morphp.nl"
+                }
+            ],
+            "description": "Medas console printer",
+            "support": {
+                "source": "https://github.com/tarantuli/medas-console-printer/tree/dev",
+                "issues": "https://github.com/tarantuli/medas-console-printer/issues"
+            },
+            "time": "2023-05-02T10:30:06+00:00"
         },
         {
             "name": "morphp/medas-core",
@@ -1920,7 +1963,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "morphp/medas-service-manager": 20
+        "morphp/medas-service-manager": 20,
+        "morphp/medas-console-printer": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
