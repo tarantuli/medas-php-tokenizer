@@ -17,9 +17,13 @@ class TreeBuilder
     {
     }
 
-    public function makeTree(string $code): TokenTree
+    public function fromCode(string $code): TokenTree
     {
-        $collection = $this->tokenizer->tokenize($code);
+        return $this->fromCollection($this->tokenizer->tokenize($code));
+    }
+
+    public function fromCollection(TokenCollection $collection): TokenTree
+    {
         $tree = $this->structureFinder->determine($collection);
         $this->contextAdder->add($tree);
 

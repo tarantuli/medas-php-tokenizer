@@ -21,7 +21,7 @@ class ClassAnalyser
 
     public function analyse(string $code): ClassAnalysis
     {
-        $tree = $this->treeBuilder->makeTree($code);
+        $tree = $this->treeBuilder->fromCode($code);
 
         return $this->analyseTokenTree($tree);
     }
