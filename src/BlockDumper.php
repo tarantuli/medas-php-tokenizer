@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizer;
 
+use Medas\Console\Formats\{BgColor, Color, HexColor};
 use Medas\Console\Printer;
-use Medas\ConsolePrinter\Printer\BashFormat;
 use Medas\Core\Attributes\Service;
 use Medas\PhpTokenizer\Exceptions\NoConsolePrinterFoundException;
 
@@ -28,16 +28,16 @@ class BlockDumper
 
         $this->line = 0;
         $this->printBlock($block);
-        $this->printer->printText("\n");
+        $this->printer->printEol();
     }
 
     private function printBlock(Block $block): void
     {
         foreach ($block as $statement) {
             // Start of line
-            $this->printer->printText("\n")
-                ->printText(sprintf('%3s', $this->line++), BashFormat::COLOR256 . '208')
-                ->printText(str_repeat('·', $statement->block->depth), BashFormat::LIGHT_GRAY);
+            $this->printer->printEol()
+                ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))
+                ->printText(str_repeat('·', $statement->block->depth), Color::LightGray);
 
             // Print tokens on this line
             foreach ($statement as $index => $token) {
@@ -45,10 +45,10 @@ class BlockDumper
             }
 
             // Print statement type
-            $this->printer->printText('  ' . $this->typeFinder->for($statement), BashFormat::BLUE);
+            $this->printer->printText('  ' . $this->typeFinder->for($statement), Color::Blue);
 
             if ($statement->blankLineAfter) {
-                $this->printer->printText(' ⇊', BashFormat::COLOR256 . '170');
+                $this->printer->printText(' ⇊', new HexColor('#d75fd7'));
             }
         }
     }
@@ -56,44 +56,44 @@ class BlockDumper
     private function printToken(int $index, Token $token): void
     {
         $this->printer->printText('|')
-            ->printText((string) $index, BashFormat::BLUE)
+            ->printText((string) $index, Color::Blue)
             ->printText(':');
 
-        $this->printer->printText((string) $token->context, BashFormat::COLOR256 . '100')
+        $this->printer->printText((string) $token->context, new HexColor('#878700'))
             ->printText(':');
 
         if ($token->inAttribute) {
-            $this->printer->printText('A', BashFormat::COLOR256 . '184')
+            $this->printer->printText('A', new HexColor('#d7d700'))
                 ->printText(':');
         }
 
         if ($token->inString) {
-            $this->printer->printText('S', BashFormat::COLOR256 . '160')
+            $this->printer->printText('S', new HexColor('#d70000'))
                 ->printText(':');
         }
 
-        $this->printer->printText($token->getTokenName(), BashFormat::COLOR256 . '28');
+        $this->printer->printText($token->getTokenName(), new HexColor('#008700'));
 
         if ($token->getTokenName() !== $token->text) {
             $this->printer->printText('=');
             preg_match('/^(\s*)(.*?)(\s*)$/ms', $token->text, $parts);
 
             if (strlen($parts[1])) {
-                $this->printer->printText($parts[1], BashFormat::LIGHT_GRAY_BG);
+                $this->printer->printText($parts[1], BgColor::LightGray);
             }
             if (strlen($parts[2])) {
-                $this->printer->printText($parts[2], BashFormat::LIGHT_GRAY);
+                $this->printer->printText($parts[2], Color::LightGray);
             }
             if (strlen($parts[3])) {
-                $this->printer->printText($parts[3], BashFormat::LIGHT_GRAY_BG);
+                $this->printer->printText($parts[3], BgColor::LightGray);
             }
         }
 
         if ($token->lineBreakAfter) {
-            $this->printer->printText('↩', BashFormat::COLOR256 . '170');
+            $this->printer->printText('↩', new HexColor('#d75fd7'));
         }
         elseif ($token->spaceAfter) {
-            $this->printer->printText('‿', BashFormat::COLOR256 . '170');
+            $this->printer->printText('‿', new HexColor('#d75fd7'));
         }
     }
 }
