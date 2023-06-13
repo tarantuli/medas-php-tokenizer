@@ -58,7 +58,9 @@ class Block implements \IteratorAggregate
     public function getNextStatement(Statement $statement): ?Statement
     {
         $index = $this->getIndex($statement);
-        return $this->elements[$index + 1] ?? null;
+        $return = $this->elements[$index + 1] ?? null;
+
+        return $return instanceof Statement ? $return : null;
     }
 
     public function mergeWithPrevious(Statement $secondStatement): void
