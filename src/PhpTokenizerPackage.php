@@ -13,8 +13,7 @@ class PhpTokenizerPackage extends BasePackage
 
     public function dependencies(): array
     {
-        return $this->dependenciesByClass([
-        ]);
+        return [];
     }
 
     public function sourceDirectory(): string
