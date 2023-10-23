@@ -14,6 +14,7 @@ class AdditionalTokensDefiner
         'T_ASSIGNMENT' => '=',
         'T_ASTERISK' => '*',
         'T_AT' => '@',
+        'T_BACKSLASH' => '\\',
         'T_COLON' => ':',
         'T_COMMA' => ',',
         'T_CONCATENATOR' => '.',
