@@ -45,7 +45,7 @@ class BlockDumper
             }
 
             // Print statement type
-            $this->printer->printText('  ' . $this->typeFinder->for($statement), Color::Blue);
+            $this->printer->printText('  🠘 ' . $this->typeFinder->for($statement), Color::Blue);
 
             if ($statement->blankLineAfter) {
                 $this->printer->printText(' ⇊', new HexColor('#d75fd7'));

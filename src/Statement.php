@@ -10,11 +10,17 @@ class Statement implements \IteratorAggregate
     public int $additionalDepth = 0;
 
     private StatementTypes\StatementType|null $type = null;
+
     /** @var Token[] */
     private array $tokens = [];
 
     public function __construct(public Block $block)
     {
+    }
+
+    public function tokenCount(): int
+    {
+        return count($this->tokens);
     }
 
     /**

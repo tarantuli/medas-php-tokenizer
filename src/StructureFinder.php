@@ -13,8 +13,10 @@ class StructureFinder
     private Statement $statement;
     private int $blockDepth;
     private int $parenthesesDepth;
+
     private bool $inString;
     private bool $inAttribute;
+    private bool $inUseStatement;
 
     private array $openBlocks = [];
 
@@ -50,6 +52,7 @@ class StructureFinder
     {
         $this->blockDepth = 0;
         $this->parenthesesDepth = 0;
+        $this->inUseStatement = false;
         $this->inString = false;
         $this->inAttribute = false;
 
@@ -81,7 +84,7 @@ class StructureFinder
 
     private function process(Token $token): void
     {
-        if ($token->is(T_CURLY_BRACKET_CLOSE)) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->inUseStatement) {
             // Delete the last statement if it's empty
             if (null === $this->statement->firstToken()) {
                 $this->block->removeStatement($this->statement);
@@ -128,13 +131,17 @@ class StructureFinder
 
         $this->statement->appendToken($token);
 
+        if ($this->statement->tokenCount() === 1) {
+            $this->inUseStatement = $this->statement->firstToken()->text === 'use';
+        }
+
         if ($token->is([T_OPEN_TAG, T_COMMENT])) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
         }
 
         if ($token->is(T_DOC_COMMENT) && $token->isFirstToken()) {
-            // This is a doccomment at the start of a statement, hext token starts a new statement
+            // This is a doccomment at the start of a statement, next token starts a new statement
             $this->startNewStatementBeforeNext = true;
         }
 
@@ -143,7 +150,7 @@ class StructureFinder
             $this->startNewStatementBeforeNext = true;
         }
 
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->matchClauseDepth) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->matchClauseDepth && !$this->inUseStatement) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
         }
@@ -168,7 +175,7 @@ class StructureFinder
             }
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN)) {
+        if ($token->is(T_CURLY_BRACKET_OPEN) && !$this->inUseStatement) {
             // Store the current open block
             $this->openBlocks[] = $this->block;
 
