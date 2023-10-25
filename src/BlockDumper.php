@@ -37,7 +37,7 @@ class BlockDumper
             // Start of line
             $this->printer->printEol()
                 ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))
-                ->printText(str_repeat('·', $statement->block->depth), Color::LightGray);
+                ->printText(str_repeat(' ', $statement->block->depth), Color::LightGray);
 
             // Print tokens on this line
             foreach ($statement as $index => $token) {
@@ -55,26 +55,26 @@ class BlockDumper
 
     private function printToken(int $index, Token $token): void
     {
-        $this->printer->printText('|')
+        $this->printer->printText('  ')
             ->printText((string) $index, Color::Blue)
-            ->printText(':');
+            ->printText('·');
 
         $this->printer->printText((string) $token->context, new HexColor('#878700'))
-            ->printText(':');
+            ->printText('·');
 
         if ($token->inAttribute) {
             $this->printer->printText('A', new HexColor('#d7d700'))
-                ->printText(':');
+                ->printText('·');
         }
 
         if ($token->inString) {
             $this->printer->printText('S', new HexColor('#d70000'))
-                ->printText(':');
+                ->printText('·');
         }
 
         $this->printer->printText($token->getTokenName(), new HexColor('#008700'));
 
-        if ($token->getTokenName() !== $token->text) {
+        if ($token->getTokenName() !== 'T_' . strtoupper($token->text) && $token->getTokenName() !== $token->text) {
             $this->printer->printText('=');
             preg_match('/^(\s*)(.*?)(\s*)$/ms', $token->text, $parts);
 
