@@ -22,6 +22,10 @@ class StatementTypeFinder
 
     private function determineType(Statement $statement): StatementTypes\StatementType
     {
+        if ($statement->rootStatement) {
+            $statement = $statement->rootStatement;
+        }
+
         $firstToken = $statement->firstToken();
         $secondToken = $statement->getToken(1);
 
