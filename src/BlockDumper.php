@@ -55,29 +55,34 @@ class BlockDumper
         // Start of line
         $this->printer->printEol()
             ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))
+            ->printText(' ')
             ->printText(str_repeat(' ', $statement->block->depth), Color::LightGray);
+
+        if ($statement->additionalDepth) {
+            $this->printer->printText(str_repeat('🡒', $statement->additionalDepth), new HexColor('#d75fd7'));
+        }
 
         // Print tokens on this line
         foreach ($statement as $index => $token) {
             $this->printToken($index, $token);
+            $this->printer->printText('  ');
         }
 
         // Print statement type
         $statementType = $this->typeFinder->for($statement);
 
         if (!$statementType instanceof GenericStatement) {
-            $this->printer->printText('  «' . $statementType . '»', Color::Blue);
+            $this->printer->printText('«' . $statementType . '» ', Color::Blue);
         }
 
         if ($statement->blankLineAfter) {
-            $this->printer->printText(' ⇊', new HexColor('#d75fd7'));
+            $this->printer->printText('⇊ ', new HexColor('#d75fd7'));
         }
     }
 
     private function printToken(int $index, Token $token): void
     {
-        $this->printer->printText('  ')
-            ->printText((string) $index, Color::Blue)
+        $this->printer->printText((string) $index, Color::Blue)
             ->printText('·');
 
         $this->printer->printText((string) $token->context, new HexColor('#878700'))
@@ -93,9 +98,14 @@ class BlockDumper
                 ->printText('·');
         }
 
-        $this->printer->printText($token->getTokenName(), new HexColor('#008700'));
+        $tokenName = $token->getTokenName();
 
-        if ($token->getTokenName() !== 'T_' . strtoupper($token->text) && $token->getTokenName() !== $token->text) {
+        $this->printer->printText(
+            str_starts_with($tokenName, 'T_') ? substr($tokenName, 2) : $tokenName,
+            new HexColor('#008700')
+        );
+
+        if ($tokenName !== 'T_' . strtoupper($token->text) && $tokenName !== $token->text) {
             $this->printer->printText('=');
             preg_match('/^(\s*)(.*?)(\s*)$/ms', $token->text, $parts);
 
