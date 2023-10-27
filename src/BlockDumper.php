@@ -8,11 +8,12 @@ use Medas\Console\Formats\{BgColor, Color, HexColor};
 use Medas\Console\Printer;
 use Medas\Core\Attributes\Service;
 use Medas\PhpTokenizer\Exceptions\NoConsolePrinterFoundException;
+use Medas\PhpTokenizer\StatementTypes\GenericStatement;
 
 #[Service]
 class BlockDumper
 {
-    private int $line;
+    private int $line = 0;
 
     public function __construct(
         private readonly Printer|null        $printer,
@@ -31,25 +32,45 @@ class BlockDumper
         $this->printer->printEol();
     }
 
+    public function dumpStatement(Statement $statement): void
+    {
+        if (!$this->printer) {
+            throw new NoConsolePrinterFoundException();
+        }
+
+        $this->line = 0;
+        $this->printStatement($statement);
+        $this->printer->printEol();
+    }
+
     private function printBlock(Block $block): void
     {
         foreach ($block as $statement) {
-            // Start of line
-            $this->printer->printEol()
-                ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))
-                ->printText(str_repeat(' ', $statement->block->depth), Color::LightGray);
+            $this->printStatement($statement);
+        }
+    }
 
-            // Print tokens on this line
-            foreach ($statement as $index => $token) {
-                $this->printToken($index, $token);
-            }
+    public function printStatement(Statement $statement): void
+    {
+        // Start of line
+        $this->printer->printEol()
+            ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))
+            ->printText(str_repeat(' ', $statement->block->depth), Color::LightGray);
 
-            // Print statement type
-            $this->printer->printText('  🠘 ' . $this->typeFinder->for($statement), Color::Blue);
+        // Print tokens on this line
+        foreach ($statement as $index => $token) {
+            $this->printToken($index, $token);
+        }
 
-            if ($statement->blankLineAfter) {
-                $this->printer->printText(' ⇊', new HexColor('#d75fd7'));
-            }
+        // Print statement type
+        $statementType = $this->typeFinder->for($statement);
+
+        if (!$statementType instanceof GenericStatement) {
+            $this->printer->printText('  «' . $statementType . '»', Color::Blue);
+        }
+
+        if ($statement->blankLineAfter) {
+            $this->printer->printText(' ⇊', new HexColor('#d75fd7'));
         }
     }
 

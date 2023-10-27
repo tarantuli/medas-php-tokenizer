@@ -52,6 +52,11 @@ class Statement implements \IteratorAggregate
 
         $token->block = $this->block;
         $token->statement = $this;
+
+        if (isset($this->tokens[1])) {
+            $token->next = $this->tokens[1];
+        }
+
         $this->type = null;
     }
 
@@ -81,6 +86,19 @@ class Statement implements \IteratorAggregate
 
         unset($this->tokens[$i]);
         $this->tokens = array_values($this->tokens);
+
+        if (isset($this->tokens[$i - 1]) && isset($this->tokens[$i])) {
+            $this->tokens[$i - 1]->next = $this->tokens[$i];
+            $this->tokens[$i]->previous = $this->tokens[$i - 1];
+        }
+        elseif (isset($this->tokens[$i - 1])) {
+            $this->tokens[$i - 1]->next = null;
+        }
+        elseif (isset($this->tokens[$i])) {
+            $this->tokens[$i]->previous = null;
+        }
+
+        $token->previous = $token->next = null;
 
         $this->type = null;
     }
