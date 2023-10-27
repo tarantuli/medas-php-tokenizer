@@ -58,6 +58,7 @@ class Statement implements \IteratorAggregate
 
         if (isset($this->tokens[1])) {
             $token->next = $this->tokens[1];
+            $this->tokens[1]->previous = $token;
         }
 
         $this->type = null;
@@ -66,6 +67,12 @@ class Statement implements \IteratorAggregate
     public function appendToken(Token $token): void
     {
         $this->tokens[] = $token;
+        $newIndex = count($this->tokens) - 1;
+
+        if ($newIndex > 0) {
+            $this->tokens[$newIndex - 1]->next = $token;
+            $token->previous = $this->tokens[$newIndex - 1];
+        }
 
         $token->block = $this->block;
         $token->statement = $this;
@@ -116,6 +123,14 @@ class Statement implements \IteratorAggregate
         $token->statement = $after->statement;
         $token->inString = $after->inString;
         $token->inAttribute = $after->inAttribute;
+
+        $token->previous = $after;
+        $after->next = $token;
+
+        if (isset($this->tokens[$i + 1])) {
+            $token->next = $this->tokens[$i + 1];
+            $this->tokens[$i + 1]->previous = $token;
+        }
 
         array_splice($this->tokens, $i + 1, 0, [$token]);
         $this->tokens = array_values($this->tokens);
