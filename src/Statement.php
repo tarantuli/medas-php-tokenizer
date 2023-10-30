@@ -17,7 +17,9 @@ class Statement implements \IteratorAggregate
     /** @var Token[] */
     private array $tokens = [];
 
-    public function __construct(public Block $block)
+    public function __construct(
+        public Block $block,
+    )
     {
     }
 
