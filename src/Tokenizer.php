@@ -7,10 +7,10 @@ namespace Medas\PhpTokenizer;
 use Medas\Core\Attributes\Service;
 
 #[Service]
-class Tokenizer
+readonly class Tokenizer
 {
     public function __construct(
-        private readonly AdditionalTokensDefiner $additionalTokensDefiner,
+        private AdditionalTokensDefiner $additionalTokensDefiner,
     )
     {
         $this->additionalTokensDefiner->define();

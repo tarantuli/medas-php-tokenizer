@@ -7,10 +7,10 @@ namespace Medas\PhpTokenizer;
 use Medas\Core\Attributes\Service;
 
 #[Service]
-class ContextAdder
+readonly class ContextAdder
 {
     public function __construct(
-        private readonly StatementTypeFinder $typeFinder,
+        private StatementTypeFinder $typeFinder,
     )
     {
     }

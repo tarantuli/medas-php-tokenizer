@@ -7,12 +7,12 @@ namespace Medas\PhpTokenizer;
 use Medas\Core\Attributes\Service;
 
 #[Service]
-class TreeBuilder
+readonly class TreeBuilder
 {
     public function __construct(
-        private readonly ContextAdder    $contextAdder,
-        private readonly StructureFinder $structureFinder,
-        private readonly Tokenizer       $tokenizer,
+        private ContextAdder    $contextAdder,
+        private StructureFinder $structureFinder,
+        private Tokenizer       $tokenizer,
     )
     {
     }

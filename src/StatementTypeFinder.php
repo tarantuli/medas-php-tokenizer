@@ -7,10 +7,10 @@ namespace Medas\PhpTokenizer;
 use Medas\Core\Attributes\Service;
 
 #[Service]
-class StatementTypeFinder
+readonly class StatementTypeFinder
 {
     public function __construct(
-        private readonly TokenGroups $tokenGroups,
+        private TokenGroups $tokenGroups,
     )
     {
     }
