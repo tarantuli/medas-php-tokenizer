@@ -26,8 +26,13 @@ readonly class StatementTypeFinder
             $statement = $statement->rootStatement;
         }
 
-        $firstToken = $statement->firstToken();
-        $secondToken = $statement->getToken(1);
+        $index = 0;
+        do {
+            $firstToken = $statement->getToken($index);
+            ++$index;
+        } while ($firstToken && $firstToken->is(T_ATTRIBUTE));
+
+        $secondToken = $statement->getToken($index);
 
         if (null === $firstToken) {
             return StatementTypes\BlankLine::instance();

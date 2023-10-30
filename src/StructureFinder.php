@@ -108,10 +108,11 @@ class StructureFinder
             $this->startNewStatementBeforeNext = false;
         }
 
+        $token->inAttribute = $this->inAttribute;
+
         if ($this->inAttribute && $token->is(T_SQUARE_BRACKET_CLOSE)) {
             // This token closes an attribute
             $this->inAttribute = false;
-            $this->startNewStatementBeforeNext = true;
         }
 
         if ($this->inString && $token->is(T_DOUBLE_QUOTE)) {
@@ -127,7 +128,6 @@ class StructureFinder
         $token->block = $this->block;
         $token->statement = $this->statement;
         $token->inString = $this->inString;
-        $token->inAttribute = $this->inAttribute;
 
         $this->statement->appendToken($token);
 
