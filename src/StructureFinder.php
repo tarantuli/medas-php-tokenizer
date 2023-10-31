@@ -113,6 +113,7 @@ class StructureFinder
         if ($this->inAttribute && $token->is(T_SQUARE_BRACKET_CLOSE)) {
             // This token closes an attribute
             $this->inAttribute = false;
+            // $this->startNewStatementBeforeNext = true;
         }
 
         if ($this->inString && $token->is(T_DOUBLE_QUOTE)) {
@@ -137,11 +138,6 @@ class StructureFinder
 
         if ($token->is([T_OPEN_TAG, T_COMMENT])) {
             // Next token starts on a new line
-            $this->startNewStatementBeforeNext = true;
-        }
-
-        if ($token->is(T_DOC_COMMENT) && $token->isFirstToken()) {
-            // This is a doccomment at the start of a statement, next token starts a new statement
             $this->startNewStatementBeforeNext = true;
         }
 
