@@ -30,7 +30,7 @@ readonly class StatementTypeFinder
         do {
             $firstToken = $statement->getToken($index);
             ++$index;
-        } while ($firstToken && $firstToken->is(T_ATTRIBUTE));
+        } while ($firstToken && ($firstToken->is(T_ATTRIBUTE) || $firstToken->is(T_DOC_COMMENT)));
 
         $secondToken = $statement->getToken($index);
 
