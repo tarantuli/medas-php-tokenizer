@@ -190,6 +190,13 @@ class Statement implements \IteratorAggregate
         return $this->tokens[$index] ?? null;
     }
 
+    public function getIndex(Token $token): int|null
+    {
+        $index = array_search($token, $this->tokens);
+
+        return $index === false ? null : $index;
+    }
+
     public function mergeWithPrevious(): void
     {
         $this->block->mergeWithPrevious($this);

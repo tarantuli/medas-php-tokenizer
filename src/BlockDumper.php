@@ -109,13 +109,19 @@ class BlockDumper
 
         if ($tokenName !== 'T_' . strtoupper($token->text) && $tokenName !== $token->text) {
             $this->printer->printText('=');
-            preg_match('/^(\s*)(.*?)(\s*)$/ms', $token->text, $parts);
+            preg_match('/^(\s*)(.*?)(\s*)$/s', $token->text, $parts);
 
             if (strlen($parts[1])) {
                 $this->printer->printText($parts[1], BgColor::LightGray);
             }
             if (strlen($parts[2])) {
-                $this->printer->printText($parts[2], Color::LightGray);
+                if (preg_match('/^(.+?)[\r\n]/', $parts[2], $prefix)) {
+                    $this->printer->printText($prefix[1], Color::LightGray);
+                    $this->printer->printText('…', Color::White);
+                }
+                else {
+                    $this->printer->printText($parts[2], Color::LightGray);
+                }
             }
             if (strlen($parts[3])) {
                 $this->printer->printText($parts[3], BgColor::LightGray);

@@ -136,7 +136,7 @@ class StructureFinder
             $this->inUseStatement = $this->statement->firstToken()->text === 'use';
         }
 
-        if ($token->is([T_OPEN_TAG, T_COMMENT])) {
+        if ($token->is([T_OPEN_TAG])) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
         }
