@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\StatementTypes\StatementType;
 
 #[Service]
 readonly class StatementTypeFinder
@@ -28,6 +27,7 @@ readonly class StatementTypeFinder
         }
 
         $index = 0;
+
         do {
             $firstToken = $statement->getToken($index);
             ++$index;

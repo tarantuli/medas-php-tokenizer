@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\DevTools;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\Exceptions\TokensAreNotWellConnected;
-use Medas\PhpTokenizer\Statement;
+use Medas\PhpTokenizer\{Exceptions\TokensAreNotWellConnected, Statement};
 
 #[Service]
 readonly class ConnectionTester

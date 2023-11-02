@@ -60,9 +60,7 @@ readonly class ContextAdder
 
             if ($statementType instanceof StatementTypes\FunctionDeclaration) {
                 // In the context of a class body, this is a method declaration; otherwise, it's a function declaration
-                $context = ($context instanceof Contexts\ClassBody)
-                    ? Contexts\MethodDeclaration::instance()
-                    : Contexts\FunctionDeclaration::instance();
+                $context = ($context instanceof Contexts\ClassBody) ? Contexts\MethodDeclaration::instance() : Contexts\FunctionDeclaration::instance();
 
                 // If it ends in a semicolon, it's an abstract or interface declaration
                 // If it ends in a curly bracket open, a body will follow
@@ -82,8 +80,10 @@ readonly class ContextAdder
                         ++$openParentheses;
                         $context = Contexts\MethodParameters::instance();
                     }
+
                     if ($token->is(T_ROUND_BRACKET_CLOSE)) {
                         $token->context = Contexts\MethodDeclaration::instance();
+
                         if (--$openParentheses === 0) {
                             $context = Contexts\MethodReturnType::instance();
                         }

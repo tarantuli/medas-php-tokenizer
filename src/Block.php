@@ -45,6 +45,7 @@ class Block implements \IteratorAggregate
     public function getPreviousStatement(Statement $statement): ?Statement
     {
         $index = $this->getIndex($statement);
+
         return $this->elements[$index - 1] ?? null;
     }
 
@@ -64,7 +65,6 @@ class Block implements \IteratorAggregate
     }
 
     public function mergeWithPrevious(Statement $secondStatement): void
-
     {
         $second = $this->getIndex($secondStatement);
         $first = $second - 1;
@@ -75,7 +75,6 @@ class Block implements \IteratorAggregate
         }
 
         $firstStatement->blankLineAfter = $secondStatement->blankLineAfter;
-
         array_splice($this->elements, $second, 1);
         unset($secondStatement);
     }
