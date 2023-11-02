@@ -73,7 +73,7 @@ readonly class StatementTypeFinder
             return StatementTypes\BlockCloser::instance();
         }
 
-        if ($statement->containsType(T_CLASS)) {
+        if ($statement->containsType($this->tokenGroups->structureTypes())) {
             return StatementTypes\ClassDeclaration::instance();
         }
 
