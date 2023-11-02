@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer;
 
 use Medas\Core\Attributes\Service;
+use Medas\PhpTokenizer\StatementTypes\StatementType;
 
 #[Service]
 readonly class StatementTypeFinder
@@ -95,6 +96,12 @@ readonly class StatementTypeFinder
         }
 
         if ($firstToken->is(T_CASE)) {
+            foreach ($statement as $token) {
+                if ($token->is(T_DOUBLE_COLON)) {
+                    return StatementTypes\EnumCase::instance();
+                }
+            }
+
             return StatementTypes\SwitchBranch::instance();
         }
 
