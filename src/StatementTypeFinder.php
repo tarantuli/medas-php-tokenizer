@@ -97,12 +97,12 @@ readonly class StatementTypeFinder
 
         if ($firstToken->is(T_CASE)) {
             foreach ($statement as $token) {
-                if ($token->is(T_DOUBLE_COLON)) {
-                    return StatementTypes\EnumCase::instance();
+                if ($token->is(T_COLON)) {
+                    return StatementTypes\SwitchBranch::instance();
                 }
             }
 
-            return StatementTypes\SwitchBranch::instance();
+            return StatementTypes\EnumCase::instance();
         }
 
         if ($firstToken->is(T_DEFAULT) && !$secondToken->is(T_DOUBLE_ARROW)) {
