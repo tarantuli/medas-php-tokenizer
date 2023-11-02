@@ -16,15 +16,16 @@ class StructureFinder
 
     private bool $inString;
     private bool $inAttribute;
+    private int $inAttributeBracketDepth;
+
     private bool $inUseStatement;
 
     private array $openBlocks = [];
-
     private bool $ignoreNextDoubleQuote;
     private bool $startNewStatementBeforeNext;
     private bool $nextBraceOpensForClause;
-    private int $forClauseDepth;
 
+    private int $forClauseDepth;
     /** The key is the block depth, the value is the parentheses depth  */
     private array $switchBlockDepths;
     private int $matchClauseDepth;
@@ -54,7 +55,9 @@ class StructureFinder
         $this->parenthesesDepth = 0;
         $this->inUseStatement = false;
         $this->inString = false;
+
         $this->inAttribute = false;
+        $this->inAttributeBracketDepth = 0;
 
         $this->openBlocks = [];
 
@@ -110,10 +113,18 @@ class StructureFinder
 
         $token->inAttribute = $this->inAttribute;
 
+        if ($this->inAttribute && $token->is(T_SQUARE_BRACKET_OPEN)) {
+            ++$this->inAttributeBracketDepth;
+        }
+
         if ($this->inAttribute && $token->is(T_SQUARE_BRACKET_CLOSE)) {
-            // This token closes an attribute
-            $this->inAttribute = false;
-            // $this->startNewStatementBeforeNext = true;
+            if ($this->inAttributeBracketDepth === 0) {
+                // This token closes an attribute
+                $this->inAttribute = false;
+            }
+            else {
+                --$this->inAttributeBracketDepth;
+            }
         }
 
         if ($this->inString && $token->is(T_DOUBLE_QUOTE)) {

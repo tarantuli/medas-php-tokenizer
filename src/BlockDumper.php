@@ -17,7 +17,8 @@ class BlockDumper
 
     public function __construct(
         private readonly Printer|null        $printer,
-        private readonly StatementTypeFinder $typeFinder)
+        private readonly StatementTypeFinder $typeFinder,
+    )
     {
     }
 
