@@ -15,6 +15,8 @@ class Token extends \PhpToken
     public bool $spaceAfter = false;
     public bool $lineBreakAfter = false;
 
+    public int $extraSpacesAfter = 0;
+
     public Token|null $previous = null;
     public Token|null $next = null;
 

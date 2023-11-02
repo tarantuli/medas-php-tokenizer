@@ -73,7 +73,13 @@ class BlockDumper
         $statementType = $this->typeFinder->for($statement);
 
         if (!$statementType instanceof GenericStatement) {
-            $this->printer->printText('«' . $statementType . '» ', Color::Blue);
+            if ($statement->rootStatement !== null) {
+                $this->printer->printText('↩ ', Color::Blue);
+            }
+            else {
+                $this->printer->printText('«' . $statementType . '» ', Color::Blue);
+            }
+
         }
 
         if ($statement->blankLineAfter) {
