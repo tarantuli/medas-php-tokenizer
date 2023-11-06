@@ -182,6 +182,7 @@ class TokenGroups
     public function assignmentOperators(): array
     {
         return [
+            T_ASSIGNMENT,
             T_AND_EQUAL,
             T_COALESCE_EQUAL,
             T_CONCAT_EQUAL,
