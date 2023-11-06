@@ -46,7 +46,13 @@ class Block implements \IteratorAggregate
     {
         $index = $this->getIndex($statement);
 
-        return $this->elements[$index - 1] ?? null;
+        $previous = $this->elements[$index - 1] ?? null;
+
+        if ($previous instanceof Block) {
+            return $previous->lastStatement();
+        }
+
+        return $previous;
     }
 
     private function getIndex(Statement $statement): int|null
