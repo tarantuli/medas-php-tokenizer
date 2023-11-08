@@ -8,8 +8,8 @@ class Token extends \PhpToken
 {
     public Block $block;
     public Statement $statement;
-    public bool $inString;
-    public bool $inAttribute;
+    public bool $inString = false;
+    public bool $inAttribute = false;
     public Contexts\Context $context;
 
     public bool $spaceAfter = false;
