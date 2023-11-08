@@ -85,9 +85,9 @@ class Block implements \IteratorAggregate
         unset($secondStatement);
     }
 
-    public function lastStatement(): Statement
+    public function lastStatement(): Statement|null
     {
-        return $this->elements[count($this->elements) - 1];
+        return $this->elements[count($this->elements) - 1] ?? null;
     }
 
     public function __debugInfo()

@@ -9,6 +9,18 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class StatementTypeFinder
 {
+    private const VALID_FUNCTION_LEADERS = [
+        T_ATTRIBUTE,
+        T_COMMENT,
+        T_DOC_COMMENT,
+        T_FINAL,
+        T_ABSTRACT,
+        T_PROTECTED,
+        T_PRIVATE,
+        T_PUBLIC,
+        T_STATIC,
+    ];
+
     public function __construct(
         private TokenGroups $tokenGroups,
     )
@@ -30,8 +42,13 @@ readonly class StatementTypeFinder
 
         do {
             $firstToken = $statement->getToken($index);
+
             ++$index;
-        } while ($firstToken && ($firstToken->is(T_ATTRIBUTE) || $firstToken->is(T_DOC_COMMENT) || $firstToken->is(T_COMMENT)));
+        } while ($firstToken && (
+            $firstToken->is(T_ATTRIBUTE)
+            || $firstToken->is(T_DOC_COMMENT)
+            || $firstToken->is(T_COMMENT)
+        ));
 
         $secondToken = $statement->getToken($index);
 
@@ -82,8 +99,16 @@ readonly class StatementTypeFinder
             return StatementTypes\ClassConstDeclaration::instance();
         }
 
-        if ($statement->containsType(T_FUNCTION)) {
-            return StatementTypes\FunctionDeclaration::instance();
+        foreach ($statement as $token) {
+            if ($token->is(self::VALID_FUNCTION_LEADERS) || $token->inAttribute) {
+                continue;
+            }
+
+            if ($token->is(T_FUNCTION)) {
+                return StatementTypes\FunctionDeclaration::instance();
+            }
+
+            break;
         }
 
         if ($statement->containsType($this->tokenGroups->visibilityKeywords())) {

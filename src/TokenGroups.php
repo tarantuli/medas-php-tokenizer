@@ -143,7 +143,6 @@ class TokenGroups
             $this->arithmicOperators(),
             $this->assignmentOperators(),
             $this->bitwiseOperators(),
-            $this->brackets(),
             $this->comparisonOperators(),
             $this->logicalOperators(),
             $this->typeOperators(),
@@ -240,6 +239,9 @@ class TokenGroups
         return [
             T_BOOLEAN_AND,
             T_BOOLEAN_OR,
+            T_LOGICAL_AND,
+            T_LOGICAL_OR,
+            T_LOGICAL_XOR,
         ];
     }
 
