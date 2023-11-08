@@ -119,13 +119,13 @@ class Block implements \IteratorAggregate
         }
     }
 
-    public function insertStatementAfter(Statement $statement, Statement $after): void
+    public function insertStatementAfter(Statement|Block $statement, Statement $after): void
     {
         $index = $this->getIndex($after);
         array_splice($this->elements, $index + 1, 0, [$statement]);
     }
 
-    public function insertStatementBefore(Statement $statement, Statement $before): void
+    public function insertStatementBefore(Statement|Block $statement, Statement $before): void
     {
         $index = $this->getIndex($before);
         array_splice($this->elements, $index, 0, [$statement]);
