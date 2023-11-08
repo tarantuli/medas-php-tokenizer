@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-console.git",
-                "reference": "f680aa26a095aa1d1a2b0af4b8cde0b1b72b6bbc"
+                "reference": "637025eb8bdcbfeb43e36074053c5e20cff5a51a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/f680aa26a095aa1d1a2b0af4b8cde0b1b72b6bbc",
-                "reference": "f680aa26a095aa1d1a2b0af4b8cde0b1b72b6bbc",
+                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/637025eb8bdcbfeb43e36074053c5e20cff5a51a",
+                "reference": "637025eb8bdcbfeb43e36074053c5e20cff5a51a",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 "source": "https://github.com/tarantuli/medas-console/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-console/issues"
             },
-            "time": "2023-09-13T08:43:20+00:00"
+            "time": "2023-11-03T10:25:42+00:00"
         },
         {
             "name": "morphp/medas-core",
@@ -227,12 +227,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-console-printer.git",
-                "reference": "7d839c14942d15bebd079639465f33b4f26d132a"
+                "reference": "a107bb383999fa79b01e9978881636769f1b3349"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-console-printer/zipball/7d839c14942d15bebd079639465f33b4f26d132a",
-                "reference": "7d839c14942d15bebd079639465f33b4f26d132a",
+                "url": "https://api.github.com/repos/tarantuli/medas-console-printer/zipball/a107bb383999fa79b01e9978881636769f1b3349",
+                "reference": "a107bb383999fa79b01e9978881636769f1b3349",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +263,7 @@
                 "source": "https://github.com/tarantuli/medas-console-printer/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-console-printer/issues"
             },
-            "time": "2023-10-09T12:56:14+00:00"
+            "time": "2023-11-03T10:46:49+00:00"
         },
         {
             "name": "morphp/medas-object-instantiator",
