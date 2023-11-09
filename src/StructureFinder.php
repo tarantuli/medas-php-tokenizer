@@ -87,7 +87,7 @@ class StructureFinder
 
     private function process(Token $token): void
     {
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->inUseStatement) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->inUseStatement && !$this->inString) {
             // Delete the last statement if it's empty
             if (null === $this->statement->firstToken()) {
                 $this->block->removeStatement($this->statement);
@@ -157,7 +157,7 @@ class StructureFinder
             $this->startNewStatementBeforeNext = true;
         }
 
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->matchClauseDepth && !$this->inUseStatement) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->matchClauseDepth && !$this->inUseStatement && !$this->inString) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
         }
@@ -182,7 +182,7 @@ class StructureFinder
             }
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN) && !$this->inUseStatement) {
+        if ($token->is(T_CURLY_BRACKET_OPEN) && !$this->inUseStatement && !$this->inString) {
             // Store the current open block
             $this->openBlocks[] = $this->block;
 
@@ -211,6 +211,14 @@ class StructureFinder
 
         if ($token->is(T_FOR)) {
             $this->nextBraceOpensForClause = true;
+        }
+
+        if ($token->is(T_START_HEREDOC)) {
+            $this->inString = true;
+        }
+
+        if ($token->is(T_END_HEREDOC)) {
+            $this->inString = false;
         }
 
         if ($token->is(T_ROUND_BRACKET_OPEN) && ($this->forClauseDepth || $this->nextBraceOpensForClause)) {
