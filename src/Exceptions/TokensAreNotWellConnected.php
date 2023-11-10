@@ -9,9 +9,10 @@ use Medas\Core\Exceptions\BaseException;
 class TokensAreNotWellConnected extends BaseException
 {
     public function __construct(
-        string $aText, string|null $aNextText,
-        string $bText, string|null $bNextText,
-
+        string      $aText,
+        string|null $aNextText,
+        string      $bText,
+        string|null $bNextText,
     )
     {
         parent::__construct($aText, $aNextText, $bText, $bNextText);

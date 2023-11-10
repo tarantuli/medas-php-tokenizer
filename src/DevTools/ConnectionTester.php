@@ -22,7 +22,12 @@ readonly class ConnectionTester
         foreach ($statement as $token) {
             if ($previousToken) {
                 if ($previousToken->next !== $token || $token->previous !== $previousToken) {
-                    throw new TokensAreNotWellConnected($previousToken->text, $previousToken->next?->text, $token->text, $token->previous?->text);
+                    throw new TokensAreNotWellConnected(
+                        $previousToken->text,
+                        $previousToken->next?->text,
+                        $token->text,
+                        $token->previous?->text
+                    );
                 }
             }
             elseif ($token->previous !== null) {

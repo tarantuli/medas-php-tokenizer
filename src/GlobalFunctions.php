@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-// This file should be in the global namespace
-
 use Medas\PhpTokenizer\{Block, BlockDumper, Statement};
 
+// This file should be in the global namespace
 function dumpBlock(Block $block): void
 {
     service(BlockDumper::class)->dump($block);

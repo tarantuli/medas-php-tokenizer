@@ -45,7 +45,6 @@ class Block implements \IteratorAggregate
     public function getPreviousStatement(Statement $statement): ?Statement
     {
         $index = $this->getIndex($statement);
-
         $previous = $this->elements[$index - 1] ?? null;
 
         if ($previous instanceof Block) {
@@ -81,6 +80,7 @@ class Block implements \IteratorAggregate
         }
 
         $firstStatement->blankLineAfter = $secondStatement->blankLineAfter;
+
         array_splice($this->elements, $second, 1);
         unset($secondStatement);
     }
@@ -110,6 +110,7 @@ class Block implements \IteratorAggregate
     public function removeStatement(Statement $statement, bool $deleteTokens = false): void
     {
         $index = $this->getIndex($statement);
+
         array_splice($this->elements, $index, 1);
 
         if ($deleteTokens) {
@@ -122,12 +123,14 @@ class Block implements \IteratorAggregate
     public function insertStatementAfter(Statement|Block $statement, Statement $after): void
     {
         $index = $this->getIndex($after);
+
         array_splice($this->elements, $index + 1, 0, [$statement]);
     }
 
     public function insertStatementBefore(Statement|Block $statement, Statement $before): void
     {
         $index = $this->getIndex($before);
+
         array_splice($this->elements, $index, 0, [$statement]);
     }
 }
