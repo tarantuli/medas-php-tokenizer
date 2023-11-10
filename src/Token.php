@@ -70,4 +70,9 @@ class Token extends \PhpToken
         $this->text = $text;
         return $this;
     }
+
+    public function lineBreakAfter(bool $lineBreakAfter = true): void
+    {
+        $this->lineBreakAfter = $lineBreakAfter;
+    }
 }
