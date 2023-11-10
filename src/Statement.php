@@ -37,6 +37,11 @@ class Statement implements \IteratorAggregate
         yield from $this->tokens;
     }
 
+    public function blankLineAfter(bool $blankLineAfter = true): void
+    {
+        $this->blankLineAfter = $blankLineAfter;
+    }
+
     public function type(callable $setter): StatementTypes\StatementType
     {
         if ($this->type === null) {
