@@ -25,6 +25,7 @@ readonly class TreeBuilder
     public function fromCollection(TokenCollection $collection): TokenTree
     {
         $tree = $this->structureFinder->determine($collection);
+
         $this->contextAdder->add($tree);
 
         return $tree;
