@@ -75,4 +75,9 @@ class Token extends \PhpToken
     {
         $this->lineBreakAfter = $lineBreakAfter;
     }
+
+    public function spaceAfter(bool $spaceAfter = true): void
+    {
+        $this->spaceAfter = $spaceAfter;
+    }
 }
