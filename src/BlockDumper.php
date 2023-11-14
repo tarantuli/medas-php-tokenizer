@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizer;
 
-use Medas\Console\Formats\{BgColor, Color, HexColor};
-use Medas\Console\Printer;
+use Medas\Console\{Formats\BgColor, Formats\Color, Formats\HexColor, Printer};
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\Exceptions\NoConsolePrinterFoundException;
-use Medas\PhpTokenizer\StatementTypes\GenericStatement;
 
 #[Service]
 class BlockDumper
@@ -25,10 +22,11 @@ class BlockDumper
     public function dump(Block $block): void
     {
         if (!$this->printer) {
-            throw new NoConsolePrinterFoundException();
+            throw new Exceptions\NoConsolePrinterFoundException();
         }
 
         $this->line = 0;
+
         $this->printBlock($block);
         $this->printer->printEol();
     }
@@ -36,10 +34,11 @@ class BlockDumper
     public function dumpStatement(Statement $statement): void
     {
         if (!$this->printer) {
-            throw new NoConsolePrinterFoundException();
+            throw new Exceptions\NoConsolePrinterFoundException();
         }
 
         $this->line = 0;
+
         $this->printStatement($statement);
         $this->printer->printEol();
     }
@@ -72,14 +71,13 @@ class BlockDumper
         // Print statement type
         $statementType = $this->typeFinder->for($statement);
 
-        if (!$statementType instanceof GenericStatement) {
+        if (!$statementType instanceof StatementTypes\GenericStatement) {
             if ($statement->rootStatement !== null) {
                 $this->printer->printText('↩ ', Color::Blue);
             }
             else {
                 $this->printer->printText('«' . $statementType . '» ', Color::Blue);
             }
-
         }
 
         if ($statement->blankLineAfter) {
@@ -116,11 +114,13 @@ class BlockDumper
 
         if ($tokenName !== 'T_' . strtoupper($token->text) && $tokenName !== $token->text) {
             $this->printer->printText('=');
+
             preg_match('/^(\s*)(.*?)(\s*)$/s', $token->text, $parts);
 
             if (strlen($parts[1])) {
                 $this->printer->printText($parts[1], BgColor::LightGray);
             }
+
             if (strlen($parts[2])) {
                 if (preg_match('/^(.+?)[\r\n]/', $parts[2], $prefix)) {
                     $this->printer->printText($prefix[1], Color::LightGray);
@@ -130,6 +130,7 @@ class BlockDumper
                     $this->printer->printText($parts[2], Color::LightGray);
                 }
             }
+
             if (strlen($parts[3])) {
                 $this->printer->printText($parts[3], BgColor::LightGray);
             }

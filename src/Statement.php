@@ -11,7 +11,6 @@ class Statement implements \IteratorAggregate
 
     // This property is not null when a single statement has been split up for formatting purposes
     public Statement|null $rootStatement = null;
-
     private StatementTypes\StatementType|null $type = null;
 
     /** @var Token[] */
@@ -83,7 +82,6 @@ class Statement implements \IteratorAggregate
 
         $token->block = $this->block;
         $token->statement = $this;
-
         $this->type = null;
     }
 
@@ -102,6 +100,7 @@ class Statement implements \IteratorAggregate
         }
 
         unset($this->tokens[$i]);
+
         $this->tokens = array_values($this->tokens);
 
         if (isset($this->tokens[$i - 1]) && isset($this->tokens[$i])) {
@@ -116,7 +115,6 @@ class Statement implements \IteratorAggregate
         }
 
         $token->previous = $token->next = null;
-
         $this->type = null;
     }
 
@@ -130,7 +128,6 @@ class Statement implements \IteratorAggregate
         $token->statement = $after->statement;
         $token->inString = $after->inString;
         $token->inAttribute = $after->inAttribute;
-
         $token->previous = $after;
         $after->next = $token;
 
@@ -140,8 +137,8 @@ class Statement implements \IteratorAggregate
         }
 
         array_splice($this->tokens, $i + 1, 0, [$token]);
-        $this->tokens = array_values($this->tokens);
 
+        $this->tokens = array_values($this->tokens);
         $this->type = null;
     }
 

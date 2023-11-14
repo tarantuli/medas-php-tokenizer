@@ -21,6 +21,7 @@ readonly class Tokenizer
         $collection = new TokenCollection();
 
         $this->addTokens($collection, $code);
+
         $collection->setSourceHash(sha1($code));
 
         return $collection;
