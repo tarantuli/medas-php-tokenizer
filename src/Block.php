@@ -82,11 +82,10 @@ class Block implements \IteratorAggregate
         $firstStatement->blankLineAfter = $secondStatement->blankLineAfter;
 
         array_splice($this->elements, $second, 1);
-
         unset($secondStatement);
     }
 
-    public function lastStatement(): Statement|null
+    public function lastStatement(): Statement|Block|null
     {
         return $this->elements[count($this->elements) - 1] ?? null;
     }

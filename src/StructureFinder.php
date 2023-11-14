@@ -155,6 +155,7 @@ class StructureFinder
         if ($token->is(T_SEMICOLON) && !$this->forClauseDepth) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
+            $this->inUseStatement = false;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceRelatedToBlocks($token) && !$this->matchClauseDepth) {
