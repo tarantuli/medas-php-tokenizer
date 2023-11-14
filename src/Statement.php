@@ -155,6 +155,17 @@ class Statement implements \IteratorAggregate
         return $this->tokens[0] ?? null;
     }
 
+    public function firstNonCommentToken(): Token|null
+    {
+        foreach ($this->tokens as $token) {
+            if (!$token->is([T_DOC_COMMENT, T_COMMENT])) {
+                return $token;
+            }
+        }
+
+        return null;
+    }
+
     public function containsType(array|int|string $type): bool
     {
         foreach ($this->tokens as $token) {
