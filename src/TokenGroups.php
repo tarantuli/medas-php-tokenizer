@@ -155,7 +155,6 @@ class TokenGroups
                 T_COMMA,
                 T_DOLLAR,
                 T_DOUBLE_ARROW,
-                T_DOUBLE_QUOTE,
                 T_ELLIPSIS,
                 T_EXCLAMATION_POINT,
                 T_NS_SEPARATOR,
