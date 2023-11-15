@@ -79,6 +79,10 @@ class Statement implements \IteratorAggregate
         if ($newIndex > 0) {
             $this->tokens[$newIndex - 1]->next = $token;
             $token->previous = $this->tokens[$newIndex - 1];
+
+            if (isset($token->previous->context)) {
+                $token->context = $token->previous->context;
+            }
         }
 
         $token->block = $this->block;
