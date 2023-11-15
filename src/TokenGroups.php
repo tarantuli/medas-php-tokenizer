@@ -11,12 +11,7 @@ class TokenGroups
 {
     public function texts(): array
     {
-        return array_merge(
-            $this->keywords(),
-            $this->typeOperators(),
-            $this->casts(),
-            $this->languageConstructs()
-        );
+        return array_merge($this->keywords(), $this->typeOperators(), $this->casts(), $this->languageConstructs());
     }
 
     public function keywords(): array
@@ -72,7 +67,8 @@ class TokenGroups
                 T_LOGICAL_AND,
                 T_LOGICAL_OR,
                 T_LOGICAL_XOR,
-            ]);
+            ],
+        );
     }
 
     public function controlKeywords(): array
@@ -160,7 +156,7 @@ class TokenGroups
                 T_NS_SEPARATOR,
                 T_QUESTION_MARK,
                 T_SEMICOLON,
-            ]
+            ],
         );
     }
 

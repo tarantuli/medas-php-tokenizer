@@ -8,6 +8,7 @@ class TokenCollection implements \IteratorAggregate
 {
     /** @var Token[] */
     private array $tokens = [];
+
     private string $sourceHash;
     private Token|null $previousToken = null;
 

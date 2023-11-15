@@ -82,6 +82,7 @@ class Block implements \IteratorAggregate
         $firstStatement->blankLineAfter = $secondStatement->blankLineAfter;
 
         array_splice($this->elements, $second, 1);
+
         unset($secondStatement);
     }
 

@@ -11,12 +11,9 @@ class Token extends \PhpToken
     public bool $inString = false;
     public bool $inAttribute = false;
     public Contexts\Context $context;
-
     public bool $spaceAfter = false;
     public bool $lineBreakAfter = false;
-
     public int $extraSpacesAfter = 0;
-
     public Token|null $previous = null;
     public Token|null $next = null;
 
@@ -56,18 +53,21 @@ class Token extends \PhpToken
     public function context(Contexts\Context $context): self
     {
         $this->context = $context;
+
         return $this;
     }
 
     public function id(int $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 
     public function text(string $text): self
     {
         $this->text = $text;
+
         return $this;
     }
 

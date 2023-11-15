@@ -13,21 +13,19 @@ class StructureFinder
     private Statement $statement;
     private int $blockDepth;
     private int $parenthesesDepth;
-
     private bool $inString;
     private bool $inAttribute;
     private int $inAttributeBracketDepth;
-
     private bool $inUseStatement;
-
     private array $openBlocks = [];
     private bool $ignoreNextDoubleQuote;
     private bool $startNewStatementBeforeNext;
     private bool $nextBraceOpensForClause;
-
     private int $forClauseDepth;
+
     /** The key is the block depth, the value is the parentheses depth  */
     private array $switchBlockDepths;
+
     private int $matchClauseDepth;
     private bool $nextCommaEndsStatement;
     private bool $nextBraceOpensMatchClause;
@@ -38,7 +36,6 @@ class StructureFinder
         $this->removeWhitespace($tokens);
 
         $tree = new Block($this->blockDepth, null);
-
         $this->block = $tree;
         $this->statement = $this->block->appendNewStatement();
 
@@ -55,18 +52,14 @@ class StructureFinder
         $this->parenthesesDepth = 0;
         $this->inUseStatement = false;
         $this->inString = false;
-
         $this->inAttribute = false;
         $this->inAttributeBracketDepth = 0;
-
         $this->openBlocks = [];
-
         $this->ignoreNextDoubleQuote = false;
         $this->startNewStatementBeforeNext = false;
         $this->nextBraceOpensForClause = false;
         $this->forClauseDepth = 0;
         $this->switchBlockDepths = [];
-
         $this->matchClauseDepth = 0;
         $this->nextBraceOpensMatchClause = false;
         $this->nextCommaEndsStatement = false;
@@ -76,8 +69,10 @@ class StructureFinder
     {
         {
             $counter = 0;
+
             foreach ($tokens as $token) {
                 ++$counter;
+
                 if ($token->is(T_WHITESPACE)) {
                     $tokens->remove(--$counter);
                 }
@@ -101,7 +96,8 @@ class StructureFinder
             $this->switchBlockDepths = array_filter(
                 $this->switchBlockDepths,
                 fn($depth) => $depth !== $this->blockDepth,
-                ARRAY_FILTER_USE_KEY);
+                ARRAY_FILTER_USE_KEY
+            );
 
             --$this->blockDepth;
         }
@@ -178,7 +174,7 @@ class StructureFinder
         if ($token->is(T_COLON)) {
             // Colons in switch statements
             if (array_key_exists($this->blockDepth, $this->switchBlockDepths)
-                && $this->switchBlockDepths[$this->blockDepth] === $this->parenthesesDepth) {
+                    && $this->switchBlockDepths[$this->blockDepth] === $this->parenthesesDepth) {
                 $this->startNewStatementBeforeNext = true;
             }
         }
@@ -189,7 +185,9 @@ class StructureFinder
 
             // Next token starts in a new block
             $newBlock = new Block(++$this->blockDepth, $this->statement);
+
             $this->block->appendBlock($newBlock);
+
             $this->block = $newBlock;
             $this->statement = $this->block->appendNewStatement();
         }
@@ -224,6 +222,7 @@ class StructureFinder
 
         if ($token->is(T_ROUND_BRACKET_OPEN) && ($this->forClauseDepth || $this->nextBraceOpensForClause)) {
             $this->nextBraceOpensForClause = false;
+
             ++$this->forClauseDepth;
         }
 
@@ -243,8 +242,11 @@ class StructureFinder
             $this->switchBlockDepths[$this->blockDepth + 1] = $this->parenthesesDepth;
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceRelatedToBlocks($token) && ($this->matchClauseDepth || $this->nextBraceOpensMatchClause)) {
+        if ($token->is(T_CURLY_BRACKET_OPEN)
+                && $this->curlyBraceRelatedToBlocks($token)
+                && ($this->matchClauseDepth || $this->nextBraceOpensMatchClause)) {
             $this->nextBraceOpensMatchClause = false;
+
             ++$this->matchClauseDepth;
         }
 
