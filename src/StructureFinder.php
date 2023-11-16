@@ -155,8 +155,8 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-                && $this->curlyBraceCloseRelatedToBlocks($token)
-                && !$this->matchClauseDepth) {
+            && $this->curlyBraceCloseRelatedToBlocks($token)
+            && !$this->matchClauseDepth) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
         }
@@ -176,7 +176,7 @@ class StructureFinder
         if ($token->is(T_COLON)) {
             // Colons in switch statements
             if (array_key_exists($this->blockDepth, $this->switchBlockDepths)
-                    && $this->switchBlockDepths[$this->blockDepth] === $this->parenthesesDepth) {
+                && $this->switchBlockDepths[$this->blockDepth] === $this->parenthesesDepth) {
                 $this->startNewStatementBeforeNext = true;
             }
         }
@@ -245,16 +245,16 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_OPEN)
-                && $this->curlyBraceOpenRelatedToBlocks($token)
-                && ($this->matchClauseDepth || $this->nextBraceOpensMatchClause)) {
+            && $this->curlyBraceOpenRelatedToBlocks($token)
+            && ($this->matchClauseDepth || $this->nextBraceOpensMatchClause)) {
             $this->nextBraceOpensMatchClause = false;
 
             ++$this->matchClauseDepth;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-                && $this->curlyBraceCloseRelatedToBlocks($token)
-                && $this->matchClauseDepth) {
+            && $this->curlyBraceCloseRelatedToBlocks($token)
+            && $this->matchClauseDepth) {
             --$this->matchClauseDepth;
         }
     }
@@ -270,7 +270,7 @@ class StructureFinder
 
     private function curlyBraceCloseRelatedToBlocks(Token $token): bool
     {
-        if ($token->next && $token->next->is([T_ROUND_BRACKET_OPEN])) {
+        if ($token->next && $token->next->is([T_ROUND_BRACKET_OPEN, T_ASSIGNMENT])) {
             return false;
         }
 
