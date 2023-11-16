@@ -82,7 +82,7 @@ class StructureFinder
 
     private function process(Token $token): void
     {
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceRelatedToBlocks($token)) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceCloseRelatedToBlocks($token)) {
             // Delete the last statement if it's empty
             if (null === $this->statement->firstToken()) {
                 $this->block->removeStatement($this->statement);
@@ -154,7 +154,9 @@ class StructureFinder
             $this->inUseStatement = false;
         }
 
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceRelatedToBlocks($token) && !$this->matchClauseDepth) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE)
+                && $this->curlyBraceCloseRelatedToBlocks($token)
+                && !$this->matchClauseDepth) {
             // Next token starts on a new line
             $this->startNewStatementBeforeNext = true;
         }
@@ -179,7 +181,7 @@ class StructureFinder
             }
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceRelatedToBlocks($token)) {
+        if ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceOpenRelatedToBlocks($token)) {
             // Store the current open block
             $this->openBlocks[] = $this->block;
 
@@ -243,21 +245,32 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_OPEN)
-                && $this->curlyBraceRelatedToBlocks($token)
+                && $this->curlyBraceOpenRelatedToBlocks($token)
                 && ($this->matchClauseDepth || $this->nextBraceOpensMatchClause)) {
             $this->nextBraceOpensMatchClause = false;
 
             ++$this->matchClauseDepth;
         }
 
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceRelatedToBlocks($token) && $this->matchClauseDepth) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE)
+                && $this->curlyBraceCloseRelatedToBlocks($token)
+                && $this->matchClauseDepth) {
             --$this->matchClauseDepth;
         }
     }
 
-    private function curlyBraceRelatedToBlocks(Token $token): bool
+    private function curlyBraceOpenRelatedToBlocks(Token $token): bool
     {
-        if ($token->previous && $token->previous->is([T_OBJECT_OPERATOR, T_VARIABLE])) {
+        if ($token->previous && $token->previous->is([T_OBJECT_OPERATOR, T_VARIABLE, T_SQUARE_BRACKET_CLOSE])) {
+            return false;
+        }
+
+        return !$this->inUseStatement && !$this->inString;
+    }
+
+    private function curlyBraceCloseRelatedToBlocks(Token $token): bool
+    {
+        if ($token->next && $token->next->is([T_ROUND_BRACKET_OPEN])) {
             return false;
         }
 
