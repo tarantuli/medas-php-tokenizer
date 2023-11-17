@@ -53,6 +53,10 @@ readonly class StatementTypeFinder
         $secondToken = $statement->getToken($index);
 
         if (null === $firstToken) {
+            if ($statement->getToken(0)) {
+                return StatementTypes\Comment::instance();
+            }
+
             return StatementTypes\BlankLine::instance();
         }
 
@@ -62,10 +66,6 @@ readonly class StatementTypeFinder
 
         if ($firstToken->is(T_DECLARE)) {
             return StatementTypes\DeclareStatement::instance();
-        }
-
-        if ($firstToken->is($this->tokenGroups->comments())) {
-            return StatementTypes\Comment::instance();
         }
 
         if ($firstToken->is(T_NAMESPACE)) {
