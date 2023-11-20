@@ -10,4 +10,5 @@ class TypeDeclarationState
     public bool $inArguments = false;
     public bool $nextValueIsReturnType = false;
     public bool $nextNextValueIsReturnType = false;
+    public bool $afterVisibilityKeyword = false;
 }

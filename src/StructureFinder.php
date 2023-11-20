@@ -7,9 +7,22 @@ namespace Medas\PhpTokenizer;
 use Medas\Core\Attributes\Service;
 
 #[Service]
-class StructureFinder
+readonly class StructureFinder
 {
-    private const TYPE_DECLARATION_TOKEN_TYPES = [T_QUESTION_MARK, T_STRING, T_PIPE];
+    private const TYPE_DECLARATION_TOKEN_TYPES = [
+        T_QUESTION_MARK,
+        T_STRING,
+        T_PIPE,
+        T_NAME_FULLY_QUALIFIED,
+        T_NAME_QUALIFIED,
+        T_ARRAY,
+    ];
+
+    public function __construct(
+        private TokenGroups $tokenGroups,
+    )
+    {
+    }
 
     public function determine(TokenCollection $tokens): TokenTree
     {
@@ -116,8 +129,8 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-            && !$job->matchClauseDepth) {
+                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+                && !$job->matchClauseDepth) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
@@ -137,7 +150,7 @@ class StructureFinder
         if ($token->is(T_COLON)) {
             // Colons in switch statements
             if (array_key_exists($job->blockDepth, $job->switchBlockDepths)
-                && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
+                    && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
                 $job->startNewStatementBeforeNext = true;
             }
         }
@@ -206,16 +219,16 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_OPEN)
-            && $this->curlyBraceOpenRelatedToBlocks($job, $token)
-            && ($job->matchClauseDepth || $job->nextBraceOpensMatchClause)) {
+                && $this->curlyBraceOpenRelatedToBlocks($job, $token)
+                && ($job->matchClauseDepth || $job->nextBraceOpensMatchClause)) {
             $job->nextBraceOpensMatchClause = false;
 
             ++$job->matchClauseDepth;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-            && $job->matchClauseDepth) {
+                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+                && $job->matchClauseDepth) {
             --$job->matchClauseDepth;
         }
 
@@ -271,9 +284,23 @@ class StructureFinder
 
         if ($job->typeDeclarationState->inArguments && $token->is(T_ROUND_BRACKET_CLOSE)) {
             $job->typeDeclarationState->inArguments = false;
+
             if ($token->next && $token->next->is(T_COLON)) {
                 $job->typeDeclarationState->nextNextValueIsReturnType = true;
             }
+        }
+
+        if ($job->typeDeclarationState->afterVisibilityKeyword) {
+            if ($token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
+                $token->inTypeDeclaration = true;
+            }
+            elseif ($token->is([T_FUNCTION, T_VARIABLE, T_CONST])) {
+                $job->typeDeclarationState->afterVisibilityKeyword = false;
+            }
+        }
+
+        if ($token->is($this->tokenGroups->visibilityKeywords())) {
+            $job->typeDeclarationState->afterVisibilityKeyword = true;
         }
     }
 }
