@@ -116,8 +116,8 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-                && !$job->matchClauseDepth) {
+            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+            && !$job->matchClauseDepth) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
@@ -137,7 +137,7 @@ class StructureFinder
         if ($token->is(T_COLON)) {
             // Colons in switch statements
             if (array_key_exists($job->blockDepth, $job->switchBlockDepths)
-                    && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
+                && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
                 $job->startNewStatementBeforeNext = true;
             }
         }
@@ -206,16 +206,16 @@ class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_OPEN)
-                && $this->curlyBraceOpenRelatedToBlocks($job, $token)
-                && ($job->matchClauseDepth || $job->nextBraceOpensMatchClause)) {
+            && $this->curlyBraceOpenRelatedToBlocks($job, $token)
+            && ($job->matchClauseDepth || $job->nextBraceOpensMatchClause)) {
             $job->nextBraceOpensMatchClause = false;
 
             ++$job->matchClauseDepth;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-                && $job->matchClauseDepth) {
+            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+            && $job->matchClauseDepth) {
             --$job->matchClauseDepth;
         }
 
@@ -243,15 +243,16 @@ class StructureFinder
     private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void
     {
         if ($job->typeDeclarationState->inArguments && $token->next && $token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
-            $token->typeDeclaration = true;
+            $token->inTypeDeclaration = true;
         }
 
         if ($job->typeDeclarationState->nextValueIsReturnType) {
             if ($token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
-                $token->typeDeclaration = true;
+                $token->inTypeDeclaration = true;
             }
-
-            $job->typeDeclarationState->nextValueIsReturnType = false;
+            else {
+                $job->typeDeclarationState->nextValueIsReturnType = false;
+            }
         }
 
         if ($job->typeDeclarationState->nextNextValueIsReturnType) {
@@ -269,6 +270,7 @@ class StructureFinder
         }
 
         if ($job->typeDeclarationState->inArguments && $token->is(T_ROUND_BRACKET_CLOSE)) {
+            $job->typeDeclarationState->inArguments = false;
             if ($token->next && $token->next->is(T_COLON)) {
                 $job->typeDeclarationState->nextNextValueIsReturnType = true;
             }

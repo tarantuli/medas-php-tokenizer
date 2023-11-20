@@ -10,7 +10,7 @@ class Token extends \PhpToken
     public Statement $statement;
     public bool $inString = false;
     public bool $inAttribute = false;
-    public bool $typeDeclaration = false;
+    public bool $inTypeDeclaration = false;
     public Contexts\Context $context;
     public bool $spaceAfter = false;
     public bool $lineBreakAfter = false;
@@ -27,7 +27,7 @@ class Token extends \PhpToken
             'statement' => isset($this->statement) ? spl_object_id($this->statement) : null,
             'inString' => $this->inString,
             'inAttribute' => $this->inAttribute,
-            'typeDeclaration' => $this->typeDeclaration,
+            'inTypeDeclaration' => $this->inTypeDeclaration,
             'context' => $this->context ?? null,
             'spaceAfter' => $this->spaceAfter,
             'lineBreakAfter' => $this->lineBreakAfter,

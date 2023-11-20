@@ -105,7 +105,7 @@ class BlockDumper
                 ->printText('·');
         }
 
-        if ($token->typeDeclaration) {
+        if ($token->inTypeDeclaration) {
             $this->printer->printText('T', new HexColor('#d70000'))
                 ->printText('·');
         }
