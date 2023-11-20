@@ -42,7 +42,7 @@ class Block implements \IteratorAggregate
         $this->elements[] = $block;
     }
 
-    public function getPreviousStatement(Statement $statement): ?Statement
+    public function getPreviousStatement(Statement $statement): Statement|null
     {
         $index = $this->getIndex($statement);
         $previous = $this->elements[$index - 1] ?? null;
@@ -61,7 +61,7 @@ class Block implements \IteratorAggregate
         return false === $index ? null : $index;
     }
 
-    public function getNextStatement(Statement $statement): ?Statement
+    public function getNextStatement(Statement $statement): Statement|null
     {
         $index = $this->getIndex($statement);
         $return = $this->elements[$index + 1] ?? null;

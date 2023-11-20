@@ -178,7 +178,7 @@ class Statement implements \IteratorAggregate
         return false;
     }
 
-    public function findToken(array|int|string $type): ?Token
+    public function findToken(array|int|string $type): Token|null
     {
         foreach ($this->tokens as $token) {
             if ($token->is($type)) {
