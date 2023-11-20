@@ -25,13 +25,12 @@ class Job
     /** The key is the block depth, the value is the parentheses depth  */
     public array $switchBlockDepths = [];
 
-    public int $matchClauseDepth = 0;
-    public bool $nextCommaEndsStatement = false;
-    public bool $nextBraceOpensMatchClause = false;
     public TypeDeclarationState $typeDeclarationState;
+    public MatchState $matchState;
 
     public function __construct()
     {
         $this->typeDeclarationState = new TypeDeclarationState();
+        $this->matchState = new MatchState();
     }
 }
