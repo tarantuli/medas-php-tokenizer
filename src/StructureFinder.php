@@ -10,12 +10,13 @@ use Medas\Core\Attributes\Service;
 readonly class StructureFinder
 {
     private const TYPE_DECLARATION_TOKEN_TYPES = [
-        T_QUESTION_MARK,
-        T_STRING,
-        T_PIPE,
+        T_ARRAY,
+        T_CALLABLE,
         T_NAME_FULLY_QUALIFIED,
         T_NAME_QUALIFIED,
-        T_ARRAY,
+        T_PIPE,
+        T_QUESTION_MARK,
+        T_STRING,
     ];
 
     public function __construct(
