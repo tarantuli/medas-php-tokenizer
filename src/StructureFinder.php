@@ -9,271 +9,269 @@ use Medas\Core\Attributes\Service;
 #[Service]
 class StructureFinder
 {
-    private Block $block;
-    private Statement $statement;
-    private int $blockDepth;
-    private int $parenthesesDepth;
-    private bool $inString;
-    private bool $inAttribute;
-    private int $inAttributeBracketDepth;
-    private bool $inUseStatement;
-    private array $openBlocks = [];
-    private bool $ignoreNextDoubleQuote;
-    private bool $startNewStatementBeforeNext;
-    private bool $nextBraceOpensForClause;
-    private int $forClauseDepth;
-
-    /** The key is the block depth, the value is the parentheses depth  */
-    private array $switchBlockDepths;
-
-    private int $matchClauseDepth;
-    private bool $nextCommaEndsStatement;
-    private bool $nextBraceOpensMatchClause;
+    private const TYPE_DECLARATION_TOKEN_TYPES = [T_QUESTION_MARK, T_STRING, T_PIPE];
 
     public function determine(TokenCollection $tokens): TokenTree
     {
-        $this->reset();
+        $job = new StructureFinder\Job();
+
         $this->removeWhitespace($tokens);
 
-        $tree = new Block($this->blockDepth, null);
-        $this->block = $tree;
-        $this->statement = $this->block->appendNewStatement();
+        $tree = new Block($job->blockDepth, null);
+        $job->block = $tree;
+        $job->statement = $job->block->appendNewStatement();
 
         foreach ($tokens as $token) {
-            $this->process($token);
+            $this->process($job, $token);
         }
 
         return new TokenTree($tree);
     }
 
-    private function reset(): void
-    {
-        $this->blockDepth = 0;
-        $this->parenthesesDepth = 0;
-        $this->inUseStatement = false;
-        $this->inString = false;
-        $this->inAttribute = false;
-        $this->inAttributeBracketDepth = 0;
-        $this->openBlocks = [];
-        $this->ignoreNextDoubleQuote = false;
-        $this->startNewStatementBeforeNext = false;
-        $this->nextBraceOpensForClause = false;
-        $this->forClauseDepth = 0;
-        $this->switchBlockDepths = [];
-        $this->matchClauseDepth = 0;
-        $this->nextBraceOpensMatchClause = false;
-        $this->nextCommaEndsStatement = false;
-    }
-
     private function removeWhitespace(TokenCollection $tokens): void
     {
-        {
-            $counter = 0;
+        $counter = 0;
 
-            foreach ($tokens as $token) {
-                ++$counter;
+        foreach ($tokens as $token) {
+            ++$counter;
 
-                if ($token->is(T_WHITESPACE)) {
-                    $tokens->remove(--$counter);
-                }
+            if ($token->is(T_WHITESPACE)) {
+                $tokens->remove(--$counter);
             }
         }
     }
 
-    private function process(Token $token): void
+    private function process(StructureFinder\Job $job, Token $token): void
     {
-        if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceCloseRelatedToBlocks($token)) {
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && $this->curlyBraceCloseRelatedToBlocks($job, $token)) {
             // Delete the last statement if it's empty
-            if (null === $this->statement->firstToken()) {
-                $this->block->removeStatement($this->statement);
+            if (null === $job->statement->firstToken()) {
+                $job->block->removeStatement($job->statement);
             }
 
             // The previous block is closed, return to the last open block
-            $this->block = array_pop($this->openBlocks);
-            $this->statement = $this->block->appendNewStatement();
-            $this->startNewStatementBeforeNext = false;
+            $job->block = array_pop($job->openBlocks);
+            $job->statement = $job->block->appendNewStatement();
+            $job->startNewStatementBeforeNext = false;
 
-            $this->switchBlockDepths = array_filter(
-                $this->switchBlockDepths,
-                fn($depth) => $depth !== $this->blockDepth,
+            $job->switchBlockDepths = array_filter(
+                $job->switchBlockDepths,
+                fn($depth) => $depth !== $job->blockDepth,
                 ARRAY_FILTER_USE_KEY
             );
 
-            --$this->blockDepth;
+            --$job->blockDepth;
         }
 
-        if ($this->startNewStatementBeforeNext) {
-            $this->statement = $this->block->appendNewStatement();
-            $this->startNewStatementBeforeNext = false;
+        if ($job->startNewStatementBeforeNext) {
+            $job->statement = $job->block->appendNewStatement();
+            $job->startNewStatementBeforeNext = false;
         }
 
-        $token->inAttribute = $this->inAttribute;
+        $token->inAttribute = $job->inAttribute;
 
-        if ($this->inAttribute && $token->is(T_SQUARE_BRACKET_OPEN)) {
-            ++$this->inAttributeBracketDepth;
+        if ($job->inAttribute && $token->is(T_SQUARE_BRACKET_OPEN)) {
+            ++$job->inAttributeBracketDepth;
         }
 
-        if ($this->inAttribute && $token->is(T_SQUARE_BRACKET_CLOSE)) {
-            if ($this->inAttributeBracketDepth === 0) {
+        if ($job->inAttribute && $token->is(T_SQUARE_BRACKET_CLOSE)) {
+            if ($job->inAttributeBracketDepth === 0) {
                 // This token closes an attribute
-                $this->inAttribute = false;
+                $job->inAttribute = false;
             }
             else {
-                --$this->inAttributeBracketDepth;
+                --$job->inAttributeBracketDepth;
             }
         }
 
-        if ($this->inString && $token->is(T_DOUBLE_QUOTE)) {
+        if ($job->inString && $token->is(T_DOUBLE_QUOTE)) {
             // This token closes a string
-            $this->inString = false;
-            $this->ignoreNextDoubleQuote = true;
+            $job->inString = false;
+            $job->ignoreNextDoubleQuote = true;
         }
 
         if ($token->is(T_ROUND_BRACKET_CLOSE)) {
-            --$this->parenthesesDepth;
+            --$job->parenthesesDepth;
         }
 
-        $token->block = $this->block;
-        $token->statement = $this->statement;
-        $token->inString = $this->inString;
+        $token->block = $job->block;
+        $token->statement = $job->statement;
+        $token->inString = $job->inString;
 
-        $this->statement->appendToken($token);
+        $job->statement->appendToken($token);
 
-        if ($this->statement->tokenCount() === 1) {
-            $this->inUseStatement = $this->statement->firstToken()->text === 'use';
+        if ($job->statement->tokenCount() === 1) {
+            $job->inUseStatement = $job->statement->firstToken()->text === 'use';
         }
 
         if ($token->is([T_OPEN_TAG])) {
             // Next token starts on a new line
-            $this->startNewStatementBeforeNext = true;
+            $job->startNewStatementBeforeNext = true;
         }
 
-        if ($token->is(T_SEMICOLON) && !$this->forClauseDepth) {
+        if ($token->is(T_SEMICOLON) && !$job->forClauseDepth) {
             // Next token starts on a new line
-            $this->startNewStatementBeforeNext = true;
-            $this->inUseStatement = false;
+            $job->startNewStatementBeforeNext = true;
+            $job->inUseStatement = false;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-            && $this->curlyBraceCloseRelatedToBlocks($token)
-            && !$this->matchClauseDepth) {
+                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+                && !$job->matchClauseDepth) {
             // Next token starts on a new line
-            $this->startNewStatementBeforeNext = true;
+            $job->startNewStatementBeforeNext = true;
         }
 
-        if ($token->is(T_DOUBLE_ARROW) && $this->matchClauseDepth) {
-            $this->nextCommaEndsStatement = true;
+        if ($token->is(T_DOUBLE_ARROW) && $job->matchClauseDepth) {
+            $job->nextCommaEndsStatement = true;
         }
 
         if ($token->is(T_COMMA)) {
-            if ($this->nextCommaEndsStatement) {
+            if ($job->nextCommaEndsStatement) {
                 // Next token starts on a new line
-                $this->startNewStatementBeforeNext = true;
-                $this->nextCommaEndsStatement = false;
+                $job->startNewStatementBeforeNext = true;
+                $job->nextCommaEndsStatement = false;
             }
         }
 
         if ($token->is(T_COLON)) {
             // Colons in switch statements
-            if (array_key_exists($this->blockDepth, $this->switchBlockDepths)
-                && $this->switchBlockDepths[$this->blockDepth] === $this->parenthesesDepth) {
-                $this->startNewStatementBeforeNext = true;
+            if (array_key_exists($job->blockDepth, $job->switchBlockDepths)
+                    && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
+                $job->startNewStatementBeforeNext = true;
             }
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceOpenRelatedToBlocks($token)) {
+        if ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceOpenRelatedToBlocks($job, $token)) {
             // Store the current open block
-            $this->openBlocks[] = $this->block;
+            $job->openBlocks[] = $job->block;
 
             // Next token starts in a new block
-            $newBlock = new Block(++$this->blockDepth, $this->statement);
+            $newBlock = new Block(++$job->blockDepth, $job->statement);
 
-            $this->block->appendBlock($newBlock);
+            $job->block->appendBlock($newBlock);
 
-            $this->block = $newBlock;
-            $this->statement = $this->block->appendNewStatement();
+            $job->block = $newBlock;
+            $job->statement = $job->block->appendNewStatement();
         }
 
         if ($token->is(T_ATTRIBUTE)) {
             // Next token is in an attribute
-            $this->inAttribute = true;
+            $job->inAttribute = true;
         }
 
         if ($token->is(T_DOUBLE_QUOTE)) {
-            if ($this->ignoreNextDoubleQuote) {
+            if ($job->ignoreNextDoubleQuote) {
                 // This double quote _closed_ a string already
-                $this->ignoreNextDoubleQuote = false;
+                $job->ignoreNextDoubleQuote = false;
             }
             else {
                 // Next token is in a string
-                $this->inString = true;
+                $job->inString = true;
             }
         }
 
         if ($token->is(T_FOR)) {
-            $this->nextBraceOpensForClause = true;
+            $job->nextBraceOpensForClause = true;
         }
 
         if ($token->is(T_START_HEREDOC)) {
-            $this->inString = true;
+            $job->inString = true;
         }
 
         if ($token->is(T_END_HEREDOC)) {
-            $this->inString = false;
+            $job->inString = false;
         }
 
-        if ($token->is(T_ROUND_BRACKET_OPEN) && ($this->forClauseDepth || $this->nextBraceOpensForClause)) {
-            $this->nextBraceOpensForClause = false;
+        if ($token->is(T_ROUND_BRACKET_OPEN) && ($job->forClauseDepth || $job->nextBraceOpensForClause)) {
+            $job->nextBraceOpensForClause = false;
 
-            ++$this->forClauseDepth;
+            ++$job->forClauseDepth;
         }
 
         if ($token->is(T_ROUND_BRACKET_OPEN)) {
-            ++$this->parenthesesDepth;
+            ++$job->parenthesesDepth;
         }
 
-        if ($token->is(T_ROUND_BRACKET_CLOSE) && $this->forClauseDepth) {
-            --$this->forClauseDepth;
+        if ($token->is(T_ROUND_BRACKET_CLOSE) && $job->forClauseDepth) {
+            --$job->forClauseDepth;
         }
 
         if ($token->is(T_MATCH)) {
-            $this->nextBraceOpensMatchClause = true;
+            $job->nextBraceOpensMatchClause = true;
         }
 
         if ($token->is(T_SWITCH)) {
-            $this->switchBlockDepths[$this->blockDepth + 1] = $this->parenthesesDepth;
+            $job->switchBlockDepths[$job->blockDepth + 1] = $job->parenthesesDepth;
         }
 
         if ($token->is(T_CURLY_BRACKET_OPEN)
-            && $this->curlyBraceOpenRelatedToBlocks($token)
-            && ($this->matchClauseDepth || $this->nextBraceOpensMatchClause)) {
-            $this->nextBraceOpensMatchClause = false;
+                && $this->curlyBraceOpenRelatedToBlocks($job, $token)
+                && ($job->matchClauseDepth || $job->nextBraceOpensMatchClause)) {
+            $job->nextBraceOpensMatchClause = false;
 
-            ++$this->matchClauseDepth;
+            ++$job->matchClauseDepth;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-            && $this->curlyBraceCloseRelatedToBlocks($token)
-            && $this->matchClauseDepth) {
-            --$this->matchClauseDepth;
+                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+                && $job->matchClauseDepth) {
+            --$job->matchClauseDepth;
         }
+
+        $this->typeDeclarationChecks($job, $token);
     }
 
-    private function curlyBraceOpenRelatedToBlocks(Token $token): bool
+    private function curlyBraceOpenRelatedToBlocks(StructureFinder\Job $job, Token $token): bool
     {
         if ($token->previous && $token->previous->is([T_OBJECT_OPERATOR, T_VARIABLE, T_SQUARE_BRACKET_CLOSE])) {
             return false;
         }
 
-        return !$this->inUseStatement && !$this->inString;
+        return !$job->inUseStatement && !$job->inString;
     }
 
-    private function curlyBraceCloseRelatedToBlocks(Token $token): bool
+    private function curlyBraceCloseRelatedToBlocks(StructureFinder\Job $job, Token $token): bool
     {
         if ($token->next && $token->next->is([T_ROUND_BRACKET_OPEN, T_ASSIGNMENT])) {
             return false;
         }
 
-        return !$this->inUseStatement && !$this->inString;
+        return !$job->inUseStatement && !$job->inString;
+    }
+
+    private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void
+    {
+        if ($job->typeDeclarationState->inArguments && $token->next && $token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
+            $token->typeDeclaration = true;
+        }
+
+        if ($job->typeDeclarationState->nextValueIsReturnType) {
+            if ($token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
+                $token->typeDeclaration = true;
+            }
+
+            $job->typeDeclarationState->nextValueIsReturnType = false;
+        }
+
+        if ($job->typeDeclarationState->nextNextValueIsReturnType) {
+            $job->typeDeclarationState->nextValueIsReturnType = true;
+            $job->typeDeclarationState->nextNextValueIsReturnType = false;
+        }
+
+        if ($token->is([T_FN, T_FUNCTION])) {
+            $job->typeDeclarationState->nextBracesIsArguments = true;
+        }
+
+        if ($job->typeDeclarationState->nextBracesIsArguments && $token->is(T_ROUND_BRACKET_OPEN)) {
+            $job->typeDeclarationState->inArguments = true;
+            $job->typeDeclarationState->nextBracesIsArguments = false;
+        }
+
+        if ($job->typeDeclarationState->inArguments && $token->is(T_ROUND_BRACKET_CLOSE)) {
+            if ($token->next && $token->next->is(T_COLON)) {
+                $job->typeDeclarationState->nextNextValueIsReturnType = true;
+            }
+        }
     }
 }
