@@ -129,7 +129,7 @@ class BlockDumper
             if (strlen($parts[2])) {
                 if (preg_match('/^(.+?)[\r\n]/', $parts[2], $prefix)) {
                     $this->printer->printText($prefix[1], Color::LightGray);
-                    $this->printer->printText('…', Color::White);
+                    $this->printer->printText('⋯', Color::White);
                 }
                 else {
                     $this->printer->printText($parts[2], Color::LightGray);
