@@ -238,7 +238,7 @@ readonly class StructureFinder
 
     private function curlyBraceOpenRelatedToBlocks(StructureFinder\Job $job, Token $token): bool
     {
-        if ($token->previous && $token->previous->is([T_OBJECT_OPERATOR, T_VARIABLE, T_SQUARE_BRACKET_CLOSE])) {
+        if ($token->previous && $token->previous->is([T_OBJECT_OPERATOR, T_VARIABLE, T_SQUARE_BRACKET_CLOSE, T_NULLSAFE_OBJECT_OPERATOR])) {
             return false;
         }
 
