@@ -132,7 +132,7 @@ readonly class StructureFinder
         if ($token->is(T_COLON)) {
             // Colons in switch statements
             if (array_key_exists($job->blockDepth, $job->switchBlockDepths)
-                && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
+                    && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
                 $job->startNewStatementBeforeNext = true;
             }
         }
@@ -193,8 +193,8 @@ readonly class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-            && !$job->matchState->matchClauseDepth) {
+                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+                && !$job->matchState->matchClauseDepth) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
@@ -220,16 +220,16 @@ readonly class StructureFinder
         }
 
         if ($token->is(T_CURLY_BRACKET_OPEN)
-            && $this->curlyBraceOpenRelatedToBlocks($job, $token)
-            && ($job->matchState->matchClauseDepth || $job->matchState->nextBraceOpensMatchClause)) {
+                && $this->curlyBraceOpenRelatedToBlocks($job, $token)
+                && ($job->matchState->matchClauseDepth || $job->matchState->nextBraceOpensMatchClause)) {
             $job->matchState->nextBraceOpensMatchClause = false;
 
             ++$job->matchState->matchClauseDepth;
         }
 
         if ($token->is(T_CURLY_BRACKET_CLOSE)
-            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-            && $job->matchState->matchClauseDepth) {
+                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+                && $job->matchState->matchClauseDepth) {
             --$job->matchState->matchClauseDepth;
         }
 
