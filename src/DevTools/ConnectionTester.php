@@ -31,7 +31,12 @@ readonly class ConnectionTester
                 }
             }
             elseif ($token->previous !== null) {
-                throw new TokensAreNotWellConnected('–', '–', $token->text, $token->previous->text);
+                throw new TokensAreNotWellConnected(
+                    '–',
+                    '–',
+                    $token->text,
+                    $token->previous->text
+                );
             }
 
             $previousToken = $token;

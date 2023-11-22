@@ -41,7 +41,8 @@ class Token extends \PhpToken
 
     public function isTrueFalseNull(): bool
     {
-        return $this->is(T_STRING) && in_array(strtolower($this->text), ['true', 'false', 'null'], true);
+        return $this->is(T_STRING)
+            && in_array(strtolower($this->text), ['true', 'false', 'null'], true);
     }
 
     public function isLastToken(): bool

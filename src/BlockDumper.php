@@ -59,7 +59,10 @@ class BlockDumper
             ->printText(str_repeat(' ', $statement->block->depth), Color::LightGray);
 
         if ($statement->additionalDepth) {
-            $this->printer->printText(str_repeat('🡒', $statement->additionalDepth), new HexColor('#d75fd7'));
+            $this->printer->printText(
+                str_repeat('🡒', $statement->additionalDepth),
+                new HexColor('#d75fd7')
+            );
         }
 
         // Print tokens on this line
