@@ -309,6 +309,7 @@ class TokenGroups
     public function comments(): array
     {
         return [
+            T_ATTRIBUTE,
             T_COMMENT,
             T_DOC_COMMENT,
         ];
@@ -329,7 +330,6 @@ class TokenGroups
         return [
             T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG,
             T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG,
-            T_ATTRIBUTE,
             T_END_HEREDOC,
             T_INLINE_HTML,
             T_START_HEREDOC,
@@ -344,6 +344,19 @@ class TokenGroups
             T_ENUM,
             T_INTERFACE,
             T_TRAIT,
+        ];
+    }
+
+    public function typeDeclarationTypes(): array
+    {
+        return [
+            T_ARRAY,
+            T_CALLABLE,
+            T_NAME_FULLY_QUALIFIED,
+            T_NAME_QUALIFIED,
+            T_PIPE,
+            T_QUESTION_MARK,
+            T_STRING,
         ];
     }
 }

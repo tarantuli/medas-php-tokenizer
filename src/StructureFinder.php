@@ -9,16 +9,6 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class StructureFinder
 {
-    private const TYPE_DECLARATION_TOKEN_TYPES = [
-        T_ARRAY,
-        T_CALLABLE,
-        T_NAME_FULLY_QUALIFIED,
-        T_NAME_QUALIFIED,
-        T_PIPE,
-        T_QUESTION_MARK,
-        T_STRING,
-    ];
-
     public function __construct(
         private TokenGroups $tokenGroups,
     )
@@ -257,12 +247,14 @@ readonly class StructureFinder
 
     private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void
     {
-        if ($job->typeDeclarationState->inArguments && $token->next && $token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
+        if ($job->typeDeclarationState->inArguments
+                && $token->next
+                && $token->is($this->tokenGroups->typeDeclarationTypes())) {
             $token->inTypeDeclaration = true;
         }
 
         if ($job->typeDeclarationState->nextValueIsReturnType) {
-            if ($token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
+            if ($token->is($this->tokenGroups->typeDeclarationTypes())) {
                 $token->inTypeDeclaration = true;
             }
             else {
@@ -293,7 +285,7 @@ readonly class StructureFinder
         }
 
         if ($job->typeDeclarationState->afterVisibilityKeyword) {
-            if ($token->is(self::TYPE_DECLARATION_TOKEN_TYPES)) {
+            if ($token->is($this->tokenGroups->typeDeclarationTypes())) {
                 $token->inTypeDeclaration = true;
             }
             elseif ($token->is([T_FUNCTION, T_VARIABLE, T_CONST])) {
