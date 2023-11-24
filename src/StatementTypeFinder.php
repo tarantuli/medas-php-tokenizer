@@ -21,10 +21,17 @@ readonly class StatementTypeFinder
         T_STATIC,
     ];
 
+    private array $structureTypes;
+    private array $visibilityKeywords;
+    private array $controlKeywords;
+
     public function __construct(
         private TokenGroups $tokenGroups,
     )
     {
+        $this->structureTypes = $this->tokenGroups->structureTypes();
+        $this->visibilityKeywords = $this->tokenGroups->visibilityKeywords();
+        $this->controlKeywords = $this->tokenGroups->controlKeywords();
     }
 
     public function for(Statement $statement): StatementTypes\StatementType
@@ -91,7 +98,7 @@ readonly class StatementTypeFinder
             return StatementTypes\BlockCloser::instance();
         }
 
-        if ($statement->containsType($this->tokenGroups->structureTypes())) {
+        if ($statement->containsType($this->structureTypes)) {
             return StatementTypes\ClassDeclaration::instance();
         }
 
@@ -111,12 +118,12 @@ readonly class StatementTypeFinder
             break;
         }
 
-        if ($statement->containsType($this->tokenGroups->visibilityKeywords())) {
+        if ($statement->containsType($this->visibilityKeywords)) {
             // It's not a class const or class method, those were found before
             return StatementTypes\ClassPropertyDeclaration::instance();
         }
 
-        if ($firstToken->is($this->tokenGroups->controlKeywords())) {
+        if ($firstToken->is($this->controlKeywords)) {
             return StatementTypes\ControlStatement::instance();
         }
 
