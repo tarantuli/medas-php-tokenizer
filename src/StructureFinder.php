@@ -9,6 +9,8 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class StructureFinder
 {
+    private const NON_BLOCK_CURLY_BRACE_PREFIXES = [T_OBJECT_OPERATOR, T_VARIABLE, T_SQUARE_BRACKET_CLOSE, T_NULLSAFE_OBJECT_OPERATOR];
+
     public function __construct(
         private TokenGroups $tokenGroups,
     )
@@ -74,17 +76,18 @@ readonly class StructureFinder
 
         $token->inAttribute = $job->inAttribute;
 
-        if ($job->inAttribute && $token->is(T_SQUARE_BRACKET_OPEN)) {
-            ++$job->inAttributeBracketDepth;
-        }
-
-        if ($job->inAttribute && $token->is(T_SQUARE_BRACKET_CLOSE)) {
-            if ($job->inAttributeBracketDepth === 0) {
-                // This token closes an attribute
-                $job->inAttribute = false;
+        if ($job->inAttribute) {
+            if ($token->is(T_SQUARE_BRACKET_OPEN)) {
+                ++$job->inAttributeBracketDepth;
             }
-            else {
-                --$job->inAttributeBracketDepth;
+            elseif ( $token->is(T_SQUARE_BRACKET_CLOSE)) {
+                if ($job->inAttributeBracketDepth === 0) {
+                    // This token closes an attribute
+                    $job->inAttribute = false;
+                }
+                else {
+                    --$job->inAttributeBracketDepth;
+                }
             }
         }
 
@@ -113,21 +116,21 @@ readonly class StructureFinder
             $job->startNewStatementBeforeNext = true;
         }
 
-        if ($token->is(T_SEMICOLON) && !$job->forClauseDepth) {
+        elseif ($token->is(T_SEMICOLON) && !$job->forClauseDepth) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
             $job->inUseStatement = false;
         }
 
-        if ($token->is(T_COLON)) {
+        elseif ($token->is(T_COLON)) {
             // Colons in switch statements
             if (array_key_exists($job->blockDepth, $job->switchBlockDepths)
-                    && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
+                && $job->switchBlockDepths[$job->blockDepth] === $job->parenthesesDepth) {
                 $job->startNewStatementBeforeNext = true;
             }
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceOpenRelatedToBlocks($job, $token)) {
+        elseif ($token->is(T_CURLY_BRACKET_OPEN) && $this->curlyBraceOpenRelatedToBlocks($job, $token)) {
             // Store the current open block
             $job->openBlocks[] = $job->block;
 
@@ -138,14 +141,20 @@ readonly class StructureFinder
 
             $job->block = $newBlock;
             $job->statement = $job->block->appendNewStatement();
+
+            if ($job->matchState->matchClauseDepth || $job->matchState->nextBraceOpensMatchClause) {
+                $job->matchState->nextBraceOpensMatchClause = false;
+
+                ++$job->matchState->matchClauseDepth;
+            }
         }
 
-        if ($token->is(T_ATTRIBUTE)) {
+        elseif ($token->is(T_ATTRIBUTE)) {
             // Next token is in an attribute
             $job->inAttribute = true;
         }
 
-        if ($token->is(T_DOUBLE_QUOTE)) {
+        elseif ($token->is(T_DOUBLE_QUOTE)) {
             if ($job->ignoreNextDoubleQuote) {
                 // This double quote _closed_ a string already
                 $job->ignoreNextDoubleQuote = false;
@@ -156,44 +165,43 @@ readonly class StructureFinder
             }
         }
 
-        if ($token->is(T_FOR)) {
+        elseif ($token->is(T_FOR)) {
             $job->nextBraceOpensForClause = true;
         }
 
-        if ($token->is(T_START_HEREDOC)) {
+        elseif ($token->is(T_START_HEREDOC)) {
             $job->inString = true;
         }
 
-        if ($token->is(T_END_HEREDOC)) {
+        elseif ($token->is(T_END_HEREDOC)) {
             $job->inString = false;
         }
 
-        if ($token->is(T_ROUND_BRACKET_OPEN) && ($job->forClauseDepth || $job->nextBraceOpensForClause)) {
-            $job->nextBraceOpensForClause = false;
+        elseif ($token->is(T_ROUND_BRACKET_OPEN)) {
+            if (($job->forClauseDepth || $job->nextBraceOpensForClause)) {
+                $job->nextBraceOpensForClause = false;
 
-            ++$job->forClauseDepth;
-        }
-
-        if ($token->is(T_ROUND_BRACKET_OPEN)) {
+                ++$job->forClauseDepth;
+            }
             ++$job->parenthesesDepth;
         }
 
-        if ($token->is(T_ROUND_BRACKET_CLOSE) && $job->forClauseDepth) {
+        elseif ($token->is(T_ROUND_BRACKET_CLOSE) && $job->forClauseDepth) {
             --$job->forClauseDepth;
         }
 
-        if ($token->is(T_CURLY_BRACKET_CLOSE)
-                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-                && !$job->matchState->matchClauseDepth) {
+        elseif ($token->is(T_CURLY_BRACKET_CLOSE)
+            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+            && !$job->matchState->matchClauseDepth) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
 
-        if ($token->is(T_DOUBLE_ARROW) && $job->matchState->matchClauseDepth) {
+        elseif ($token->is(T_DOUBLE_ARROW) && $job->matchState->matchClauseDepth) {
             $job->matchState->nextCommaAtThisDepthEndsStatement = $job->parenthesesDepth;
         }
 
-        if ($token->is(T_COMMA)) {
+        elseif ($token->is(T_COMMA)) {
             if ($job->matchState->nextCommaAtThisDepthEndsStatement === $job->parenthesesDepth) {
                 // Next token starts on a new line
                 $job->startNewStatementBeforeNext = true;
@@ -201,25 +209,17 @@ readonly class StructureFinder
             }
         }
 
-        if ($token->is(T_MATCH)) {
+        elseif ($token->is(T_MATCH)) {
             $job->matchState->nextBraceOpensMatchClause = true;
         }
 
-        if ($token->is(T_SWITCH)) {
+        elseif ($token->is(T_SWITCH)) {
             $job->switchBlockDepths[$job->blockDepth + 1] = $job->parenthesesDepth;
         }
 
-        if ($token->is(T_CURLY_BRACKET_OPEN)
-                && $this->curlyBraceOpenRelatedToBlocks($job, $token)
-                && ($job->matchState->matchClauseDepth || $job->matchState->nextBraceOpensMatchClause)) {
-            $job->matchState->nextBraceOpensMatchClause = false;
-
-            ++$job->matchState->matchClauseDepth;
-        }
-
-        if ($token->is(T_CURLY_BRACKET_CLOSE)
-                && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-                && $job->matchState->matchClauseDepth) {
+        elseif ($token->is(T_CURLY_BRACKET_CLOSE)
+            && $this->curlyBraceCloseRelatedToBlocks($job, $token)
+            && $job->matchState->matchClauseDepth) {
             --$job->matchState->matchClauseDepth;
         }
 
@@ -229,7 +229,7 @@ readonly class StructureFinder
     private function curlyBraceOpenRelatedToBlocks(StructureFinder\Job $job, Token $token): bool
     {
         if ($token->previous
-                && $token->previous->is([T_OBJECT_OPERATOR, T_VARIABLE, T_SQUARE_BRACKET_CLOSE, T_NULLSAFE_OBJECT_OPERATOR])) {
+            && $token->previous->is(self::NON_BLOCK_CURLY_BRACE_PREFIXES)) {
             return false;
         }
 
@@ -248,8 +248,8 @@ readonly class StructureFinder
     private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void
     {
         if ($job->typeDeclarationState->inArguments
-                && $token->next
-                && $token->is($this->tokenGroups->typeDeclarationTypes())) {
+            && $token->next
+            && $token->is($this->tokenGroups->typeDeclarationTypes())) {
             $token->inTypeDeclaration = true;
         }
 
