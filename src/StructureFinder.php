@@ -125,7 +125,7 @@ readonly class StructureFinder
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
-        elseif ($token->is(T_SEMICOLON) && !$job->forClauseDepth) {
+        elseif ($job->forClauseDepth === 0 && $token->is(T_SEMICOLON)) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
             $job->inUseStatement = false;
@@ -187,18 +187,18 @@ readonly class StructureFinder
 
             ++$job->parenthesesDepth;
         }
-        elseif ($token->is(T_ROUND_BRACKET_CLOSE) && $job->forClauseDepth) {
+        elseif ($job->forClauseDepth && $token->is(T_ROUND_BRACKET_CLOSE)) {
             --$job->forClauseDepth;
         }
         elseif (
             $token->is(T_CURLY_BRACKET_CLOSE)
             && $this->curlyBraceCloseRelatedToBlocks($job, $token)
-            && !$job->matchState->matchClauseDepth
+            && $job->matchState->matchClauseDepth === 0
         ) {
             // Next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
-        elseif ($token->is(T_DOUBLE_ARROW) && $job->matchState->matchClauseDepth) {
+        elseif ($job->matchState->matchClauseDepth && $token->is(T_DOUBLE_ARROW)) {
             $job->matchState->nextCommaAtThisDepthEndsStatement = $job->parenthesesDepth;
         }
         elseif ($token->is(T_COMMA)) {
