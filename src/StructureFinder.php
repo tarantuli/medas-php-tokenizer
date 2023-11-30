@@ -245,7 +245,10 @@ readonly class StructureFinder
 
     private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void
     {
-        if ($job->typeDeclarationState->inArguments && $token->next && $token->is($this->typeDeclarationTypes)) {
+        if ($job->typeDeclarationState->inArguments
+                && !$token->inAttribute
+                && $token->next
+                && $token->is($this->typeDeclarationTypes)) {
             $token->inTypeDeclaration = true;
         }
 
@@ -272,7 +275,7 @@ readonly class StructureFinder
             $job->typeDeclarationState->nextBracesIsArguments = false;
         }
 
-        if ($job->typeDeclarationState->inArguments && $token->is(T_ROUND_BRACKET_CLOSE)) {
+        if ($job->typeDeclarationState->inArguments && !$token->inAttribute && $token->is(T_ROUND_BRACKET_CLOSE)) {
             $job->typeDeclarationState->inArguments = false;
 
             if ($token->next && $token->next->is(T_COLON)) {
