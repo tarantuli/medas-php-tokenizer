@@ -9,6 +9,13 @@ use Medas\Core\Attributes\Service;
 #[Service]
 class TokenGroups
 {
+    public function __construct(
+        AdditionalTokensDefiner $additionalTokensDefiner,
+    )
+    {
+        $additionalTokensDefiner->define();
+    }
+
     public function texts(): array
     {
         return array_merge(
