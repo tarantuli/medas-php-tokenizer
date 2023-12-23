@@ -13,6 +13,17 @@ class Block implements \IteratorAggregate
     {
     }
 
+    public function __debugInfo()
+    {
+        $elements = [];
+
+        foreach ($this->elements as $element) {
+            $elements[] = sprintf('%s', $element::class);
+        }
+
+        return $elements;
+    }
+
     /**
      * foreach ($block) returns the statements in this block, recursively.
      * Be careful to use $statement->block and not $block itself.
@@ -54,13 +65,6 @@ class Block implements \IteratorAggregate
         return $previous;
     }
 
-    private function getIndex(Statement $statement): int|null
-    {
-        $index = array_search($statement, $this->elements, true);
-
-        return false === $index ? null : $index;
-    }
-
     public function getNextStatement(Statement $statement): Statement|null
     {
         $index = $this->getIndex($statement);
@@ -89,17 +93,6 @@ class Block implements \IteratorAggregate
     public function lastStatement(): Statement|Block|null
     {
         return $this->elements[count($this->elements) - 1] ?? null;
-    }
-
-    public function __debugInfo()
-    {
-        $elements = [];
-
-        foreach ($this->elements as $element) {
-            $elements[] = sprintf('%s', $element::class);
-        }
-
-        return $elements;
     }
 
     public function moveStatementAfter(Statement $statement, Statement $after): void
@@ -133,5 +126,12 @@ class Block implements \IteratorAggregate
         $index = $this->getIndex($before);
 
         array_splice($this->elements, $index, 0, [$statement]);
+    }
+
+    private function getIndex(Statement $statement): int|null
+    {
+        $index = array_search($statement, $this->elements, true);
+
+        return false === $index ? null : $index;
     }
 }

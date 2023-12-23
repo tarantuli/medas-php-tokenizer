@@ -31,6 +31,13 @@ class BlockDumper
         $this->printer->printEol();
     }
 
+    private function printBlock(Block $block): void
+    {
+        foreach ($block as $statement) {
+            $this->printStatement($statement);
+        }
+    }
+
     public function dumpStatement(Statement $statement): void
     {
         if (!$this->printer) {
@@ -41,13 +48,6 @@ class BlockDumper
 
         $this->printStatement($statement);
         $this->printer->printEol();
-    }
-
-    private function printBlock(Block $block): void
-    {
-        foreach ($block as $statement) {
-            $this->printStatement($statement);
-        }
     }
 
     public function printStatement(Statement $statement): void
