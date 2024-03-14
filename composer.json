@@ -1,6 +1,9 @@
 {
     "name": "morphp/medas-php-tokenizer",
     "description": "Medas PHP tokenizer",
+    "keywords": [
+        "backend"
+    ],
     "authors": [
         {
             "name": "Patrick Morpey",
