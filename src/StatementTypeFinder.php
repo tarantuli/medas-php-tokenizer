@@ -137,7 +137,7 @@ readonly class StatementTypeFinder
             return StatementTypes\EnumCase::instance();
         }
 
-        if ($firstToken->is(T_DEFAULT) && !$secondToken->is(T_DOUBLE_ARROW)) {
+        if ($firstToken->is(T_DEFAULT) && $secondToken && !$secondToken->is(T_DOUBLE_ARROW)) {
             // A default followed by a double arrow is a match branch
             return StatementTypes\SwitchBranch::instance();
         }
