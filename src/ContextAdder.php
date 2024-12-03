@@ -76,7 +76,7 @@ readonly class ContextAdder
             foreach ($statement as $token) {
                 $token->context = $context;
 
-                if ($statementType instanceof StatementTypes\FunctionDeclaration) {
+                if (!$token->inAttribute && $statementType instanceof StatementTypes\FunctionDeclaration) {
                     // The context of the following tokens may change
                     if ($token->is(T_ROUND_BRACKET_OPEN)) {
                         ++$openParentheses;
