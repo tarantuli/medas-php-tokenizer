@@ -222,12 +222,18 @@ readonly class StructureFinder
             --$job->matchState->matchClauseDepth;
         }
 
+        if ($token->is(T_CURLY_BRACKET_CLOSE) && !$this->curlyBraceCloseRelatedToBlocks($job, $token)) {
+            $job->inNonBlockCurlyBrace = false;
+        }
+
         $this->typeDeclarationChecks($job, $token);
     }
 
     private function curlyBraceOpenRelatedToBlocks(StructureFinder\Job $job, Token $token): bool
     {
         if ($token->previous && $token->previous->is(self::NON_BLOCK_CURLY_BRACE_PREFIXES)) {
+            $job->inNonBlockCurlyBrace = true;
+
             return false;
         }
 
@@ -240,7 +246,7 @@ readonly class StructureFinder
             return false;
         }
 
-        return !$job->inUseStatement && !$job->inString;
+        return !$job->inUseStatement && !$job->inString && !$job->inNonBlockCurlyBrace;
     }
 
     private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void

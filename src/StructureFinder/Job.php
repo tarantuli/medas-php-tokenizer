@@ -14,6 +14,7 @@ class Job
     public int $parenthesesDepth = 0;
     public bool $inString = false;
     public bool $inAttribute = false;
+    public bool $inNonBlockCurlyBrace = false;
     public int $inAttributeBracketDepth = 0;
     public bool $inUseStatement = false;
     public array $openBlocks = [];
