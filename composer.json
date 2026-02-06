@@ -1,31 +1,30 @@
 {
-    "name": "morphp/medas-php-tokenizer",
-    "description": "Medas PHP tokenizer",
-    "keywords": [
-        "backend"
-    ],
-    "authors": [
-        {
-            "name": "Patrick Morpey",
-            "email": "patrick@morphp.nl"
-        }
-    ],
-    "type": "library",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {
-        "morphp/medas-console": "dev-dev",
-        "morphp/medas-core": "dev-dev"
-    },
-    "require-dev": {
-        "morphp/medas-service-manager": "dev-dev",
-        "morphp/medas-console-printer": "dev-dev",
-        "phpunit/phpunit": "^9.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Medas\\PhpTokenizer\\": "src/",
-            "Medas\\PhpTokenizerTest\\": "tests/"
-        }
+  "name": "morphp/medas-php-tokenizer",
+  "description": "Medas PHP tokenizer",
+  "version": "2.0.0",
+  "keywords": [
+    "backend"
+  ],
+  "authors": [
+    {
+      "name": "Patrick Morpey",
+      "email": "patrick@morphp.nl"
     }
+  ],
+  "type": "library",
+  "require": {
+    "morphp/medas-console": "^2",
+    "morphp/medas-core": "^2"
+  },
+  "require-dev": {
+    "morphp/medas-service-manager": "^2",
+    "morphp/medas-console-printer": "^2",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Medas\\PhpTokenizer\\": "src/",
+      "Medas\\PhpTokenizerTest\\": "tests/"
+    }
+  }
 }
