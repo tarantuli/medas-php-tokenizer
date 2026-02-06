@@ -9,7 +9,7 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class StructureFinder
 {
-    private const NON_BLOCK_CURLY_BRACE_PREFIXES = [
+    private const array NON_BLOCK_CURLY_BRACE_PREFIXES = [
         T_OBJECT_OPERATOR,
         T_VARIABLE,
         T_SQUARE_BRACKET_CLOSE,

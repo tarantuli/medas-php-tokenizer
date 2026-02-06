@@ -9,7 +9,7 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class StatementTypeFinder
 {
-    private const VALID_FUNCTION_LEADERS = [
+    private const array VALID_FUNCTION_LEADERS = [
         T_ATTRIBUTE,
         T_COMMENT,
         T_DOC_COMMENT,

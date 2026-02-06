@@ -9,7 +9,7 @@ use Medas\Core\Attributes\Service;
 #[Service]
 class AdditionalTokensDefiner
 {
-    private const ADDITIONAL_TOKENS = [
+    private const array ADDITIONAL_TOKENS = [
         'T_AMPERSAND' => '&',
         'T_ASSIGNMENT' => '=',
         'T_ASTERISK' => '*',

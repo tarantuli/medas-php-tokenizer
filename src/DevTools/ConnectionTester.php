@@ -11,7 +11,7 @@ use Medas\PhpTokenizer\{Exceptions\TokensAreNotWellConnected, Statement};
 readonly class ConnectionTester
 {
     /**
-     * This method checks whether the tokens in the given statement all refer to the correct neighbours via $previous
+     * This method checks whether the tokens in the given statement all refer to the correct neighbors via $previous
      * and $next.
      */
     public function check(Statement $statement): void

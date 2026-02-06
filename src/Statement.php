@@ -158,35 +158,17 @@ class Statement implements \IteratorAggregate
 
     public function firstNonCommentToken(): Token|null
     {
-        foreach ($this->tokens as $token) {
-            if (!$token->is([T_DOC_COMMENT, T_COMMENT])) {
-                return $token;
-            }
-        }
-
-        return null;
+        return array_find($this->tokens, fn($token) => !$token->is([T_DOC_COMMENT, T_COMMENT]));
     }
 
     public function containsType(array|int|string $type): bool
     {
-        foreach ($this->tokens as $token) {
-            if ($token->is($type)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->tokens, fn($token) => $token->is($type));
     }
 
     public function findToken(array|int|string $type): Token|null
     {
-        foreach ($this->tokens as $token) {
-            if ($token->is($type)) {
-                return $token;
-            }
-        }
-
-        return null;
+        return array_find($this->tokens, fn($token) => $token->is($type));
     }
 
     public function getTokenAfter(Token $token): Token|null
