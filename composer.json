@@ -1,7 +1,6 @@
 {
   "name": "morphp/medas-php-tokenizer",
   "description": "Medas PHP tokenizer",
-  "version": "2.0.1",
   "keywords": [
     "backend"
   ],
@@ -13,14 +12,14 @@
   ],
   "type": "library",
   "require": {
-    "morphp/medas-console": "^2",
-    "morphp/medas-core": "^2",
+    "morphp/medas-console": "^3",
+    "morphp/medas-core": "^3",
     "php": "^8.4"
   },
   "require-dev": {
-    "morphp/medas-service-manager": "^2",
-    "morphp/medas-console-printer": "^2",
-    "phpunit/phpunit": "^9.5"
+    "morphp/medas-service-manager": "^3",
+    "morphp/medas-console-printer": "^3",
+    "phpunit/phpunit": "^10"
   },
   "autoload": {
     "psr-4": {

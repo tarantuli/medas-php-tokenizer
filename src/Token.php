@@ -24,7 +24,7 @@ class Token extends \PhpToken
             'id' => $this->id,
             'text' => $this->text,
             'line' => $this->line,
-            'column ' => $this->pos,
+            'column' => $this->pos,
             'block' => isset($this->block) ? spl_object_id($this->block) : null,
             'statement' => isset($this->statement) ? spl_object_id($this->statement) : null,
             'inString' => $this->inString,

@@ -46,14 +46,19 @@ readonly class StructureFinder
 
     private function removeWhitespace(TokenCollection $tokens): void
     {
-        $counter = 0;
+        $indicesToRemove = [];
+        $i = 0;
 
         foreach ($tokens as $token) {
-            ++$counter;
-
             if ($token->is(T_WHITESPACE)) {
-                $tokens->remove(--$counter);
+                $indicesToRemove[] = $i;
             }
+
+            ++$i;
+        }
+
+        foreach (array_reverse($indicesToRemove) as $index) {
+            $tokens->remove($index);
         }
     }
 
@@ -122,11 +127,11 @@ readonly class StructureFinder
         }
 
         if ($token->is([T_OPEN_TAG])) {
-            // Next token starts on a new line
+            // The next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
         elseif ($job->forClauseDepth === 0 && $token->is(T_SEMICOLON)) {
-            // Next token starts on a new line
+            // The next token starts on a new line
             $job->startNewStatementBeforeNext = true;
             $job->inUseStatement = false;
         }
@@ -141,7 +146,7 @@ readonly class StructureFinder
             // Store the current open block
             $job->openBlocks[] = $job->block;
 
-            // Next token starts in a new block
+            // The next token starts in a new block
             $newBlock = new Block(++$job->blockDepth, $job->statement);
 
             $job->block->appendBlock($newBlock);
@@ -156,7 +161,7 @@ readonly class StructureFinder
             }
         }
         elseif ($token->is(T_ATTRIBUTE)) {
-            // Next token is in an attribute
+            // The next token is in an attribute
             $job->inAttribute = true;
         }
         elseif ($token->is(T_DOUBLE_QUOTE)) {
@@ -165,7 +170,7 @@ readonly class StructureFinder
                 $job->ignoreNextDoubleQuote = false;
             }
             else {
-                // Next token is in a string
+                // The next token is in a string
                 $job->inString = true;
             }
         }
@@ -195,7 +200,7 @@ readonly class StructureFinder
             && $this->curlyBraceCloseRelatedToBlocks($job, $token)
             && $job->matchState->matchClauseDepth === 0
         ) {
-            // Next token starts on a new line
+            // The next token starts on a new line
             $job->startNewStatementBeforeNext = true;
         }
         elseif ($job->matchState->matchClauseDepth && $token->is(T_DOUBLE_ARROW)) {
@@ -203,7 +208,7 @@ readonly class StructureFinder
         }
         elseif ($token->is(T_COMMA)) {
             if ($job->matchState->nextCommaAtThisDepthEndsStatement === $job->parenthesesDepth) {
-                // Next token starts on a new line
+                // The next token starts on a new line
                 $job->startNewStatementBeforeNext = true;
                 $job->matchState->nextCommaAtThisDepthEndsStatement = null;
             }

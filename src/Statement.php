@@ -100,7 +100,7 @@ class Statement implements \IteratorAggregate
     public function removeToken(Token $token): void
     {
         if (false === $i = array_search($token, $this->tokens, true)) {
-            throw new Exceptions\TokenNotFoundinStatementException($token, $this);
+            throw new Exceptions\TokenNotFoundInStatementException($token, $this);
         }
 
         unset($this->tokens[$i]);
@@ -125,7 +125,7 @@ class Statement implements \IteratorAggregate
     public function insertTokenAfter(Token $token, Token $after): void
     {
         if (false === $i = array_search($after, $this->tokens, true)) {
-            throw new Exceptions\TokenNotFoundinStatementException($token, $this);
+            throw new Exceptions\TokenNotFoundInStatementException($after, $this);
         }
 
         $token->block = $after->block;
@@ -174,7 +174,7 @@ class Statement implements \IteratorAggregate
     public function getTokenAfter(Token $token): Token|null
     {
         if (false === $i = array_search($token, $this->tokens, true)) {
-            throw new Exceptions\TokenNotFoundinStatementException($token, $this);
+            throw new Exceptions\TokenNotFoundInStatementException($token, $this);
         }
 
         return $this->tokens[$i + 1] ?? null;

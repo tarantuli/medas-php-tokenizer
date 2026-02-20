@@ -18,12 +18,7 @@ class TokenGroups
 
     public function texts(): array
     {
-        return array_merge(
-            $this->keywords(),
-            $this->typeOperators(),
-            $this->casts(),
-            $this->languageConstructs()
-        );
+        return array_merge($this->keywords(), $this->casts(), $this->languageConstructs());
     }
 
     public function keywords(): array

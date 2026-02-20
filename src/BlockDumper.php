@@ -52,6 +52,10 @@ class BlockDumper
 
     public function printStatement(Statement $statement): void
     {
+        if (!$this->printer) {
+            throw new Exceptions\NoConsolePrinterFoundException();
+        }
+
         // Start of line
         $this->printer->printEol()
             ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizer;
 
-class TokenCollection implements \IteratorAggregate
+class TokenCollection implements \IteratorAggregate, \Countable
 {
     /** @var Token[] */
     private array $tokens = [];
@@ -51,6 +51,16 @@ class TokenCollection implements \IteratorAggregate
                 $this->tokens[$index]->previous = null;
             }
         }
+    }
+
+    public function count(): int
+    {
+        return count($this->tokens);
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->tokens === [];
     }
 
     public function sourceHash(): string

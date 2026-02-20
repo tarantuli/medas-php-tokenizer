@@ -7,7 +7,7 @@ namespace Medas\PhpTokenizer\Exceptions;
 use Medas\Core\Exceptions\BaseException;
 use Medas\PhpTokenizer\{Statement, Token};
 
-class TokenNotFoundinStatementException extends BaseException
+class TokenNotFoundInStatementException extends BaseException
 {
     public function __construct(Token $token, Statement $statement)
     {

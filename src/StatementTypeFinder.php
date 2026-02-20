@@ -80,10 +80,10 @@ readonly class StatementTypeFinder
         }
 
         if ($firstToken->is(T_USE)) {
-            if ($secondToken->is(T_FUNCTION)) {
+            if ($secondToken && $secondToken->is(T_FUNCTION)) {
                 return StatementTypes\UseFunctionStatement::instance();
             }
-            elseif ($secondToken->is(T_CONST)) {
+            elseif ($secondToken && $secondToken->is(T_CONST)) {
                 return StatementTypes\UseConstStatement::instance();
             }
 
