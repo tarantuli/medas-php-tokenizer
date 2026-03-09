@@ -20,9 +20,12 @@ readonly class StructureFinder
     private array $visibilityKeywords;
 
     public function __construct(
-        private TokenGroups $tokenGroups,
+        private TokenGroups     $tokenGroups,
+        AdditionalTokensDefiner $additionalTokensDefiner,
     )
     {
+        $additionalTokensDefiner->define();
+
         $this->typeDeclarationTypes = $this->tokenGroups->typeDeclarationTypes();
         $this->visibilityKeywords = $this->tokenGroups->visibilityKeywords();
     }
