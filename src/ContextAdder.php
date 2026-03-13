@@ -85,9 +85,8 @@ readonly class ContextAdder
                     }
 
                     if ($token->is(T_ROUND_BRACKET_CLOSE)) {
-                        $token->context = Contexts\MethodDeclaration::instance();
-
                         if (--$openParentheses === 0) {
+                            $token->context = Contexts\MethodDeclaration::instance();
                             $context = Contexts\MethodReturnType::instance();
                         }
                     }
