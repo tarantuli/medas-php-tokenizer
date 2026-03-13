@@ -106,8 +106,11 @@ class TokenGroups
     {
         return [
             T_PRIVATE,
+            T_PRIVATE_SET,
             T_PROTECTED,
+            T_PROTECTED_SET,
             T_PUBLIC,
+            T_PUBLIC_SET,
         ];
     }
 
@@ -323,6 +326,7 @@ class TokenGroups
             T_CURLY_OPEN,
             T_DOLLAR_OPEN_CURLY_BRACES,
             T_NUM_STRING,
+            T_PROPERTY_C,
             T_VARIABLE,
         ];
     }

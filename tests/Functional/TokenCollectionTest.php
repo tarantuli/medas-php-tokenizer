@@ -18,6 +18,7 @@ class TokenCollectionTest extends TestCase
             self::assertEquals('<?php', $token->text);
             self::assertEquals(1, $token->line);
             self::assertEquals(0, $token->pos);
+
             break;
         }
     }
