@@ -39,6 +39,7 @@ readonly class StructureFinder
         $tree = new Block($job->blockDepth, null);
         $job->block = $tree;
         $job->statement = $job->block->appendNewStatement();
+        $tree->opener = $job->statement;
 
         foreach ($tokens as $token) {
             $this->process($job, $token);
