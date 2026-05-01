@@ -11,6 +11,7 @@ readonly class StructureFinder
 {
     private const array NON_BLOCK_CURLY_BRACE_PREFIXES = [
         T_OBJECT_OPERATOR,
+
         // T_VARIABLE was here to handle the $arr{key} syntax, removed in PHP 8.0.
         // PHP 8.4 property hooks use $name { get => ...; set => ...; } which must be treated as a block.
         T_SQUARE_BRACKET_CLOSE,

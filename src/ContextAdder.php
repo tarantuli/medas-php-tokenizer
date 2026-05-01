@@ -81,7 +81,14 @@ readonly class ContextAdder
                 // If it ends in a semicolon, it's an abstract or interface declaration
                 // If it ends in a curly bracket open, a body will follow
                 if ($statement->lastToken()->is(T_CURLY_BRACKET_OPEN)) {
-                    $nextStatementIsMethodBody = true;
+                    // If the token before { is a variable (e.g. "$name {"), the { opens a promoted
+                    // property hook block, not the function body itself.
+                    if ($statement->getToken(-2)?->is(T_VARIABLE)) {
+                        $nextStatementIsPropertyHook = true;
+                    }
+                    else {
+                        $nextStatementIsMethodBody = true;
+                    }
                 }
 
                 $openParentheses = 0;
@@ -95,6 +102,18 @@ readonly class ContextAdder
                     && !$statementType instanceof StatementTypes\ClassDeclaration
                     && $statement->containsType(T_VARIABLE)) {
                 $nextStatementIsPropertyHook = true;
+            }
+
+            // Detect a constructor body opener that follows promoted property hook blocks.
+            // After all promoted hook blocks close, the remaining ", ) {" opens the method body.
+            if ($context instanceof Contexts\ClassBody
+                    && $statement->lastToken()->is(T_CURLY_BRACKET_OPEN)
+                    && !$statementType instanceof StatementTypes\FunctionDeclaration
+                    && !$statementType instanceof StatementTypes\ClassDeclaration
+                    && !$statementType instanceof StatementTypes\ClassPropertyDeclaration
+                    && $statement->containsType(T_ROUND_BRACKET_CLOSE)
+                    && !$statement->containsType(T_VARIABLE)) {
+                $nextStatementIsMethodBody = true;
             }
 
             foreach ($statement as $token) {
