@@ -22,6 +22,8 @@ readonly class ContextAdder
         $classBodyDepth = null;
         $nextStatementIsClassBody = false;
         $nextStatementIsMethodBody = false;
+        $nextStatementIsPropertyHook = false;
+        $propertyHookDepth = null;
 
         foreach ($tree->statements() as $statement) {
             if ($statement->block->depth === $globalScopeDepth) {
@@ -30,6 +32,12 @@ readonly class ContextAdder
             }
 
             if ($statement->block->depth === $classBodyDepth) {
+                $context = Contexts\ClassBody::instance();
+            }
+
+            // Exit property hook context when we return to the depth that contains the declaration
+            if ($propertyHookDepth !== null && $statement->block->depth < $propertyHookDepth) {
+                $propertyHookDepth = null;
                 $context = Contexts\ClassBody::instance();
             }
 
@@ -42,6 +50,12 @@ readonly class ContextAdder
             if ($nextStatementIsMethodBody) {
                 $context = Contexts\MethodBody::instance();
                 $nextStatementIsMethodBody = false;
+            }
+
+            if ($nextStatementIsPropertyHook) {
+                $context = Contexts\PropertyHook::instance();
+                $propertyHookDepth = $statement->block->depth;
+                $nextStatementIsPropertyHook = false;
             }
 
             $statementType = $this->typeFinder->for($statement);
@@ -71,6 +85,16 @@ readonly class ContextAdder
                 }
 
                 $openParentheses = 0;
+            }
+
+            // Detect a property hook declaration: class body statement ending with {, containing a
+            // variable, but not a function (which would be a method declaration)
+            if ($context instanceof Contexts\ClassBody
+                    && $statement->lastToken()->is(T_CURLY_BRACKET_OPEN)
+                    && !$statementType instanceof StatementTypes\FunctionDeclaration
+                    && !$statementType instanceof StatementTypes\ClassDeclaration
+                    && $statement->containsType(T_VARIABLE)) {
+                $nextStatementIsPropertyHook = true;
             }
 
             foreach ($statement as $token) {
