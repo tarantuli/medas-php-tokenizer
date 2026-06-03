@@ -78,12 +78,11 @@ readonly class ContextAdder
                     ? Contexts\MethodDeclaration::instance()
                     : Contexts\FunctionDeclaration::instance();
 
-                // If it ends in a semicolon, it's an abstract or interface declaration
-                // If it ends in a curly bracket open, a body will follow
+                // If it ends in a semicolon, it's an abstract or interface declaration.
+                // If it ends in a curly bracket open, determine whether it's a promoted property
+                // hook or a regular function body by walking back from the {.
                 if ($statement->lastToken()->is(T_CURLY_BRACKET_OPEN)) {
-                    // If the token before { is a variable (e.g. "$name {"), the { opens a promoted
-                    // property hook block, not the function body itself.
-                    if ($statement->getToken(-2)?->is(T_VARIABLE)) {
+                    if ($this->isPromotedPropertyHookOpener($statement)) {
                         $nextStatementIsPropertyHook = true;
                     }
                     else {
@@ -136,5 +135,42 @@ readonly class ContextAdder
                 }
             }
         }
+    }
+
+    private function isPromotedPropertyHookOpener(Statement $statement): bool
+    {
+        // Walk backwards from the opening { to determine whether it opens a promoted
+        // property hook block or the regular function body.
+        // A function body { is always preceded (possibly through return type tokens) by ).
+        // A promoted hook { is preceded by a variable name or a default value.
+        $token = $statement->lastToken();
+
+        while ($token = $token->previous) {
+            if ($token->is(T_ROUND_BRACKET_CLOSE)) {
+                return false;
+            }
+
+            // Return type tokens — skip past them and keep looking
+            if ($token->is([
+                T_STRING,
+                T_ARRAY,
+                T_CALLABLE,
+                T_STATIC,
+                T_COLON,
+                T_PIPE,
+                T_NAME_FULLY_QUALIFIED,
+                T_NAME_QUALIFIED,
+                T_NAME_RELATIVE,
+                T_QUESTION_MARK
+            ])) {
+                continue;
+            }
+
+            // Anything else (T_VARIABLE, string literal, number, etc.) means the
+            // { directly follows a promoted property name or its default value.
+            return true;
+        }
+
+        return true;
     }
 }

@@ -11,7 +11,7 @@ class Token extends \PhpToken
     public bool $inString = false;
     public bool $inAttribute = false;
     public bool $inTypeDeclaration = false;
-    public Contexts\Context $context;
+    public Contexts\Context|null $context = null;
     public bool $spaceAfter = false;
     public bool $lineBreakAfter = false;
     public int $extraSpacesAfter = 0;
