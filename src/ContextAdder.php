@@ -24,6 +24,7 @@ readonly class ContextAdder
         $nextStatementIsMethodBody = false;
         $nextStatementIsPropertyHook = false;
         $propertyHookDepth = null;
+        $openParentheses = 0;
 
         foreach ($tree->statements() as $statement) {
             if ($statement->block->depth === $globalScopeDepth) {

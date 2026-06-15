@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizer;
 
-use Medas\Console\{Formats\BgColor, Formats\Color, Formats\HexColor, Printer};
+use Medas\Console\{Formats\BgColor, Formats\HexColor, Formats\SafeColor, Printer};
 use Medas\Core\Attributes\Service;
 
 #[Service]
@@ -60,7 +60,7 @@ class BlockDumper
         $this->printer->printEol()
             ->printText(sprintf('%3s', $this->line++), new HexColor('#ff8700'))
             ->printText(' ')
-            ->printText(str_repeat(' ', $statement->block->depth), Color::LightGray);
+            ->printText(str_repeat(' ', $statement->block->depth), SafeColor::LightGray);
 
         if ($statement->additionalDepth) {
             $this->printer->printText(
@@ -80,10 +80,10 @@ class BlockDumper
 
         if (!$statementType instanceof StatementTypes\GenericStatement) {
             if ($statement->rootStatement !== null) {
-                $this->printer->printText('↩ ', Color::Blue);
+                $this->printer->printText('↩ ', SafeColor::Blue);
             }
             else {
-                $this->printer->printText('«' . $statementType . '» ', Color::Blue);
+                $this->printer->printText('«' . $statementType . '» ', SafeColor::Blue);
             }
         }
 
@@ -94,7 +94,7 @@ class BlockDumper
 
     private function printToken(int $index, Token $token): void
     {
-        $this->printer->printText((string) $index, Color::Blue)
+        $this->printer->printText((string) $index, SafeColor::Blue)
             ->printText('·');
 
         if (isset($token->context)) {
@@ -135,11 +135,11 @@ class BlockDumper
 
             if (strlen($parts[2])) {
                 if (preg_match('/^(.+?)[\r\n]/', $parts[2], $prefix)) {
-                    $this->printer->printText($prefix[1], Color::LightGray);
-                    $this->printer->printText('⋯', Color::White);
+                    $this->printer->printText($prefix[1], SafeColor::LightGray);
+                    $this->printer->printText('⋯', SafeColor::White);
                 }
                 else {
-                    $this->printer->printText($parts[2], Color::LightGray);
+                    $this->printer->printText($parts[2], SafeColor::LightGray);
                 }
             }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizer;
 
-use Medas\Core\{AsSingleton, BasePackage, Interfaces\ServiceConfig};
+use Medas\Core\{AsSingleton, BasePackage, Interfaces\ServiceConfigBuilder};
 
 class PhpTokenizerPackage extends BasePackage
 {
@@ -20,7 +20,7 @@ class PhpTokenizerPackage extends BasePackage
         return __DIR__;
     }
 
-    public function initialize(ServiceConfig $config): void
+    public function initialize(ServiceConfigBuilder $config): void
     {
         require_once __DIR__ . '/GlobalFunctions.php';
 
