@@ -101,7 +101,7 @@ class Block implements \IteratorAggregate
         $this->insertStatementAfter($statement, $after);
     }
 
-    public function removeStatement(Statement $statement, bool $deleteTokens = false): void
+    public function removeStatement(Statement|Block $statement, bool $deleteTokens = false): void
     {
         $index = $this->getIndex($statement);
 
@@ -128,7 +128,7 @@ class Block implements \IteratorAggregate
         array_splice($this->elements, $index, 0, [$statement]);
     }
 
-    private function getIndex(Statement $statement): int|null
+    private function getIndex(Statement|Block $statement): int|null
     {
         $index = array_search($statement, $this->elements, true);
 
