@@ -26,4 +26,16 @@ class PhpTokenizerPackage extends BasePackage
 
         parent::initialize($config);
     }
+
+    /**
+     * The additional token constants are used in class constants (e.g. in StructureFinder), which PHP evaluates when
+     * the first instance is created. Services are injected as lazy objects, so the constructors that also define them
+     * may not have run by then: define them up front instead.
+     */
+    public function ready(): void
+    {
+        parent::ready();
+
+        new AdditionalTokensDefiner()->define();
+    }
 }
