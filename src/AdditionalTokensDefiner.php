@@ -27,7 +27,7 @@ class AdditionalTokensDefiner
         'T_MINUS' => '-',
         'T_MOD' => '%',
         'T_MORE_THAN' => '>',
-        'T_PIPE' => '|',
+        'T_VERTICAL_BAR' => '|',
         'T_PLUS' => '+',
         'T_QUESTION_MARK' => '?',
         'T_ROUND_BRACKET_CLOSE' => ')',
