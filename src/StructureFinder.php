@@ -105,6 +105,7 @@ readonly class StructureFinder
                 if ($job->inAttributeBracketDepth === 0) {
                     // This token closes an attribute
                     $job->inAttribute = false;
+                    $token->closesAttribute = true;
                 }
                 else {
                     --$job->inAttributeBracketDepth;
