@@ -1,0 +1,85 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    Person  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 ClassPropertyDeclaration
+    public  T_PUBLIC  | @ClassBody
+    string  T_STRING  | @ClassBody T
+    $fullName  T_VARIABLE  | @ClassBody
+    {  | @ClassBody
+d2 GenericStatement
+    get  T_STRING  | @PropertyHook
+    =>  T_DOUBLE_ARROW  | @PropertyHook
+    $this  T_VARIABLE  | @PropertyHook
+    ->  T_OBJECT_OPERATOR  | @PropertyHook
+    first  T_STRING  | @PropertyHook
+    .  | @PropertyHook
+    ' '  T_CONSTANT_ENCAPSED_STRING  | @PropertyHook
+    .  | @PropertyHook
+    $this  T_VARIABLE  | @PropertyHook
+    ->  T_OBJECT_OPERATOR  | @PropertyHook
+    last  T_STRING  | @PropertyHook
+    ;  | @PropertyHook
+d1 BlockCloser
+    }  | @ClassBody
+d1 ClassPropertyDeclaration
+    public  T_PUBLIC  | @ClassBody
+    string  T_STRING  | @ClassBody T
+    $email  T_VARIABLE  | @ClassBody
+    {  | @ClassBody
+d2 GenericStatement
+    set  T_STRING  | @PropertyHook
+    (  | @PropertyHook
+    string  T_STRING  | @PropertyHook
+    $value  T_VARIABLE  | @PropertyHook
+    )  | @PropertyHook
+    {  | @PropertyHook
+d3 GenericStatement
+    $this  T_VARIABLE  | @PropertyHook
+    ->  T_OBJECT_OPERATOR  | @PropertyHook
+    email  T_STRING  | @PropertyHook
+    =  | @PropertyHook
+    strtolower  T_STRING  | @PropertyHook
+    (  | @PropertyHook
+    $value  T_VARIABLE  | @PropertyHook
+    )  | @PropertyHook
+    ;  | @PropertyHook
+d2 BlockCloser
+    }  | @PropertyHook
+d1 BlockCloser
+    }  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    __construct  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    public  T_PUBLIC  | @MethodParameters
+    string  T_STRING  | @MethodParameters T
+    $first  T_VARIABLE  | @MethodParameters
+    {  | @MethodParameters
+d2 GenericStatement
+    set  T_STRING  | @PropertyHook
+    =>  T_DOUBLE_ARROW  | @PropertyHook
+    ucfirst  T_STRING  | @PropertyHook
+    (  | @PropertyHook
+    $value  T_VARIABLE  | @PropertyHook
+    )  | @PropertyHook
+    ;  | @PropertyHook
+d1 BlockCloser
+    }  | @ClassBody
+d1 ClassPropertyDeclaration
+    ,  | @ClassBody
+    public  T_PUBLIC  | @ClassBody
+    string  T_STRING  | @ClassBody T
+    $last  T_VARIABLE  | @ClassBody
+    =  | @ClassBody
+    ''  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
+    ,  | @ClassBody
+    )  | @ClassBody
+    {  | @ClassBody
+d1 BlockCloser
+    }  | @PropertyHook
+d0 BlockCloser
+    }  | @ClassBody

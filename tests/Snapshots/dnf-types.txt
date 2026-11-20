@@ -1,0 +1,65 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    Repository  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 ClassPropertyDeclaration
+    private  T_PRIVATE  | @ClassBody
+    (  | @ClassBody
+    Countable  T_STRING  | @ClassBody T
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @ClassBody
+    Iterator  T_STRING  | @ClassBody T
+    )  | @ClassBody
+    |  | @ClassBody T
+    null  T_STRING  | @ClassBody T
+    $items  T_VARIABLE  | @ClassBody
+    =  | @ClassBody
+    null  T_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    find  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    (  | @MethodParameters
+    A  T_STRING  | @MethodParameters T
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
+    B  T_STRING  | @MethodParameters T
+    )  | @MethodParameters
+    |  | @MethodParameters T
+    C  T_STRING  | @MethodParameters T
+    $criteria  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    (  | @MethodReturnType
+    X  T_STRING  | @MethodParameters
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
+    Y  T_STRING  | @MethodParameters
+    )  | @MethodDeclaration
+    |  | @MethodReturnType
+    false  T_STRING  | @MethodReturnType
+    {  | @MethodReturnType
+d2 ReturnStatement
+    return  T_RETURN  | @MethodBody
+    false  T_STRING  | @MethodBody
+    ;  | @MethodBody
+d1 BlockCloser
+    }  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    intersection  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    Countable  T_STRING  | @MethodParameters T
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
+    ArrayAccess  T_STRING  | @MethodParameters T
+    $value  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    void  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d0 BlockCloser
+    }  | @GlobalScope

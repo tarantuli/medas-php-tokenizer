@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Medas\ConsolePrinter\ConsolePrinterPackage;
-use Medas\ObjectInstantiator\ObjectInstantiator;
+use Medas\ObjectInstantiator\{ObjectInstantiator, ObjectInstantiatorPackage};
 use Medas\PhpTokenizer\PhpTokenizerPackage;
 use Medas\ServiceManager\{ServiceConfigBuilder, ServiceManager};
 
@@ -15,6 +15,7 @@ new ServiceManager(function (): ServiceConfigBuilder {
     $config->addPackages([
         PhpTokenizerPackage::instance(),
         ConsolePrinterPackage::instance(),
+        ObjectInstantiatorPackage::instance(),
     ]);
 
     return $config;

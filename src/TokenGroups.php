@@ -116,7 +116,7 @@ class TokenGroups
 
     public function casts(): array
     {
-        return [
+        $casts = [
             T_ARRAY_CAST,
             T_BOOL_CAST,
             T_DOUBLE_CAST,
@@ -125,6 +125,13 @@ class TokenGroups
             T_STRING_CAST,
             T_UNSET_CAST,
         ];
+
+        // The (void) cast was added in PHP 8.5
+        if (defined('T_VOID_CAST')) {
+            $casts[] = T_VOID_CAST;
+        }
+
+        return $casts;
     }
 
     public function languageConstructs(): array
@@ -145,7 +152,7 @@ class TokenGroups
 
     public function symbolOperators(): array
     {
-        return array_merge(
+        $operators = array_merge(
             $this->arithmicOperators(),
             $this->assignmentOperators(),
             $this->bitwiseOperators(),
@@ -168,6 +175,13 @@ class TokenGroups
                 T_SEMICOLON,
             ],
         );
+
+        // The pipe operator |> was added in PHP 8.5
+        if (defined('T_PIPE')) {
+            $operators[] = T_PIPE;
+        }
+
+        return $operators;
     }
 
     public function arithmicOperators(): array

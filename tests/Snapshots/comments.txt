@@ -1,0 +1,37 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 FunctionDeclaration
+    // A line comment  T_COMMENT  | @FunctionDeclaration
+    # A hash comment  T_COMMENT  | @FunctionDeclaration
+    /*\n * A block comment\n */  T_COMMENT  | @FunctionDeclaration
+    /**\n * A doc comment\n *\n * @param int $x\n */  T_DOC_COMMENT  | @FunctionDeclaration
+    function  T_FUNCTION  | @FunctionDeclaration
+    documented  T_STRING  | @FunctionDeclaration
+    (  | @FunctionDeclaration
+    int  T_STRING  | @MethodParameters T
+    $x  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    void  T_STRING  | @MethodReturnType T
+    // Trailing comment  T_COMMENT  | @MethodReturnType
+    {  | @MethodReturnType
+d1 GenericStatement
+    $y  T_VARIABLE  | @PropertyHook
+    =  | @PropertyHook
+    1  T_LNUMBER  | @PropertyHook
+    ;  | @PropertyHook
+d1 GenericStatement
+    /* inline block comment */  T_COMMENT  | @PropertyHook
+    $z  T_VARIABLE  | @PropertyHook
+    =  | @PropertyHook
+    [  | @PropertyHook
+    // Comment in an array  T_COMMENT  | @PropertyHook
+    1  T_LNUMBER  | @PropertyHook
+    ,  | @PropertyHook
+    2  T_LNUMBER  | @PropertyHook
+    ,  | @PropertyHook
+    // Trailing comment in an array  T_COMMENT  | @PropertyHook
+    ]  | @PropertyHook
+    ;  | @PropertyHook
+d0 BlockCloser
+    }  | @ClassBody

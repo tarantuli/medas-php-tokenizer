@@ -1,0 +1,74 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 GenericStatement
+    $value  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    $object  T_VARIABLE  | @GlobalScope
+    ->  T_OBJECT_OPERATOR  | @GlobalScope
+    {  | @GlobalScope
+    $property  T_VARIABLE  | @GlobalScope
+    }  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    $result  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    $object  T_VARIABLE  | @GlobalScope
+    ->  T_OBJECT_OPERATOR  | @GlobalScope
+    {  | @GlobalScope
+    'method'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    .  | @GlobalScope
+    $suffix  T_VARIABLE  | @GlobalScope
+    }  | @GlobalScope
+    (  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    $static  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    Foo  T_STRING  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $method  T_VARIABLE  | @GlobalScope
+    }  | @GlobalScope
+    (  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d1 GenericStatement
+    $class  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    $className  T_VARIABLE  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    create  T_STRING  | @GlobalScope
+    (  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d1 GenericStatement
+    $variable  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    $  | @GlobalScope
+    $name  T_VARIABLE  | @GlobalScope
+    ;  | @GlobalScope
+d1 GenericStatement
+    $constant  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    Foo  T_STRING  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    {  | @GlobalScope
+d2 GenericStatement
+    $constantName  T_VARIABLE  | @GlobalScope
+d1 BlockCloser
+    }  | @GlobalScope
+d1 GenericStatement
+    ;  | @GlobalScope
+d1 GenericStatement
+    $array  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    $items  T_VARIABLE  | @GlobalScope
+    [  | @GlobalScope
+    $key  T_VARIABLE  | @GlobalScope
+    ]  | @GlobalScope
+    [  | @GlobalScope
+    'nested'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ]  | @GlobalScope
+    ;  | @GlobalScope

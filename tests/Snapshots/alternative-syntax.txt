@@ -1,0 +1,58 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ControlStatement
+    if  T_IF  | @GlobalScope
+    (  | @GlobalScope
+    $a  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    :  | @GlobalScope
+    $b  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    1  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 ControlStatement
+    elseif  T_ELSEIF  | @GlobalScope
+    (  | @GlobalScope
+    $c  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    :  | @GlobalScope
+    $b  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    2  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 ControlStatement
+    else  T_ELSE  | @GlobalScope
+    :  | @GlobalScope
+    $b  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    3  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    endif  T_ENDIF  | @GlobalScope
+    ;  | @GlobalScope
+d0 ControlStatement
+    foreach  T_FOREACH  | @GlobalScope
+    (  | @GlobalScope
+    $items  T_VARIABLE  | @GlobalScope
+    as  T_AS  | @GlobalScope
+    $item  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    :  | @GlobalScope
+    echo  T_ECHO  | @GlobalScope
+    $item  T_VARIABLE  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    endforeach  T_ENDFOREACH  | @GlobalScope
+    ;  | @GlobalScope
+d0 ControlStatement
+    while  T_WHILE  | @GlobalScope
+    (  | @GlobalScope
+    $x  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    :  | @GlobalScope
+    $x  T_VARIABLE  | @GlobalScope
+    --  T_DEC  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    endwhile  T_ENDWHILE  | @GlobalScope
+    ;  | @GlobalScope

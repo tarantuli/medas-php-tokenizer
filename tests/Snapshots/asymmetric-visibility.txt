@@ -1,0 +1,34 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    Account  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 ClassPropertyDeclaration
+    public  T_PUBLIC  | @ClassBody
+    private(set)  T_PRIVATE_SET  | @ClassBody
+    int  T_STRING  | @ClassBody T
+    $balance  T_VARIABLE  | @ClassBody
+    =  | @ClassBody
+    0  T_LNUMBER  | @ClassBody
+    ;  | @ClassBody
+d1 ClassPropertyDeclaration
+    public  T_PUBLIC  | @ClassBody
+    protected(set)  T_PROTECTED_SET  | @ClassBody
+    string  T_STRING  | @ClassBody T
+    $owner  T_VARIABLE  | @ClassBody
+    ;  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    __construct  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    private(set)  T_PRIVATE_SET  | @MethodParameters
+    string  T_STRING  | @MethodParameters T
+    $id  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d0 BlockCloser
+    }  | @GlobalScope

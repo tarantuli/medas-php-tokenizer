@@ -1,0 +1,71 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 GenericStatement
+    $single  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    'it\'s {$not} interpolated'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    $double  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    "  | @GlobalScope
+    Hello   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    $name  T_VARIABLE  | @GlobalScope S
+    , you have   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    {  T_CURLY_OPEN  | @GlobalScope S
+    $count  T_VARIABLE  | @GlobalScope S
+    }  | @GlobalScope S
+     new   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    {  T_CURLY_OPEN  | @GlobalScope S
+    $items  T_VARIABLE  | @GlobalScope S
+    [  | @GlobalScope S
+    'type'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope S
+    ]  | @GlobalScope S
+    }  | @GlobalScope S
+    s and   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    {  T_CURLY_OPEN  | @GlobalScope S
+    $user  T_VARIABLE  | @GlobalScope S
+    ->  T_OBJECT_OPERATOR  | @GlobalScope S
+    name  T_STRING  | @GlobalScope S
+    (  | @GlobalScope S
+    )  | @GlobalScope S
+    }  | @GlobalScope S
+    "  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    $dollarBrace  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    "  | @GlobalScope
+    Value:   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    ${  T_DOLLAR_OPEN_CURLY_BRACES  | @GlobalScope S
+    value  T_STRING_VARNAME  | @GlobalScope S
+    }  | @GlobalScope S
+    "  | @GlobalScope
+    ;  | @GlobalScope
+d0 GenericStatement
+    $heredoc  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    <<<TEXT\n  T_START_HEREDOC  | @GlobalScope
+        Dear   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    {  T_CURLY_OPEN  | @GlobalScope S
+    $user  T_VARIABLE  | @GlobalScope S
+    ->  T_OBJECT_OPERATOR  | @GlobalScope S
+    name  T_STRING  | @GlobalScope S
+    }  | @GlobalScope S
+    ,\n    Total:   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+    $total  T_VARIABLE  | @GlobalScope S
+    \n  T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+        TEXT  T_END_HEREDOC  | @GlobalScope S
+    ;  | @GlobalScope
+d0 GenericStatement
+    $nowdoc  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    <<<'TEXT'\n  T_START_HEREDOC  | @GlobalScope
+        No {$interpolation} here\n  T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
+        TEXT  T_END_HEREDOC  | @GlobalScope S
+    ;  | @GlobalScope
+d0 GenericStatement
+    $escaped  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    "Tab\tand \"quotes\" and \$dollar"  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ;  | @GlobalScope

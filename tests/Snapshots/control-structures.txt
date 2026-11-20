@@ -1,0 +1,162 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ControlStatement
+    if  T_IF  | @GlobalScope
+    (  | @GlobalScope
+    $a  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $b  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    1  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    elseif  T_ELSEIF  | @GlobalScope
+    (  | @GlobalScope
+    $c  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $b  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    2  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    else  T_ELSE  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $b  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    3  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    for  T_FOR  | @GlobalScope
+    (  | @GlobalScope
+    $i  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    0  T_LNUMBER  | @GlobalScope
+    ,  | @GlobalScope
+    $j  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    10  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+    $i  T_VARIABLE  | @GlobalScope
+    <  | @GlobalScope
+    $j  T_VARIABLE  | @GlobalScope
+    ;  | @GlobalScope
+    $i  T_VARIABLE  | @GlobalScope
+    ++  T_INC  | @GlobalScope
+    ,  | @GlobalScope
+    $j  T_VARIABLE  | @GlobalScope
+    --  T_DEC  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    continue  T_CONTINUE  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    foreach  T_FOREACH  | @GlobalScope
+    (  | @GlobalScope
+    $items  T_VARIABLE  | @GlobalScope
+    as  T_AS  | @GlobalScope
+    $key  T_VARIABLE  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    $value  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    break  T_BREAK  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    while  T_WHILE  | @GlobalScope
+    (  | @GlobalScope
+    $x  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $x  T_VARIABLE  | @GlobalScope
+    --  T_DEC  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    do  T_DO  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $y  T_VARIABLE  | @GlobalScope
+    ++  T_INC  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    while  T_WHILE  | @GlobalScope
+    (  | @GlobalScope
+    $y  T_VARIABLE  | @GlobalScope
+    <  | @GlobalScope
+    10  T_LNUMBER  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d0 ControlStatement
+    try  T_TRY  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    risky  T_STRING  | @GlobalScope
+    (  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    catch  T_CATCH  | @GlobalScope
+    (  | @GlobalScope
+    FirstException  T_STRING  | @GlobalScope
+    |  | @GlobalScope
+    SecondException  T_STRING  | @GlobalScope
+    $e  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    report  T_STRING  | @GlobalScope
+    (  | @GlobalScope
+    $e  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    catch  T_CATCH  | @GlobalScope
+    (  | @GlobalScope
+    \Throwable  T_NAME_FULLY_QUALIFIED  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 GenericStatement
+    finally  T_FINALLY  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    cleanUp  T_STRING  | @GlobalScope
+    (  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ControlStatement
+    if  T_IF  | @GlobalScope
+    (  | @GlobalScope
+    $short  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    echo  T_ECHO  | @GlobalScope
+    'short'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ;  | @GlobalScope

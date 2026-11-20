@@ -1,0 +1,44 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 NamespaceDeclaration
+    namespace  T_NAMESPACE  | @GlobalScope
+    First  T_STRING  | @GlobalScope
+    {  | @GlobalScope
+d1 UseClassStatement
+    use  T_USE  | @GlobalScope
+    Some\Thing  T_NAME_QUALIFIED  | @GlobalScope
+    ;  | @GlobalScope
+d1 ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    A  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 BlockCloser
+    }  | @ClassBody
+d0 BlockCloser
+    }  | @ClassBody
+d0 NamespaceDeclaration
+    namespace  T_NAMESPACE  | @ClassBody
+    Second  T_STRING  | @ClassBody
+    {  | @ClassBody
+d1 FunctionDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    helper  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    void  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d0 BlockCloser
+    }  | @MethodBody
+d0 NamespaceDeclaration
+    namespace  T_NAMESPACE  | @MethodBody
+    {  | @MethodBody
+d1 GenericStatement
+    $global  T_VARIABLE  | @ClassBody
+    =  | @ClassBody
+    true  T_STRING  | @ClassBody
+    ;  | @ClassBody
+d0 BlockCloser
+    }  | @ClassBody

@@ -1,0 +1,129 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 GenericStatement
+    $label  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    match  T_MATCH  | @GlobalScope
+    (  | @GlobalScope
+    $status  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    Status  T_STRING  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    Active  T_STRING  | @GlobalScope
+    ,  | @GlobalScope
+    Status  T_STRING  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    Pending  T_STRING  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    'open'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ,  | @GlobalScope
+d1 GenericStatement
+    Status  T_STRING  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    Closed  T_STRING  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    'closed'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ,  | @GlobalScope
+d1 GenericStatement
+    default  T_DEFAULT  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    throw  T_THROW  | @GlobalScope
+    new  T_NEW  | @GlobalScope
+    UnexpectedValueException  T_STRING  | @GlobalScope
+    (  | @GlobalScope
+    )  | @GlobalScope
+    ,  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+    ;  | @GlobalScope
+d0 ControlStatement
+    switch  T_SWITCH  | @GlobalScope
+    (  | @GlobalScope
+    $type  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 SwitchBranch
+    case  T_CASE  | @GlobalScope
+    'a'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    :  | @GlobalScope
+d1 SwitchBranch
+    case  T_CASE  | @GlobalScope
+    'b'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    :  | @GlobalScope
+d1 GenericStatement
+    $x  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    1  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d1 GenericStatement
+    break  T_BREAK  | @GlobalScope
+    ;  | @GlobalScope
+d1 SwitchBranch
+    case  T_CASE  | @GlobalScope
+    Foo  T_STRING  | @GlobalScope
+    ::  T_DOUBLE_COLON  | @GlobalScope
+    BAR  T_STRING  | @GlobalScope
+    :  | @GlobalScope
+d1 GenericStatement
+    $x  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    $y  T_VARIABLE  | @GlobalScope
+    ?  | @GlobalScope
+    2  T_LNUMBER  | @GlobalScope
+    :  | @GlobalScope
+d1 GenericStatement
+    3  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d1 GenericStatement
+    break  T_BREAK  | @GlobalScope
+    ;  | @GlobalScope
+d1 SwitchBranch
+    default  T_DEFAULT  | @GlobalScope
+    :  | @GlobalScope
+d1 GenericStatement
+    $x  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    0  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+d0 GenericStatement
+    $nested  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    match  T_MATCH  | @GlobalScope
+    (  | @GlobalScope
+    true  T_STRING  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d1 GenericStatement
+    $a  T_VARIABLE  | @GlobalScope
+    >  | @GlobalScope
+    1  T_LNUMBER  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    match  T_MATCH  | @GlobalScope
+    (  | @GlobalScope
+    $b  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    {  | @GlobalScope
+d2 GenericStatement
+    1  T_LNUMBER  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    'one'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ,  | @GlobalScope
+d2 GenericStatement
+    default  T_DEFAULT  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    'many'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ,  | @GlobalScope
+d1 BlockCloser
+    }  | @GlobalScope
+    ,  | @GlobalScope
+    default  T_DEFAULT  | @GlobalScope
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    'none'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
+    ,  | @GlobalScope
+d0 BlockCloser
+    }  | @GlobalScope
+    ;  | @GlobalScope

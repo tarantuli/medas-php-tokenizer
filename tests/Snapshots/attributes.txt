@@ -1,0 +1,120 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ClassDeclaration
+    #[  T_ATTRIBUTE  | @ClassDeclaration
+    Entity  T_STRING  | @ClassDeclaration A
+    ]  | @ClassDeclaration A ]A
+    #[  T_ATTRIBUTE  | @ClassDeclaration
+    Table  T_STRING  | @ClassDeclaration A
+    (  | @ClassDeclaration A
+    name  T_STRING  | @ClassDeclaration A
+    :  | @ClassDeclaration A
+    'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A
+    ,  | @ClassDeclaration A
+    options  T_STRING  | @ClassDeclaration A
+    :  | @ClassDeclaration A
+    [  | @ClassDeclaration A
+    'charset'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A
+    =>  T_DOUBLE_ARROW  | @ClassDeclaration A
+    'utf8'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A
+    ]  | @ClassDeclaration A
+    )  | @ClassDeclaration A
+    ]  | @ClassDeclaration A ]A
+    class  T_CLASS  | @ClassDeclaration
+    User  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 ClassPropertyDeclaration
+    #[  T_ATTRIBUTE  | @ClassBody
+    Column  T_STRING  | @ClassBody A
+    (  | @ClassBody A
+    type  T_STRING  | @ClassBody A
+    :  | @ClassBody A
+    Types  T_STRING  | @ClassBody A
+    ::  T_DOUBLE_COLON  | @ClassBody A
+    STRING  T_STRING  | @ClassBody A
+    ,  | @ClassBody A
+    length  T_STRING  | @ClassBody A
+    :  | @ClassBody A
+    255  T_LNUMBER  | @ClassBody A
+    )  | @ClassBody A
+    ]  | @ClassBody A ]A
+    public  T_PUBLIC  | @ClassBody
+    string  T_STRING  | @ClassBody T
+    $name  T_VARIABLE  | @ClassBody
+    ;  | @ClassBody
+d1 FunctionDeclaration
+    #[  T_ATTRIBUTE  | @MethodDeclaration
+    Route  T_STRING  | @MethodDeclaration A
+    (  | @MethodDeclaration A
+    '/users/{id}'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A
+    ,  | @MethodDeclaration A
+    methods  T_STRING  | @MethodDeclaration A
+    :  | @MethodDeclaration A
+    [  | @MethodDeclaration A
+    'GET'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A
+    ]  | @MethodDeclaration A
+    )  | @MethodDeclaration A
+    ]  | @MethodDeclaration A ]A
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    show  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    #[  T_ATTRIBUTE  | @MethodParameters
+    FromRoute  T_STRING  | @MethodParameters A
+    ]  | @MethodParameters A ]A
+    int  T_STRING  | @MethodParameters T
+    $id  T_VARIABLE  | @MethodParameters
+    ,  | @MethodParameters
+    #[  T_ATTRIBUTE  | @MethodParameters
+    Inject  T_STRING  | @MethodParameters A
+    (  | @MethodParameters A
+    Logger  T_STRING  | @MethodParameters A
+    ::  T_DOUBLE_COLON  | @MethodParameters A
+    class  T_STRING  | @MethodParameters A
+    )  | @MethodParameters A
+    ]  | @MethodParameters A ]A
+    Logger  T_STRING  | @MethodParameters T
+    $logger  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    void  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d1 FunctionDeclaration
+    #[  T_ATTRIBUTE  | @MethodDeclaration
+    First  T_STRING  | @MethodDeclaration A
+    ,  | @MethodDeclaration A
+    Second  T_STRING  | @MethodDeclaration A
+    (  | @MethodDeclaration A
+    1  T_LNUMBER  | @MethodDeclaration A
+    )  | @MethodDeclaration A
+    ]  | @MethodDeclaration A ]A
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    multiple  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    void  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d0 BlockCloser
+    }  | @GlobalScope
+d0 GenericStatement
+    $fn  T_VARIABLE  | @GlobalScope
+    =  | @GlobalScope
+    #[  T_ATTRIBUTE  | @GlobalScope
+    Pure  T_STRING  | @GlobalScope A
+    ]  | @GlobalScope A ]A
+    fn  T_FN  | @GlobalScope
+    (  | @GlobalScope
+    int  T_STRING  | @GlobalScope T
+    $x  T_VARIABLE  | @GlobalScope
+    )  | @GlobalScope
+    :  | @GlobalScope
+    int  T_STRING  | @GlobalScope T
+    =>  T_DOUBLE_ARROW  | @GlobalScope
+    $x  T_VARIABLE  | @GlobalScope
+    ;  | @GlobalScope

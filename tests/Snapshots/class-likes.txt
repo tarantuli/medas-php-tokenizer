@@ -1,0 +1,191 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 ClassDeclaration
+    interface  T_INTERFACE  | @ClassDeclaration
+    Shape  T_STRING  | @ClassDeclaration
+    extends  T_EXTENDS  | @ClassDeclaration
+    Countable  T_STRING  | @ClassDeclaration
+    ,  | @ClassDeclaration
+    Stringable  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    area  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    float  T_STRING  | @MethodReturnType T
+    ;  | @MethodReturnType
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ClassDeclaration
+    trait  T_TRAIT  | @ClassDeclaration
+    Greets  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 FunctionDeclaration
+    abstract  T_ABSTRACT  | @MethodDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    name  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    string  T_STRING  | @MethodReturnType T
+    ;  | @MethodReturnType
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    greet  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    string  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d2 ReturnStatement
+    return  T_RETURN  | @MethodBody
+    'Hello '  T_CONSTANT_ENCAPSED_STRING  | @MethodBody
+    .  | @MethodBody
+    $this  T_VARIABLE  | @MethodBody
+    ->  T_OBJECT_OPERATOR  | @MethodBody
+    name  T_STRING  | @MethodBody
+    (  | @MethodBody
+    )  | @MethodBody
+    ;  | @MethodBody
+d1 BlockCloser
+    }  | @ClassBody
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ClassDeclaration
+    abstract  T_ABSTRACT  | @ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    Base  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 UseTraitStatement
+    use  T_USE  | @ClassBody
+    Greets  T_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 UseTraitStatement
+    use  T_USE  | @ClassBody
+    Logs  T_STRING  | @ClassBody
+    ,  | @ClassBody
+    Caches  T_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 FunctionDeclaration
+    abstract  T_ABSTRACT  | @MethodDeclaration
+    protected  T_PROTECTED  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    build  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    static  T_STATIC  | @MethodReturnType
+    ;  | @MethodReturnType
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ClassDeclaration
+    enum  T_ENUM  | @ClassDeclaration
+    Status  T_STRING  | @ClassDeclaration
+    :  | @ClassDeclaration
+    string  T_STRING  | @ClassDeclaration
+    implements  T_IMPLEMENTS  | @ClassDeclaration
+    HasLabel  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 EnumCase
+    case  T_CASE  | @ClassBody
+    Active  T_STRING  | @ClassBody
+    =  | @ClassBody
+    'active'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 EnumCase
+    case  T_CASE  | @ClassBody
+    Inactive  T_STRING  | @ClassBody
+    =  | @ClassBody
+    'inactive'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 ClassConstDeclaration
+    const  T_CONST  | @ClassBody
+    DEFAULT  T_STRING  | @ClassBody
+    =  | @ClassBody
+    self  T_STRING  | @ClassBody
+    ::  T_DOUBLE_COLON  | @ClassBody
+    Active  T_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    label  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    string  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d2 ReturnStatement
+    return  T_RETURN  | @MethodBody
+    ucfirst  T_STRING  | @MethodBody
+    (  | @MethodBody
+    $this  T_VARIABLE  | @MethodBody
+    ->  T_OBJECT_OPERATOR  | @MethodBody
+    value  T_STRING  | @MethodBody
+    )  | @MethodBody
+    ;  | @MethodBody
+d1 BlockCloser
+    }  | @ClassBody
+d0 BlockCloser
+    }  | @GlobalScope
+d0 ClassDeclaration
+    $anonymous  T_VARIABLE  | @ClassDeclaration
+    =  | @ClassDeclaration
+    new  T_NEW  | @ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    (  | @ClassDeclaration
+    1  T_LNUMBER  | @ClassDeclaration
+    )  | @ClassDeclaration
+    extends  T_EXTENDS  | @ClassDeclaration
+    Base  T_STRING  | @ClassDeclaration
+    implements  T_IMPLEMENTS  | @ClassDeclaration
+    Shape  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    __construct  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    public  T_PUBLIC  | @MethodParameters
+    int  T_STRING  | @MethodParameters T
+    $x  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d0 BlockCloser
+    }  | @GlobalScope
+d0 GenericStatement
+    ;  | @GlobalScope
+d0 ClassDeclaration
+    readonly  T_READONLY  | @ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    Point  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    __construct  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    public  T_PUBLIC  | @MethodParameters
+    int  T_STRING  | @MethodParameters T
+    $x  T_VARIABLE  | @MethodParameters
+    =  | @MethodParameters
+    0  T_LNUMBER  | @MethodParameters
+    ,  | @MethodParameters
+    public  T_PUBLIC  | @MethodParameters
+    int  T_STRING  | @MethodParameters T
+    $y  T_VARIABLE  | @MethodParameters
+    =  | @MethodParameters
+    0  T_LNUMBER  | @MethodParameters
+    )  | @MethodDeclaration
+    {  | @MethodReturnType
+d1 BlockCloser
+    }  | @MethodBody
+d0 BlockCloser
+    }  | @GlobalScope

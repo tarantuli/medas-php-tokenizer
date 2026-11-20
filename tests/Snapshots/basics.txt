@@ -1,0 +1,112 @@
+d0 PhpOpenTag
+    <?php  T_OPEN_TAG  | @GlobalScope
+d0 DeclareStatement
+    declare  T_DECLARE  | @GlobalScope
+    (  | @GlobalScope
+    strict_types  T_STRING  | @GlobalScope
+    =  | @GlobalScope
+    1  T_LNUMBER  | @GlobalScope
+    )  | @GlobalScope
+    ;  | @GlobalScope
+d0 NamespaceDeclaration
+    namespace  T_NAMESPACE  | @GlobalScope
+    App\Models  T_NAME_QUALIFIED  | @GlobalScope
+    ;  | @GlobalScope
+d0 UseClassStatement
+    use  T_USE  | @GlobalScope
+    App\Contracts\HasName  T_NAME_QUALIFIED  | @GlobalScope
+    ;  | @GlobalScope
+d0 UseClassStatement
+    use  T_USE  | @GlobalScope
+    App\Support  T_NAME_QUALIFIED  | @GlobalScope
+    \  T_NS_SEPARATOR  | @GlobalScope
+    {  | @GlobalScope
+    Collection  T_STRING  | @GlobalScope
+    ,  | @GlobalScope
+    Str  T_STRING  | @GlobalScope
+    as  T_AS  | @GlobalScope
+    Strings  T_STRING  | @GlobalScope
+    }  | @GlobalScope
+    ;  | @GlobalScope
+d0 UseFunctionStatement
+    use  T_USE  | @GlobalScope
+    function  T_FUNCTION  | @GlobalScope
+    App\Support\helper  T_NAME_QUALIFIED  | @GlobalScope
+    ;  | @GlobalScope
+d0 UseConstStatement
+    use  T_USE  | @GlobalScope
+    const  T_CONST  | @GlobalScope
+    App\Support\VERSION  T_NAME_QUALIFIED  | @GlobalScope
+    ;  | @GlobalScope
+d0 ClassDeclaration
+    final  T_FINAL  | @ClassDeclaration
+    class  T_CLASS  | @ClassDeclaration
+    User  T_STRING  | @ClassDeclaration
+    extends  T_EXTENDS  | @ClassDeclaration
+    Model  T_STRING  | @ClassDeclaration
+    implements  T_IMPLEMENTS  | @ClassDeclaration
+    HasName  T_STRING  | @ClassDeclaration
+    {  | @ClassDeclaration
+d1 ClassConstDeclaration
+    public  T_PUBLIC  | @ClassBody
+    const  T_CONST  | @ClassBody
+    string  T_STRING  | @ClassBody
+    TABLE  T_STRING  | @ClassBody
+    =  | @ClassBody
+    'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
+    ;  | @ClassBody
+d1 ClassPropertyDeclaration
+    private  T_PRIVATE  | @ClassBody
+    static  T_STATIC  | @ClassBody
+    int  T_STRING  | @ClassBody T
+    $count  T_VARIABLE  | @ClassBody
+    =  | @ClassBody
+    0  T_LNUMBER  | @ClassBody
+    ;  | @ClassBody
+d1 ClassPropertyDeclaration
+    protected  T_PROTECTED  | @ClassBody
+    readonly  T_READONLY  | @ClassBody
+    array  T_ARRAY  | @ClassBody T
+    $roles  T_VARIABLE  | @ClassBody
+    ;  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    __construct  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    private  T_PRIVATE  | @MethodParameters
+    string  T_STRING  | @MethodParameters T
+    $name  T_VARIABLE  | @MethodParameters
+    ,  | @MethodParameters
+    int  T_STRING  | @MethodParameters T
+    ...  T_ELLIPSIS  | @MethodParameters
+    $ids  T_VARIABLE  | @MethodParameters
+    )  | @MethodDeclaration
+    {  | @MethodReturnType
+d2 GenericStatement
+    self  T_STRING  | @MethodBody
+    ::  T_DOUBLE_COLON  | @MethodBody
+    $count  T_VARIABLE  | @MethodBody
+    ++  T_INC  | @MethodBody
+    ;  | @MethodBody
+d1 BlockCloser
+    }  | @ClassBody
+d1 FunctionDeclaration
+    public  T_PUBLIC  | @MethodDeclaration
+    function  T_FUNCTION  | @MethodDeclaration
+    name  T_STRING  | @MethodDeclaration
+    (  | @MethodDeclaration
+    )  | @MethodDeclaration
+    :  | @MethodReturnType
+    string  T_STRING  | @MethodReturnType T
+    {  | @MethodReturnType
+d2 ReturnStatement
+    return  T_RETURN  | @MethodBody
+    $this  T_VARIABLE  | @MethodBody
+    ->  T_OBJECT_OPERATOR  | @MethodBody
+    name  T_STRING  | @MethodBody
+    ;  | @MethodBody
+d1 BlockCloser
+    }  | @ClassBody
+d0 BlockCloser
+    }  | @GlobalScope
