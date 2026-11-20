@@ -102,11 +102,15 @@ readonly class StatementBuilder implements TokenizerPass
                 --$state->matchClauseDepth;
             }
         }
-        elseif ($state->matchClauseDepth && $token->is(T_DOUBLE_ARROW)) {
-            $state->nextCommaAtThisDepthEndsStatement = $state->parenthesesDepth;
+        elseif ($state->matchClauseDepth
+                && $token->is(T_DOUBLE_ARROW)
+                && $state->nextCommaAtThisDepthEndsStatement === null) {
+            // The => of a match arm. A later one, like in "1 => ['a' => 1, 'b' => 2]", is part of the arm's value.
+            $state->nextCommaAtThisDepthEndsStatement = $token->bracketDepth;
         }
         elseif ($token->is(T_COMMA)) {
-            if ($state->nextCommaAtThisDepthEndsStatement === $state->parenthesesDepth) {
+            // Counting all brackets, so a comma inside "1 => [2, 3]" doesn't end the arm
+            if ($state->nextCommaAtThisDepthEndsStatement === $token->bracketDepth) {
                 // The comma ends a match arm
                 $state->startNewStatementBeforeNext = true;
                 $state->nextCommaAtThisDepthEndsStatement = null;
@@ -131,12 +135,22 @@ readonly class StatementBuilder implements TokenizerPass
         if ($state->matchClauseDepth || $type === BlockType::Match) {
             ++$state->matchClauseDepth;
         }
+
+        // A match in a match arm keeps the comma that will end the outer arm for after its }
+        if ($type === BlockType::Match) {
+            $state->outerMatchArmCommaDepths[] = $state->nextCommaAtThisDepthEndsStatement;
+            $state->nextCommaAtThisDepthEndsStatement = null;
+        }
     }
 
     private function closeBlock(StatementBuilderState $state): void
     {
         if ($state->statement->firstToken() === null) {
             $state->block->removeStatement($state->statement);
+        }
+
+        if ($state->block->type === BlockType::Match) {
+            $state->nextCommaAtThisDepthEndsStatement = array_pop($state->outerMatchArmCommaDepths);
         }
 
         $state->block = array_pop($state->openBlocks);

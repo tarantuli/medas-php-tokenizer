@@ -25,8 +25,11 @@ class StatementBuilderState
     // The number of blocks open inside a match, including the match itself
     public int $matchClauseDepth = 0;
 
-    // The parentheses depth of the => of the current match arm; the next comma at that depth ends the arm
+    // The bracket depth of the => of the current match arm; the next comma at that depth ends the arm
     public int|null $nextCommaAtThisDepthEndsStatement = null;
+
+    /** @var array<int|null> The pending arm comma depth of each match around a nested match, innermost last */
+    public array $outerMatchArmCommaDepths = [];
 
     /** @var Block[] The blocks around the current one, innermost last */
     public array $openBlocks = [];

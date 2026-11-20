@@ -119,6 +119,7 @@ d2 GenericStatement [Match]
 d1 BlockCloser [Match]
     }  | @GlobalScope #9 closes
     ,  | @GlobalScope nl:1
+d1 GenericStatement [Match]
     default  T_DEFAULT  | @GlobalScope sp:1
     =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'none'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope

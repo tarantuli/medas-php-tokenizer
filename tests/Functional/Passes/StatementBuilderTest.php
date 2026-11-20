@@ -18,6 +18,28 @@ class StatementBuilderTest extends PassTestCase
         );
     }
 
+    /**
+     * Only the comma after an arm's value ends the arm, not one inside the value's brackets, also with a match in it.
+     */
+    public function testMatchArmsWithArrays(): void
+    {
+        $job = $this->job(
+            '<?php $a = match ($b) { 1 => [$c, \'x\' => [1, 2]], 2 => match ($d) { 3 => [4, 5] }, default => [6] };'
+        );
+        $arms = array_map(
+            fn($statement) => implode(' ', array_map(fn($token) => $token->text, iterator_to_array($statement, false))),
+            iterator_to_array($this->token($job, '1')->block, false)
+        );
+
+        self::assertSame([
+            "1 => [ \$c , 'x' => [ 1 , 2 ] ] ,",
+            '2 => match ( $d ) {',
+            '3 => [ 4 , 5 ]',
+            '} ,',
+            'default => [ 6 ]',
+        ], $arms);
+    }
+
     public function testABlockKnowsWhatItIsInside(): void
     {
         $job = $this->job('<?php class A { function f() { if ($a) { $b = 1; } } }');
