@@ -20,4 +20,12 @@ enum DeclarationKind
     case Constant;
     case EnumCase;
     case TraitUse;
+
+    /**
+     * A class, interface, trait or enum.
+     */
+    public function isClassLike(): bool
+    {
+        return in_array($this, [self::Class_, self::Interface, self::Trait, self::Enum], true);
+    }
 }
