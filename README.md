@@ -40,6 +40,13 @@ A structured PHP tokenizer that wraps PHP's native `PhpToken::tokenize()` and en
 | `opensBlock`        | `BlockType\|null` | Set on a `{`, or an alternative syntax `:`, that opens a block |
 | `closesBlock`       | `bool`        | Set on a `}` that closes a block, and on `endif`, `else:` etc. |
 | `originalLineBreaksAfter` / `originalSpacesAfter` | `int` | The whitespace after the token in the source |
+| `typeDeclaration`   | `TypeDeclarationKind\|null` | Part of a parameter, return, property, constant or catch type, including DNF groups |
+| `role`              | `TokenRole\|null` | What `?`, `:`, `&` or `...` means here: ternary, nullable, named argument, by reference, … |
+| `isClassReference`  | `bool`        | A name that refers to a class, interface, trait or enum |
+
+`inTypeDeclaration` is deprecated: it is set on the same tokens as in 3.x, for compatibility. Use `typeDeclaration`.
+
+**Statement data:** `Statement::$declaration` is a `Declaration` with the kind (`Class_`, `Method`, `Property`, `Constant`, `EnumCase`, `TraitUse`, …), name and modifiers of what the statement declares; `Statement::$attributes` holds the `#[` of each attribute before it.
 
 **Tokenizer passes:**
 
@@ -51,7 +58,10 @@ A structured PHP tokenizer that wraps PHP's native `PhpToken::tokenize()` and en
 | `BracketMatcher`              | `Lexer`                       | `matchingBracket`, `inString`, `inAttribute`, `closesAttribute`   |
 | `BlockTypeResolver`           | `BracketMatcher`              | `opensBlock`, `closesBlock`, `bracketDepth`                       |
 | `StatementBuilder`            | `BlockTypeResolver`           | The statements and blocks of the `TokenTree`                      |
-| `LegacyTypeDeclarationMarker` | `BracketMatcher`              | `inTypeDeclaration` (until 4.0)                                   |
+| `TypeDeclarationMarker`       | `StatementBuilder`            | `typeDeclaration`, and the deprecated `inTypeDeclaration`         |
+| `RoleAssigner`                | `TypeDeclarationMarker`       | `role`                                                            |
+| `ClassReferenceMarker`        | `TypeDeclarationMarker`       | `isClassReference`                                                |
+| `DeclarationReader`           | `TypeDeclarationMarker`       | `Statement::$declaration`, `Statement::$attributes`               |
 | `ContextAdder`                | `StatementBuilder`            | `context`                                                         |
 
 `Block` and `Statement` keep the tokens linked when statements or tokens are inserted, moved or removed, and throw `StatementNotFoundInBlock` or `TokenNotFoundInStatementException` for a statement or token that isn't there. `TokenTree::assertConsistent()` checks the links, for use in tests.

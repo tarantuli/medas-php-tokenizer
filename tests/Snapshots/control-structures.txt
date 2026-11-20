@@ -120,9 +120,9 @@ d0 BlockCloser [File]
 d0 ControlStatement [File]
     catch  T_CATCH  | @GlobalScope sp:1
     (  | @GlobalScope #16
-    FirstException  T_STRING  | @GlobalScope b1 sp:1
-    |  | @GlobalScope b1 sp:1
-    SecondException  T_STRING  | @GlobalScope b1 sp:1
+    FirstException  T_STRING  | @GlobalScope type:Catch C b1 sp:1
+    |  | @GlobalScope type:Catch b1 sp:1
+    SecondException  T_STRING  | @GlobalScope type:Catch C b1 sp:1
     $e  T_VARIABLE  | @GlobalScope b1
     )  | @GlobalScope #16 sp:1
     {  | @GlobalScope #17 opens:Control nl:1
@@ -137,7 +137,7 @@ d0 BlockCloser [File]
 d0 ControlStatement [File]
     catch  T_CATCH  | @GlobalScope sp:1
     (  | @GlobalScope #19
-    \Throwable  T_NAME_FULLY_QUALIFIED  | @GlobalScope b1
+    \Throwable  T_NAME_FULLY_QUALIFIED  | @GlobalScope type:Catch C b1
     )  | @GlobalScope #19 sp:1
     {  | @GlobalScope #20 opens:Control nl:1
 d0 BlockCloser [File]

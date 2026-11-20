@@ -9,6 +9,12 @@ class Statement implements \IteratorAggregate
     public bool $blankLineAfter = false;
     public int $additionalDepth = 0;
 
+    // What this statement declares, if anything. Set by Passes\DeclarationReader.
+    public Declaration|null $declaration = null;
+
+    /** @var Token[] The #[ of each attribute before the declaration; the ] is its matchingBracket */
+    public array $attributes = [];
+
     // This property is not null when a single statement has been split up for formatting purposes
     public Statement|null $rootStatement = null;
     private StatementTypes\StatementType|null $type = null;

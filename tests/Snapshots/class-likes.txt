@@ -1,46 +1,46 @@
 d0 PhpOpenTag [File]
     <?php  T_OPEN_TAG  | @GlobalScope nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Interface Shape
     interface  T_INTERFACE  | @ClassDeclaration sp:1
     Shape  T_STRING  | @ClassDeclaration sp:1
     extends  T_EXTENDS  | @ClassDeclaration sp:1
-    Countable  T_STRING  | @ClassDeclaration
+    Countable  T_STRING  | @ClassDeclaration C
     ,  | @ClassDeclaration sp:1
-    Stringable  T_STRING  | @ClassDeclaration nl:1
+    Stringable  T_STRING  | @ClassDeclaration C nl:1
     {  | @ClassDeclaration #1 opens:ClassLike nl:1
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method area public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     area  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #2
     )  | @MethodDeclaration #2
-    :  | @MethodReturnType sp:1
-    float  T_STRING  | @MethodReturnType T
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    float  T_STRING  | @MethodReturnType T type:ReturnType
     ;  | @MethodReturnType nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #1 closes nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Trait Greets
     trait  T_TRAIT  | @ClassDeclaration sp:1
     Greets  T_STRING  | @ClassDeclaration nl:1
     {  | @ClassDeclaration #3 opens:ClassLike nl:1
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method name abstract public
     abstract  T_ABSTRACT  | @MethodDeclaration sp:1
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     name  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #4
     )  | @MethodDeclaration #4
-    :  | @MethodReturnType sp:1
-    string  T_STRING  | @MethodReturnType T
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    string  T_STRING  | @MethodReturnType T type:ReturnType
     ;  | @MethodReturnType nl:2
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method greet public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     greet  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #5
     )  | @MethodDeclaration #5
-    :  | @MethodReturnType sp:1
-    string  T_STRING  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    string  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #6 opens:Function nl:1
 d2 ReturnStatement [Function]
     return  T_RETURN  | @MethodBody sp:1
@@ -56,54 +56,54 @@ d1 BlockCloser [ClassLike]
     }  | @ClassBody #6 closes nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #3 closes nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Class_ Base abstract
     abstract  T_ABSTRACT  | @ClassDeclaration sp:1
     class  T_CLASS  | @ClassDeclaration sp:1
     Base  T_STRING  | @ClassDeclaration nl:1
     {  | @ClassDeclaration #8 opens:ClassLike nl:1
-d1 UseTraitStatement [ClassLike]
+d1 UseTraitStatement [ClassLike] TraitUse
     use  T_USE  | @ClassBody sp:1
-    Greets  T_STRING  | @ClassBody
+    Greets  T_STRING  | @ClassBody C
     ;  | @ClassBody nl:1
-d1 UseTraitStatement [ClassLike]
+d1 UseTraitStatement [ClassLike] TraitUse
     use  T_USE  | @ClassBody sp:1
-    Logs  T_STRING  | @ClassBody
+    Logs  T_STRING  | @ClassBody C
     ,  | @ClassBody sp:1
-    Caches  T_STRING  | @ClassBody
+    Caches  T_STRING  | @ClassBody C
     ;  | @ClassBody nl:2
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method build abstract protected
     abstract  T_ABSTRACT  | @MethodDeclaration sp:1
     protected  T_PROTECTED  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     build  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #9
     )  | @MethodDeclaration #9
-    :  | @MethodReturnType sp:1
-    static  T_STATIC  | @MethodReturnType
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    static  T_STATIC  | @MethodReturnType type:ReturnType
     ;  | @MethodReturnType nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #8 closes nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Enum Status
     enum  T_ENUM  | @ClassDeclaration sp:1
     Status  T_STRING  | @ClassDeclaration
-    :  | @ClassDeclaration sp:1
+    :  | @ClassDeclaration role:EnumBackingColon sp:1
     string  T_STRING  | @ClassDeclaration sp:1
     implements  T_IMPLEMENTS  | @ClassDeclaration sp:1
-    HasLabel  T_STRING  | @ClassDeclaration nl:1
+    HasLabel  T_STRING  | @ClassDeclaration C nl:1
     {  | @ClassDeclaration #10 opens:ClassLike nl:1
-d1 EnumCase [ClassLike]
+d1 EnumCase [ClassLike] EnumCase Active
     case  T_CASE  | @ClassBody sp:1
     Active  T_STRING  | @ClassBody sp:1
     =  | @ClassBody sp:1
     'active'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
     ;  | @ClassBody nl:1
-d1 EnumCase [ClassLike]
+d1 EnumCase [ClassLike] EnumCase Inactive
     case  T_CASE  | @ClassBody sp:1
     Inactive  T_STRING  | @ClassBody sp:1
     =  | @ClassBody sp:1
     'inactive'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
     ;  | @ClassBody nl:2
-d1 ClassConstDeclaration [ClassLike]
+d1 ClassConstDeclaration [ClassLike] Constant DEFAULT
     const  T_CONST  | @ClassBody sp:1
     DEFAULT  T_STRING  | @ClassBody sp:1
     =  | @ClassBody sp:1
@@ -111,14 +111,14 @@ d1 ClassConstDeclaration [ClassLike]
     ::  T_DOUBLE_COLON  | @ClassBody
     Active  T_STRING  | @ClassBody
     ;  | @ClassBody nl:2
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method label public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     label  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #11
     )  | @MethodDeclaration #11
-    :  | @MethodReturnType sp:1
-    string  T_STRING  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    string  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #12 opens:Function nl:1
 d2 ReturnStatement [Function]
     return  T_RETURN  | @MethodBody sp:1
@@ -142,17 +142,17 @@ d0 ClassDeclaration [File]
     1  T_LNUMBER  | @ClassDeclaration b1
     )  | @ClassDeclaration #14 sp:1
     extends  T_EXTENDS  | @ClassDeclaration sp:1
-    Base  T_STRING  | @ClassDeclaration sp:1
+    Base  T_STRING  | @ClassDeclaration C sp:1
     implements  T_IMPLEMENTS  | @ClassDeclaration sp:1
-    Shape  T_STRING  | @ClassDeclaration sp:1
+    Shape  T_STRING  | @ClassDeclaration C sp:1
     {  | @ClassDeclaration #15 opens:ClassLike nl:1
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method __construct public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     __construct  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #16
     public  T_PUBLIC  | @MethodParameters b1 sp:1
-    int  T_STRING  | @MethodParameters T b1 sp:1
+    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $x  T_VARIABLE  | @MethodParameters b1
     )  | @MethodDeclaration #16 nl:1
     {  | @MethodReturnType #17 opens:Function nl:1
@@ -162,24 +162,24 @@ d0 BlockCloser [File]
     }  | @GlobalScope #15 closes
 d0 GenericStatement [File]
     ;  | @GlobalScope nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Class_ Point readonly
     readonly  T_READONLY  | @ClassDeclaration sp:1
     class  T_CLASS  | @ClassDeclaration sp:1
     Point  T_STRING  | @ClassDeclaration nl:1
     {  | @ClassDeclaration #18 opens:ClassLike nl:1
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method __construct public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     __construct  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #19
     public  T_PUBLIC  | @MethodParameters b1 sp:1
-    int  T_STRING  | @MethodParameters T b1 sp:1
+    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $x  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     0  T_LNUMBER  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
     public  T_PUBLIC  | @MethodParameters b1 sp:1
-    int  T_STRING  | @MethodParameters T b1 sp:1
+    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $y  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     0  T_LNUMBER  | @MethodParameters b1

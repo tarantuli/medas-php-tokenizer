@@ -11,6 +11,7 @@ class Token extends \PhpToken
     public bool $inString = false;
     public bool $inAttribute = false;
     public bool $closesAttribute = false;
+    /** @deprecated Use $typeDeclaration, which also covers DNF groups, constants and catch */
     public bool $inTypeDeclaration = false;
     public Contexts\Context|null $context = null;
     public bool $spaceAfter = false;
@@ -25,6 +26,15 @@ class Token extends \PhpToken
     // The number of open brackets around this token, not counting the braces of blocks. A bracket has the depth of
     // the code around it, not of the code inside it.
     public int $bracketDepth = 0;
+
+    // What an ambiguous token like ?, :, & or ... means here
+    public TokenRole|null $role = null;
+
+    // A name that refers to a class, interface, trait or enum (not self, static, parent or a built-in type)
+    public bool $isClassReference = false;
+
+    // The kind of type declaration this token is part of
+    public TypeDeclarationKind|null $typeDeclaration = null;
 
     // Set on a { or an alternative syntax : that opens a block
     public BlockType|null $opensBlock = null;
@@ -70,6 +80,9 @@ class Token extends \PhpToken
             'next' => $this->next ? spl_object_id($this->next) : null,
             'matchingBracket' => $this->matchingBracket ? spl_object_id($this->matchingBracket) : null,
             'bracketDepth' => $this->bracketDepth,
+            'typeDeclaration' => $this->typeDeclaration?->name,
+            'role' => $this->role?->name,
+            'isClassReference' => $this->isClassReference,
             'opensBlock' => $this->opensBlock?->name,
             'closesBlock' => $this->closesBlock,
             'originalLineBreaksAfter' => $this->originalLineBreaksAfter,

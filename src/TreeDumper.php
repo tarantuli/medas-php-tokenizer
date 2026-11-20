@@ -11,10 +11,12 @@ use Medas\Core\Attributes\Service;
  * token with its text, its token name and the flags the tokenizer set on it. Used for snapshot tests, where a change in
  * the tokenizer shows up as a readable diff.
  *
- * Statement lines end with the type of their block in brackets, like `[ClassLike]`.
+ * Statement lines end with the type of their block in brackets, like `[ClassLike]`, followed by what the statement
+ * declares: its kind, name and modifiers, like `Method __construct public`.
  *
  * Token flags: `@<Context>` the context, `A` in an attribute, `]A` closes an attribute, `S` in a string, `T` in a
- * type declaration, `b<n>` the bracket depth, `#<n>` the number of a bracket pair (the same on both brackets),
+ * type declaration (deprecated), `type:<Kind>` the kind of type declaration, `role:<Role>` the token role, `C` a class
+ * reference, `b<n>` the bracket depth, `#<n>` the number of a bracket pair (the same on both brackets),
  * `opens:<BlockType>` opens a block, `closes` closes a block, `nl:<n>` and `sp:<n>` the original line breaks and spaces
  * after the token.
  *
@@ -47,12 +49,24 @@ readonly class TreeDumper
 
     private function statementLine(Statement $statement): string
     {
-        return sprintf(
+        $line = sprintf(
             'd%d %s [%s]',
             $statement->block->depth,
             $this->shortName($this->typeFinder->for($statement)),
             $statement->block->type->name
         );
+
+        $declaration = $statement->declaration;
+
+        if ($declaration !== null) {
+            $line .= ' ' . implode(' ', array_filter([
+                $declaration->kind->name,
+                $declaration->name,
+                ...$declaration->modifiers,
+            ], fn($part) => $part !== null));
+        }
+
+        return $line;
     }
 
     /**
@@ -102,6 +116,18 @@ readonly class TreeDumper
 
         if ($token->inTypeDeclaration) {
             $flags[] = 'T';
+        }
+
+        if ($token->typeDeclaration !== null) {
+            $flags[] = 'type:' . $token->typeDeclaration->name;
+        }
+
+        if ($token->role !== null) {
+            $flags[] = 'role:' . $token->role->name;
+        }
+
+        if ($token->isClassReference) {
+            $flags[] = 'C';
         }
 
         if ($token->bracketDepth > 0) {

@@ -8,7 +8,7 @@ d1 UseClassStatement [Namespace]
     use  T_USE  | @GlobalScope sp:1
     Some\Thing  T_NAME_QUALIFIED  | @GlobalScope
     ;  | @GlobalScope nl:2
-d1 ClassDeclaration [Namespace]
+d1 ClassDeclaration [Namespace] Class_ A
     class  T_CLASS  | @ClassDeclaration sp:1
     A  T_STRING  | @ClassDeclaration nl:1
     {  | @ClassDeclaration #2 opens:ClassLike nl:1
@@ -20,13 +20,13 @@ d0 NamespaceDeclaration [File]
     namespace  T_NAMESPACE  | @ClassBody sp:1
     Second  T_STRING  | @ClassBody sp:1
     {  | @ClassBody #3 opens:Namespace nl:1
-d1 FunctionDeclaration [Namespace]
+d1 FunctionDeclaration [Namespace] Function helper
     function  T_FUNCTION  | @MethodDeclaration sp:1
     helper  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #4
     )  | @MethodDeclaration #4
-    :  | @MethodReturnType sp:1
-    void  T_STRING  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #5 opens:Function nl:1
 d1 BlockCloser [Namespace]
     }  | @MethodBody #5 closes nl:1

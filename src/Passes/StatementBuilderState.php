@@ -19,6 +19,9 @@ class StatementBuilderState
     public bool $nextParenthesisOpensForClause = false;
     public int $forClauseDepth = 0;
 
+    // The ternaries in the current statement still waiting for their colon
+    public int $openTernaries = 0;
+
     // The number of blocks open inside a match, including the match itself
     public int $matchClauseDepth = 0;
 

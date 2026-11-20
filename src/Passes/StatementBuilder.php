@@ -44,6 +44,7 @@ readonly class StatementBuilder implements TokenizerPass
         if ($state->startNewStatementBeforeNext) {
             $state->statement = $state->block->appendNewStatement();
             $state->startNewStatementBeforeNext = false;
+            $state->openTernaries = 0;
         }
 
         if ($token->is(T_ROUND_BRACKET_CLOSE)) {
@@ -64,10 +65,17 @@ readonly class StatementBuilder implements TokenizerPass
         elseif ($token->opensBlock !== null) {
             $this->openBlock($state, $token->opensBlock);
         }
+        elseif ($token->is(T_QUESTION_MARK) && !$token->next?->is(T_COLON)) {
+            ++$state->openTernaries;
+        }
         elseif ($token->is(T_COLON)) {
-            // The colon of a switch case
-            if (array_key_exists($state->blockDepth, $state->switchBlockDepths)
+            if ($state->openTernaries > 0 && !$token->previous?->is(T_QUESTION_MARK)) {
+                // The colon of a ternary, like in "case $a ? 1 : 2:"
+                --$state->openTernaries;
+            }
+            elseif (array_key_exists($state->blockDepth, $state->switchBlockDepths)
                     && $state->switchBlockDepths[$state->blockDepth] === $state->parenthesesDepth) {
+                // The colon of a switch case
                 $state->startNewStatementBeforeNext = true;
             }
         }
@@ -134,6 +142,7 @@ readonly class StatementBuilder implements TokenizerPass
         $state->block = array_pop($state->openBlocks);
         $state->statement = $state->block->appendNewStatement();
         $state->startNewStatementBeforeNext = false;
+        $state->openTernaries = 0;
 
         unset($state->switchBlockDepths[$state->blockDepth]);
 

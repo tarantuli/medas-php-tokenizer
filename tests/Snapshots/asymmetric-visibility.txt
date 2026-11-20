@@ -1,30 +1,30 @@
 d0 PhpOpenTag [File]
     <?php  T_OPEN_TAG  | @GlobalScope nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Class_ Account
     class  T_CLASS  | @ClassDeclaration sp:1
     Account  T_STRING  | @ClassDeclaration nl:1
     {  | @ClassDeclaration #1 opens:ClassLike nl:1
-d1 ClassPropertyDeclaration [ClassLike]
+d1 ClassPropertyDeclaration [ClassLike] Property $balance public private(set)
     public  T_PUBLIC  | @ClassBody sp:1
     private(set)  T_PRIVATE_SET  | @ClassBody sp:1
-    int  T_STRING  | @ClassBody T sp:1
+    int  T_STRING  | @ClassBody T type:Property sp:1
     $balance  T_VARIABLE  | @ClassBody sp:1
     =  | @ClassBody sp:1
     0  T_LNUMBER  | @ClassBody
     ;  | @ClassBody nl:1
-d1 ClassPropertyDeclaration [ClassLike]
+d1 ClassPropertyDeclaration [ClassLike] Property $owner public protected(set)
     public  T_PUBLIC  | @ClassBody sp:1
     protected(set)  T_PROTECTED_SET  | @ClassBody sp:1
-    string  T_STRING  | @ClassBody T sp:1
+    string  T_STRING  | @ClassBody T type:Property sp:1
     $owner  T_VARIABLE  | @ClassBody
     ;  | @ClassBody nl:2
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method __construct public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     __construct  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #2
     private(set)  T_PRIVATE_SET  | @MethodParameters b1 sp:1
-    string  T_STRING  | @MethodParameters T b1 sp:1
+    string  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $id  T_VARIABLE  | @MethodParameters b1
     )  | @MethodDeclaration #2 nl:1
     {  | @MethodReturnType #3 opens:Function nl:1

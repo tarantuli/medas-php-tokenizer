@@ -25,7 +25,7 @@ d0 GenericStatement [File]
 d0 GenericStatement [File]
     $static  T_VARIABLE  | @GlobalScope sp:1
     =  | @GlobalScope sp:1
-    Foo  T_STRING  | @GlobalScope
+    Foo  T_STRING  | @GlobalScope C
     ::  T_DOUBLE_COLON  | @GlobalScope
     {  | @GlobalScope #4
     $method  T_VARIABLE  | @GlobalScope b1
@@ -51,7 +51,7 @@ d0 GenericStatement [File]
 d0 GenericStatement [File]
     $constant  T_VARIABLE  | @GlobalScope sp:1
     =  | @GlobalScope sp:1
-    Foo  T_STRING  | @GlobalScope
+    Foo  T_STRING  | @GlobalScope C
     ::  T_DOUBLE_COLON  | @GlobalScope
     {  | @GlobalScope #7
     $constantName  T_VARIABLE  | @GlobalScope b1

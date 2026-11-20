@@ -8,22 +8,22 @@ d0 GenericStatement [File]
     |>  T_PIPE  | @GlobalScope sp:1
     trim  T_STRING  | @GlobalScope
     (  | @GlobalScope #1
-    ...  T_ELLIPSIS  | @GlobalScope b1
+    ...  T_ELLIPSIS  | @GlobalScope role:FirstClassCallable b1
     )  | @GlobalScope #1 nl:1
     |>  T_PIPE  | @GlobalScope sp:1
     strtolower  T_STRING  | @GlobalScope
     (  | @GlobalScope #2
-    ...  T_ELLIPSIS  | @GlobalScope b1
+    ...  T_ELLIPSIS  | @GlobalScope role:FirstClassCallable b1
     )  | @GlobalScope #2 nl:1
     |>  T_PIPE  | @GlobalScope sp:1
     (  | @GlobalScope #3
     fn  T_FN  | @GlobalScope b1
     (  | @GlobalScope b1 #4
-    string  T_STRING  | @GlobalScope T b2 sp:1
+    string  T_STRING  | @GlobalScope T type:Parameter b2 sp:1
     $text  T_VARIABLE  | @GlobalScope b2
     )  | @GlobalScope b1 #4
-    :  | @GlobalScope b1 sp:1
-    string  T_STRING  | @GlobalScope T b1 sp:1
+    :  | @GlobalScope role:ReturnTypeColon b1 sp:1
+    string  T_STRING  | @GlobalScope T type:ReturnType b1 sp:1
     =>  T_DOUBLE_ARROW  | @GlobalScope b1 sp:1
     str_replace  T_STRING  | @GlobalScope b1
     (  | @GlobalScope b1 #5

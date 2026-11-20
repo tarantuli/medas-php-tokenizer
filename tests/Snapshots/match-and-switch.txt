@@ -9,18 +9,18 @@ d0 GenericStatement [File]
     )  | @GlobalScope #1 sp:1
     {  | @GlobalScope #2 opens:Match nl:1
 d1 GenericStatement [Match]
-    Status  T_STRING  | @GlobalScope
+    Status  T_STRING  | @GlobalScope C
     ::  T_DOUBLE_COLON  | @GlobalScope
     Active  T_STRING  | @GlobalScope
     ,  | @GlobalScope sp:1
-    Status  T_STRING  | @GlobalScope
+    Status  T_STRING  | @GlobalScope C
     ::  T_DOUBLE_COLON  | @GlobalScope
     Pending  T_STRING  | @GlobalScope sp:1
     =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'open'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
     ,  | @GlobalScope nl:1
 d1 GenericStatement [Match]
-    Status  T_STRING  | @GlobalScope
+    Status  T_STRING  | @GlobalScope C
     ::  T_DOUBLE_COLON  | @GlobalScope
     Closed  T_STRING  | @GlobalScope sp:1
     =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
@@ -31,7 +31,7 @@ d1 GenericStatement [Match]
     =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     throw  T_THROW  | @GlobalScope sp:1
     new  T_NEW  | @GlobalScope sp:1
-    UnexpectedValueException  T_STRING  | @GlobalScope
+    UnexpectedValueException  T_STRING  | @GlobalScope C
     (  | @GlobalScope #3
     )  | @GlobalScope #3
     ,  | @GlobalScope nl:1
@@ -47,11 +47,11 @@ d0 ControlStatement [File]
 d1 SwitchBranch [Switch]
     case  T_CASE  | @GlobalScope sp:1
     'a'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    :  | @GlobalScope nl:1
+    :  | @GlobalScope role:CaseColon nl:1
 d1 SwitchBranch [Switch]
     case  T_CASE  | @GlobalScope sp:1
     'b'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    :  | @GlobalScope nl:1
+    :  | @GlobalScope role:CaseColon nl:1
 d1 GenericStatement [Switch]
     $x  T_VARIABLE  | @GlobalScope sp:1
     =  | @GlobalScope sp:1
@@ -62,18 +62,17 @@ d1 GenericStatement [Switch]
     ;  | @GlobalScope nl:1
 d1 SwitchBranch [Switch]
     case  T_CASE  | @GlobalScope sp:1
-    Foo  T_STRING  | @GlobalScope
+    Foo  T_STRING  | @GlobalScope C
     ::  T_DOUBLE_COLON  | @GlobalScope
     BAR  T_STRING  | @GlobalScope
-    :  | @GlobalScope nl:1
+    :  | @GlobalScope role:CaseColon nl:1
 d1 GenericStatement [Switch]
     $x  T_VARIABLE  | @GlobalScope sp:1
     =  | @GlobalScope sp:1
     $y  T_VARIABLE  | @GlobalScope sp:1
-    ?  | @GlobalScope sp:1
+    ?  | @GlobalScope role:TernaryThen sp:1
     2  T_LNUMBER  | @GlobalScope sp:1
-    :  | @GlobalScope sp:1
-d1 GenericStatement [Switch]
+    :  | @GlobalScope role:TernaryElse sp:1
     3  T_LNUMBER  | @GlobalScope
     ;  | @GlobalScope nl:1
 d1 GenericStatement [Switch]
@@ -81,7 +80,7 @@ d1 GenericStatement [Switch]
     ;  | @GlobalScope nl:1
 d1 SwitchBranch [Switch]
     default  T_DEFAULT  | @GlobalScope
-    :  | @GlobalScope nl:1
+    :  | @GlobalScope role:CaseColon nl:1
 d1 GenericStatement [Switch]
     $x  T_VARIABLE  | @GlobalScope sp:1
     =  | @GlobalScope sp:1

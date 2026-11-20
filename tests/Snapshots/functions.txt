@@ -1,6 +1,6 @@
 d0 PhpOpenTag [File]
     <?php  T_OPEN_TAG  | @GlobalScope nl:2
-d0 FunctionDeclaration [File]
+d0 FunctionDeclaration [File] Function plain
     function  T_FUNCTION  | @FunctionDeclaration sp:1
     plain  T_STRING  | @FunctionDeclaration
     (  | @FunctionDeclaration #1
@@ -10,51 +10,51 @@ d0 FunctionDeclaration [File]
     =  | @MethodParameters b1 sp:1
     1  T_LNUMBER  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
-    ...  T_ELLIPSIS  | @MethodParameters b1
+    ...  T_ELLIPSIS  | @MethodParameters role:Variadic b1
     $rest  T_VARIABLE  | @MethodParameters b1
     )  | @MethodDeclaration #1 nl:1
     {  | @MethodReturnType #2 opens:Function nl:1
 d0 BlockCloser [File]
     }  | @MethodBody #2 closes nl:2
-d0 FunctionDeclaration [File]
+d0 FunctionDeclaration [File] Function typed
     function  T_FUNCTION  | @FunctionDeclaration sp:1
     typed  T_STRING  | @FunctionDeclaration
     (  | @FunctionDeclaration #3
-    int  T_STRING  | @MethodParameters T b1 sp:1
+    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $a  T_VARIABLE  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
-    ?  | @MethodParameters T b1
-    string  T_STRING  | @MethodParameters T b1 sp:1
+    ?  | @MethodParameters T type:Parameter role:NullableMarker b1
+    string  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $b  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     null  T_STRING  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
-    int  T_STRING  | @MethodParameters T b1
-    |  | @MethodParameters T b1
-    float  T_STRING  | @MethodParameters T b1 sp:1
+    int  T_STRING  | @MethodParameters T type:Parameter b1
+    |  | @MethodParameters T type:Parameter b1
+    float  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $c  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     0  T_LNUMBER  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
-    array  T_ARRAY  | @MethodParameters T b1 sp:1
-    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters b1
+    array  T_ARRAY  | @MethodParameters T type:Parameter b1 sp:1
+    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters role:ByReference b1
     $d  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     [  | @MethodParameters b1 #4
     ]  | @MethodParameters b1 #4
     ,  | @MethodParameters b1 sp:1
-    Foo  T_STRING  | @MethodParameters T b1
-    |  | @MethodParameters T b1
-    Bar  T_STRING  | @MethodParameters T b1
-    |  | @MethodParameters T b1
-    null  T_STRING  | @MethodParameters T b1 sp:1
+    Foo  T_STRING  | @MethodParameters T type:Parameter C b1
+    |  | @MethodParameters T type:Parameter b1
+    Bar  T_STRING  | @MethodParameters T type:Parameter C b1
+    |  | @MethodParameters T type:Parameter b1
+    null  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $e  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     null  T_STRING  | @MethodParameters b1
     )  | @MethodDeclaration #3
-    :  | @MethodReturnType sp:1
-    ?  | @MethodReturnType T
-    string  T_STRING  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    ?  | @MethodReturnType T type:ReturnType role:NullableMarker
+    string  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #5 opens:Function nl:1
 d1 ReturnStatement [Function]
     return  T_RETURN  | @MethodBody sp:1
@@ -62,14 +62,14 @@ d1 ReturnStatement [Function]
     ;  | @MethodBody nl:1
 d0 BlockCloser [File]
     }  | @MethodBody #5 closes nl:2
-d0 FunctionDeclaration [File]
+d0 FunctionDeclaration [File] Function byReference
     function  T_FUNCTION  | @FunctionDeclaration sp:1
-    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @FunctionDeclaration
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @FunctionDeclaration role:ByReference
     byReference  T_STRING  | @FunctionDeclaration
     (  | @FunctionDeclaration #6
     )  | @MethodDeclaration #6
-    :  | @MethodReturnType sp:1
-    array  T_ARRAY  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    array  T_ARRAY  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #7 opens:Function nl:1
 d1 GenericStatement [Function]
     static  T_STATIC  | @MethodBody sp:1
@@ -84,7 +84,7 @@ d1 ReturnStatement [Function]
     ;  | @MethodBody nl:1
 d0 BlockCloser [File]
     }  | @MethodBody #7 closes nl:2
-d0 FunctionDeclaration [File]
+d0 FunctionDeclaration [File] Function defaults
     function  T_FUNCTION  | @FunctionDeclaration sp:1
     defaults  T_STRING  | @FunctionDeclaration
     (  | @FunctionDeclaration #9
@@ -94,7 +94,7 @@ d0 FunctionDeclaration [File]
     ,  | @MethodParameters b1 sp:1
     $b  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
-    Bar  T_STRING  | @MethodParameters b1
+    Bar  T_STRING  | @MethodParameters C b1
     ::  T_DOUBLE_COLON  | @MethodParameters b1
     BAZ  T_STRING  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
@@ -109,13 +109,13 @@ d0 FunctionDeclaration [File]
     $d  T_VARIABLE  | @MethodParameters b1 sp:1
     =  | @MethodParameters b1 sp:1
     new  T_NEW  | @MethodParameters b1 sp:1
-    Foo  T_STRING  | @MethodParameters b1
+    Foo  T_STRING  | @MethodParameters C b1
     (  | @MethodParameters b1 #11
     1  T_LNUMBER  | @MethodParameters b2
     )  | @MethodParameters b1 #11
     )  | @MethodDeclaration #9
-    :  | @MethodReturnType sp:1
-    void  T_STRING  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #12 opens:Function nl:1
 d0 BlockCloser [File]
     }  | @MethodBody #12 closes nl:2
@@ -124,18 +124,18 @@ d0 GenericStatement [File]
     =  | @MethodBody sp:1
     function  T_FUNCTION  | @MethodBody sp:1
     (  | @MethodBody #13
-    int  T_STRING  | @MethodBody T b1 sp:1
+    int  T_STRING  | @MethodBody T type:Parameter b1 sp:1
     $x  T_VARIABLE  | @MethodBody b1
     )  | @MethodBody #13 sp:1
     use  T_USE  | @MethodBody sp:1
     (  | @MethodBody #14
     $y  T_VARIABLE  | @MethodBody b1
     ,  | @MethodBody b1 sp:1
-    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodBody b1
+    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodBody role:ByReference b1
     $z  T_VARIABLE  | @MethodBody b1
     )  | @MethodBody #14
-    :  | @MethodBody sp:1
-    int  T_STRING  | @MethodBody sp:1
+    :  | @MethodBody role:ReturnTypeColon sp:1
+    int  T_STRING  | @MethodBody T type:ReturnType sp:1
     {  | @MethodBody #15 opens:Closure nl:1
 d1 ReturnStatement [Closure]
     return  T_RETURN  | @MethodBody sp:1
@@ -153,11 +153,11 @@ d0 GenericStatement [File]
     static  T_STATIC  | @MethodBody sp:1
     fn  T_FN  | @MethodBody
     (  | @MethodBody #16
-    int  T_STRING  | @MethodBody T b1 sp:1
+    int  T_STRING  | @MethodBody T type:Parameter b1 sp:1
     $x  T_VARIABLE  | @MethodBody b1
     )  | @MethodBody #16
-    :  | @MethodBody sp:1
-    int  T_STRING  | @MethodBody T sp:1
+    :  | @MethodBody role:ReturnTypeColon sp:1
+    int  T_STRING  | @MethodBody T type:ReturnType sp:1
     =>  T_DOUBLE_ARROW  | @MethodBody sp:1
     $x  T_VARIABLE  | @MethodBody sp:1
     *  | @MethodBody sp:1
@@ -185,6 +185,6 @@ d0 GenericStatement [File]
     =  | @MethodBody sp:1
     strlen  T_STRING  | @MethodBody
     (  | @MethodBody #19
-    ...  T_ELLIPSIS  | @MethodBody b1
+    ...  T_ELLIPSIS  | @MethodBody role:FirstClassCallable b1
     )  | @MethodBody #19
     ;  | @MethodBody nl:1

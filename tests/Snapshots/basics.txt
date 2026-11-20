@@ -38,48 +38,48 @@ d0 UseConstStatement [File]
     const  T_CONST  | @GlobalScope sp:1
     App\Support\VERSION  T_NAME_QUALIFIED  | @GlobalScope
     ;  | @GlobalScope nl:2
-d0 ClassDeclaration [File]
+d0 ClassDeclaration [File] Class_ User final
     final  T_FINAL  | @ClassDeclaration sp:1
     class  T_CLASS  | @ClassDeclaration sp:1
     User  T_STRING  | @ClassDeclaration sp:1
     extends  T_EXTENDS  | @ClassDeclaration sp:1
-    Model  T_STRING  | @ClassDeclaration sp:1
+    Model  T_STRING  | @ClassDeclaration C sp:1
     implements  T_IMPLEMENTS  | @ClassDeclaration sp:1
-    HasName  T_STRING  | @ClassDeclaration nl:1
+    HasName  T_STRING  | @ClassDeclaration C nl:1
     {  | @ClassDeclaration #3 opens:ClassLike nl:1
-d1 ClassConstDeclaration [ClassLike]
+d1 ClassConstDeclaration [ClassLike] Constant TABLE public
     public  T_PUBLIC  | @ClassBody sp:1
     const  T_CONST  | @ClassBody sp:1
-    string  T_STRING  | @ClassBody sp:1
+    string  T_STRING  | @ClassBody type:ClassConstant sp:1
     TABLE  T_STRING  | @ClassBody sp:1
     =  | @ClassBody sp:1
     'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
     ;  | @ClassBody nl:1
-d1 ClassPropertyDeclaration [ClassLike]
+d1 ClassPropertyDeclaration [ClassLike] Property $count private static
     private  T_PRIVATE  | @ClassBody sp:1
     static  T_STATIC  | @ClassBody sp:1
-    int  T_STRING  | @ClassBody T sp:1
+    int  T_STRING  | @ClassBody T type:Property sp:1
     $count  T_VARIABLE  | @ClassBody sp:1
     =  | @ClassBody sp:1
     0  T_LNUMBER  | @ClassBody
     ;  | @ClassBody nl:1
-d1 ClassPropertyDeclaration [ClassLike]
+d1 ClassPropertyDeclaration [ClassLike] Property $roles protected readonly
     protected  T_PROTECTED  | @ClassBody sp:1
     readonly  T_READONLY  | @ClassBody sp:1
-    array  T_ARRAY  | @ClassBody T sp:1
+    array  T_ARRAY  | @ClassBody T type:Property sp:1
     $roles  T_VARIABLE  | @ClassBody
     ;  | @ClassBody nl:2
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method __construct public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     __construct  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #4
     private  T_PRIVATE  | @MethodParameters b1 sp:1
-    string  T_STRING  | @MethodParameters T b1 sp:1
+    string  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $name  T_VARIABLE  | @MethodParameters b1
     ,  | @MethodParameters b1 sp:1
-    int  T_STRING  | @MethodParameters T b1 sp:1
-    ...  T_ELLIPSIS  | @MethodParameters b1
+    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
+    ...  T_ELLIPSIS  | @MethodParameters role:Variadic b1
     $ids  T_VARIABLE  | @MethodParameters b1
     )  | @MethodDeclaration #4 nl:1
     {  | @MethodReturnType #5 opens:Function nl:1
@@ -91,14 +91,14 @@ d2 GenericStatement [Function]
     ;  | @MethodBody nl:1
 d1 BlockCloser [ClassLike]
     }  | @ClassBody #5 closes nl:2
-d1 FunctionDeclaration [ClassLike]
+d1 FunctionDeclaration [ClassLike] Method name public
     public  T_PUBLIC  | @MethodDeclaration sp:1
     function  T_FUNCTION  | @MethodDeclaration sp:1
     name  T_STRING  | @MethodDeclaration
     (  | @MethodDeclaration #6
     )  | @MethodDeclaration #6
-    :  | @MethodReturnType sp:1
-    string  T_STRING  | @MethodReturnType T nl:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    string  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #7 opens:Function nl:1
 d2 ReturnStatement [Function]
     return  T_RETURN  | @MethodBody sp:1

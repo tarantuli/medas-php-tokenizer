@@ -1,6 +1,6 @@
 d0 PhpOpenTag [File]
     <?php  T_OPEN_TAG  | @GlobalScope nl:2
-d0 FunctionDeclaration [File]
+d0 FunctionDeclaration [File] Function documented
     // A line comment  T_COMMENT  | @FunctionDeclaration nl:1
     # A hash comment  T_COMMENT  | @FunctionDeclaration nl:2
     /*\n * A block comment\n */  T_COMMENT  | @FunctionDeclaration nl:2
@@ -8,11 +8,11 @@ d0 FunctionDeclaration [File]
     function  T_FUNCTION  | @FunctionDeclaration sp:1
     documented  T_STRING  | @FunctionDeclaration
     (  | @FunctionDeclaration #1
-    int  T_STRING  | @MethodParameters T b1 sp:1
+    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
     $x  T_VARIABLE  | @MethodParameters b1
     )  | @MethodDeclaration #1
-    :  | @MethodReturnType sp:1
-    void  T_STRING  | @MethodReturnType T sp:1
+    :  | @MethodReturnType role:ReturnTypeColon sp:1
+    void  T_STRING  | @MethodReturnType T type:ReturnType sp:1
     // Trailing comment  T_COMMENT  | @MethodReturnType nl:1
     {  | @MethodReturnType #2 opens:Plain nl:1
 d1 GenericStatement [Plain]

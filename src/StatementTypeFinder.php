@@ -87,6 +87,11 @@ readonly class StatementTypeFinder
                 return StatementTypes\UseConstStatement::instance();
             }
 
+            // In the body of a class, "use" uses a trait
+            if ($statement->block->type === BlockType::ClassLike) {
+                return StatementTypes\UseTraitStatement::instance();
+            }
+
             return StatementTypes\UseClassStatement::instance();
         }
 
