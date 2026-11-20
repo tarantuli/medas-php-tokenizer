@@ -18,6 +18,18 @@ class StatementBuilderTest extends PassTestCase
         );
     }
 
+    public function testABlockKnowsWhatItIsInside(): void
+    {
+        $job = $this->job('<?php class A { function f() { if ($a) { $b = 1; } } }');
+        $block = $this->token($job, '$b')->block;
+
+        self::assertSame(BlockType::Control, $block->type);
+        self::assertTrue($block->isInside(BlockType::Control));
+        self::assertTrue($block->isInside(BlockType::HookBody, BlockType::Function));
+        self::assertTrue($block->isInside(BlockType::ClassLike));
+        self::assertFalse($block->isInside(BlockType::Closure, BlockType::Namespace));
+    }
+
     public function testDynamicStaticMethodNameIsNoBlock(): void
     {
         $tree = $this->job('<?php $a = Foo::{$b}(); $c = 1;')->tree;

@@ -17,6 +17,28 @@ class Block implements \IteratorAggregate
     {
     }
 
+    /**
+     * Whether this block, or a block around it, is of one of the types. For example ```isInside(BlockType::HookBody)```
+     * for a statement anywhere in the body of a property hook, also inside an if in that body.
+     */
+    public function isInside(BlockType ...$types): bool
+    {
+        $block = $this;
+
+        while (!in_array($block->type, $types, true)) {
+            $parent = $block->opener?->block;
+
+            // The opener of the file block is the open tag, which is in the file block itself
+            if ($parent === null || $parent === $block) {
+                return false;
+            }
+
+            $block = $parent;
+        }
+
+        return true;
+    }
+
     public function __debugInfo()
     {
         $elements = [];
