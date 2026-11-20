@@ -127,7 +127,8 @@ readonly class BlockTypeResolver implements TokenizerPass
 
     private function braceType(Token $brace, BlockType $enclosing, Token|null $enclosingBracket): BlockType|null
     {
-        $previous = $brace->previous;
+        // A comment before the brace, like in "function f(): void // Comment", says nothing about what it opens
+        $previous = $this->codeBefore($brace);
 
         if ($previous === null) {
             return BlockType::Plain;
@@ -268,6 +269,20 @@ readonly class BlockTypeResolver implements TokenizerPass
         return null;
     }
 
+    /**
+     * The token before this one, skipping comments.
+     */
+    private function codeBefore(Token $token): Token|null
+    {
+        $previous = $token->previous;
+
+        while ($previous?->is([T_COMMENT, T_DOC_COMMENT])) {
+            $previous = $previous->previous;
+        }
+
+        return $previous;
+    }
+
     private function isClassHeader(Token $token): bool
     {
         while ($token !== null) {
@@ -280,7 +295,7 @@ readonly class BlockTypeResolver implements TokenizerPass
                 $token = $token->matchingBracket?->previous;
             }
             elseif ($token->is(self::CLASS_HEADER_TOKENS)) {
-                $token = $token->previous;
+                $token = $this->codeBefore($token);
             }
             else {
                 return false;

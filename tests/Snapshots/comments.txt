@@ -14,24 +14,24 @@ d0 FunctionDeclaration [File] Function documented
     :  | @MethodReturnType role:ReturnTypeColon sp:1
     void  T_STRING  | @MethodReturnType T type:ReturnType sp:1
     // Trailing comment  T_COMMENT  | @MethodReturnType nl:1
-    {  | @MethodReturnType #2 opens:Plain nl:1
-d1 GenericStatement [Plain]
-    $y  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    1  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope sp:1
-d1 GenericStatement [Plain]
-    /* inline block comment */  T_COMMENT  | @GlobalScope nl:1
-    $z  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    [  | @GlobalScope #3 nl:1
-    // Comment in an array  T_COMMENT  | @GlobalScope b1 nl:1
-    1  T_LNUMBER  | @GlobalScope b1
-    ,  | @GlobalScope b1 nl:1
-    2  T_LNUMBER  | @GlobalScope b1
-    ,  | @GlobalScope b1 sp:1
-    // Trailing comment in an array  T_COMMENT  | @GlobalScope b1 nl:1
-    ]  | @GlobalScope #3
-    ;  | @GlobalScope nl:1
+    {  | @MethodReturnType #2 opens:Function nl:1
+d1 GenericStatement [Function]
+    $y  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
+    1  T_LNUMBER  | @MethodBody
+    ;  | @MethodBody sp:1
+d1 GenericStatement [Function]
+    /* inline block comment */  T_COMMENT  | @MethodBody nl:1
+    $z  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
+    [  | @MethodBody #3 nl:1
+    // Comment in an array  T_COMMENT  | @MethodBody b1 nl:1
+    1  T_LNUMBER  | @MethodBody b1
+    ,  | @MethodBody b1 nl:1
+    2  T_LNUMBER  | @MethodBody b1
+    ,  | @MethodBody b1 sp:1
+    // Trailing comment in an array  T_COMMENT  | @MethodBody b1 nl:1
+    ]  | @MethodBody #3
+    ;  | @MethodBody nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #2 closes nl:1
