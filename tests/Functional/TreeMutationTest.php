@@ -89,6 +89,26 @@ class TreeMutationTest extends TestCase
         self::assertNull($removed->next);
     }
 
+    /**
+     * A splitter inserts an empty statement first, and then moves tokens into it.
+     */
+    public function testTokenMovedIntoAnEmptyStatementIsLinked(): void
+    {
+        $tree = service(TreeBuilder::class)->fromCode('<?php $a = 1; $b = 2;');
+        $first = $this->statement($tree, 1);
+        $second = $this->statement($tree, 2);
+        $semicolon = $first->lastToken();
+
+        $new = new Statement($first->block);
+        $first->block->insertStatementAfter($new, $first);
+        $first->removeToken($semicolon);
+        $new->appendToken($semicolon);
+
+        $tree->assertConsistent();
+        self::assertSame($semicolon, $first->lastToken()->next);
+        self::assertSame($second->firstToken(), $semicolon->next);
+    }
+
     public function testStatementNotInBlockThrows(): void
     {
         $tree = service(TreeBuilder::class)->fromCode('<?php if ($a) { $b = 1; }');

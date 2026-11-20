@@ -175,6 +175,19 @@ class Block implements \IteratorAggregate
     }
 
     /**
+     * Links the tokens of a statement in this block to the tokens before and after it. ```Statement``` calls this when
+     * a token is added to it while it was empty. A statement that isn't in the block yet is linked when it's inserted.
+     */
+    public function linkStatement(Statement $statement): void
+    {
+        $index = array_search($statement, $this->elements, true);
+
+        if ($index !== false) {
+            $this->link($statement, $index);
+        }
+    }
+
+    /**
      * The first token of a statement or block, looking into the blocks inside it.
      */
     public static function firstTokenOf(Statement|Block $element): Token|null

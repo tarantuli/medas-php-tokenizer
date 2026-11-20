@@ -84,6 +84,10 @@ class Statement implements \IteratorAggregate
             $first->previous = $token;
         }
 
+        if ($first === null) {
+            $this->linkFirstToken($token);
+        }
+
         $this->type = null;
     }
 
@@ -114,7 +118,23 @@ class Statement implements \IteratorAggregate
 
         $token->block = $this->block;
         $token->statement = $this;
+
+        if ($last === null) {
+            $this->linkFirstToken($token);
+        }
+
         $this->type = null;
+    }
+
+    /**
+     * The first token of a statement that was empty is linked to the tokens before and after the statement. Not when
+     * it is linked already, like when the tokenizer builds the tree.
+     */
+    private function linkFirstToken(Token $token): void
+    {
+        if ($token->previous === null && $token->next === null) {
+            $this->block->linkStatement($this);
+        }
     }
 
     public function moveTokenAfter(Token $token, Token $after): void
