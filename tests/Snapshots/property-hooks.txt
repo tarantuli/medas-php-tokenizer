@@ -1,85 +1,85 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 ClassDeclaration
-    class  T_CLASS  | @ClassDeclaration
-    Person  T_STRING  | @ClassDeclaration
-    {  | @ClassDeclaration
-d1 ClassPropertyDeclaration
-    public  T_PUBLIC  | @ClassBody
-    string  T_STRING  | @ClassBody T
-    $fullName  T_VARIABLE  | @ClassBody
-    {  | @ClassBody
-d2 GenericStatement
-    get  T_STRING  | @PropertyHook
-    =>  T_DOUBLE_ARROW  | @PropertyHook
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 ClassDeclaration [File]
+    class  T_CLASS  | @ClassDeclaration sp:1
+    Person  T_STRING  | @ClassDeclaration nl:1
+    {  | @ClassDeclaration #1 opens:ClassLike nl:1
+d1 ClassPropertyDeclaration [ClassLike]
+    public  T_PUBLIC  | @ClassBody sp:1
+    string  T_STRING  | @ClassBody T sp:1
+    $fullName  T_VARIABLE  | @ClassBody sp:1
+    {  | @ClassBody #2 opens:HookList nl:1
+d2 GenericStatement [HookList]
+    get  T_STRING  | @PropertyHook sp:1
+    =>  T_DOUBLE_ARROW  | @PropertyHook sp:1
     $this  T_VARIABLE  | @PropertyHook
     ->  T_OBJECT_OPERATOR  | @PropertyHook
-    first  T_STRING  | @PropertyHook
-    .  | @PropertyHook
-    ' '  T_CONSTANT_ENCAPSED_STRING  | @PropertyHook
-    .  | @PropertyHook
+    first  T_STRING  | @PropertyHook sp:1
+    .  | @PropertyHook sp:1
+    ' '  T_CONSTANT_ENCAPSED_STRING  | @PropertyHook sp:1
+    .  | @PropertyHook sp:1
     $this  T_VARIABLE  | @PropertyHook
     ->  T_OBJECT_OPERATOR  | @PropertyHook
     last  T_STRING  | @PropertyHook
-    ;  | @PropertyHook
-d1 BlockCloser
-    }  | @ClassBody
-d1 ClassPropertyDeclaration
-    public  T_PUBLIC  | @ClassBody
-    string  T_STRING  | @ClassBody T
-    $email  T_VARIABLE  | @ClassBody
-    {  | @ClassBody
-d2 GenericStatement
+    ;  | @PropertyHook nl:1
+d1 BlockCloser [ClassLike]
+    }  | @ClassBody #2 closes nl:2
+d1 ClassPropertyDeclaration [ClassLike]
+    public  T_PUBLIC  | @ClassBody sp:1
+    string  T_STRING  | @ClassBody T sp:1
+    $email  T_VARIABLE  | @ClassBody sp:1
+    {  | @ClassBody #3 opens:HookList nl:1
+d2 GenericStatement [HookList]
     set  T_STRING  | @PropertyHook
-    (  | @PropertyHook
-    string  T_STRING  | @PropertyHook
-    $value  T_VARIABLE  | @PropertyHook
-    )  | @PropertyHook
-    {  | @PropertyHook
-d3 GenericStatement
+    (  | @PropertyHook #4
+    string  T_STRING  | @PropertyHook b1 sp:1
+    $value  T_VARIABLE  | @PropertyHook b1
+    )  | @PropertyHook #4 sp:1
+    {  | @PropertyHook #5 opens:HookBody nl:1
+d3 GenericStatement [HookBody]
     $this  T_VARIABLE  | @PropertyHook
     ->  T_OBJECT_OPERATOR  | @PropertyHook
-    email  T_STRING  | @PropertyHook
-    =  | @PropertyHook
+    email  T_STRING  | @PropertyHook sp:1
+    =  | @PropertyHook sp:1
     strtolower  T_STRING  | @PropertyHook
-    (  | @PropertyHook
-    $value  T_VARIABLE  | @PropertyHook
-    )  | @PropertyHook
-    ;  | @PropertyHook
-d2 BlockCloser
-    }  | @PropertyHook
-d1 BlockCloser
-    }  | @ClassBody
-d1 FunctionDeclaration
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    (  | @PropertyHook #6
+    $value  T_VARIABLE  | @PropertyHook b1
+    )  | @PropertyHook #6
+    ;  | @PropertyHook nl:1
+d2 BlockCloser [HookList]
+    }  | @PropertyHook #5 closes nl:1
+d1 BlockCloser [ClassLike]
+    }  | @ClassBody #3 closes nl:2
+d1 FunctionDeclaration [ClassLike]
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     __construct  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    public  T_PUBLIC  | @MethodParameters
-    string  T_STRING  | @MethodParameters T
-    $first  T_VARIABLE  | @MethodParameters
-    {  | @MethodParameters
-d2 GenericStatement
-    set  T_STRING  | @PropertyHook
-    =>  T_DOUBLE_ARROW  | @PropertyHook
-    ucfirst  T_STRING  | @PropertyHook
-    (  | @PropertyHook
-    $value  T_VARIABLE  | @PropertyHook
-    )  | @PropertyHook
-    ;  | @PropertyHook
-d1 BlockCloser
-    }  | @ClassBody
-d1 ClassPropertyDeclaration
-    ,  | @ClassBody
-    public  T_PUBLIC  | @ClassBody
-    string  T_STRING  | @ClassBody T
-    $last  T_VARIABLE  | @ClassBody
-    =  | @ClassBody
-    ''  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
-    ,  | @ClassBody
-    )  | @ClassBody
-    {  | @ClassBody
-d1 BlockCloser
-    }  | @PropertyHook
-d0 BlockCloser
-    }  | @ClassBody
+    (  | @MethodDeclaration #7 nl:1
+    public  T_PUBLIC  | @MethodParameters b1 sp:1
+    string  T_STRING  | @MethodParameters T b1 sp:1
+    $first  T_VARIABLE  | @MethodParameters b1 sp:1
+    {  | @MethodParameters b1 #8 opens:HookList sp:1
+d2 GenericStatement [HookList]
+    set  T_STRING  | @PropertyHook b1 sp:1
+    =>  T_DOUBLE_ARROW  | @PropertyHook b1 sp:1
+    ucfirst  T_STRING  | @PropertyHook b1
+    (  | @PropertyHook b1 #9
+    $value  T_VARIABLE  | @PropertyHook b2
+    )  | @PropertyHook b1 #9
+    ;  | @PropertyHook b1 sp:1
+d1 BlockCloser [ClassLike]
+    }  | @ClassBody b1 #8 closes
+d1 ClassPropertyDeclaration [ClassLike]
+    ,  | @ClassBody b1 nl:1
+    public  T_PUBLIC  | @ClassBody b1 sp:1
+    string  T_STRING  | @ClassBody T b1 sp:1
+    $last  T_VARIABLE  | @ClassBody b1 sp:1
+    =  | @ClassBody b1 sp:1
+    ''  T_CONSTANT_ENCAPSED_STRING  | @ClassBody b1
+    ,  | @ClassBody b1 nl:1
+    )  | @ClassBody #7 nl:1
+    {  | @ClassBody #10 opens:Function nl:1
+d1 BlockCloser [ClassLike]
+    }  | @PropertyHook #10 closes nl:1
+d0 BlockCloser [File]
+    }  | @ClassBody #1 closes nl:1

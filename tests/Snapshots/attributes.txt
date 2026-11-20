@@ -1,120 +1,120 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 ClassDeclaration
-    #[  T_ATTRIBUTE  | @ClassDeclaration
-    Entity  T_STRING  | @ClassDeclaration A
-    ]  | @ClassDeclaration A ]A
-    #[  T_ATTRIBUTE  | @ClassDeclaration
-    Table  T_STRING  | @ClassDeclaration A
-    (  | @ClassDeclaration A
-    name  T_STRING  | @ClassDeclaration A
-    :  | @ClassDeclaration A
-    'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A
-    ,  | @ClassDeclaration A
-    options  T_STRING  | @ClassDeclaration A
-    :  | @ClassDeclaration A
-    [  | @ClassDeclaration A
-    'charset'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A
-    =>  T_DOUBLE_ARROW  | @ClassDeclaration A
-    'utf8'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A
-    ]  | @ClassDeclaration A
-    )  | @ClassDeclaration A
-    ]  | @ClassDeclaration A ]A
-    class  T_CLASS  | @ClassDeclaration
-    User  T_STRING  | @ClassDeclaration
-    {  | @ClassDeclaration
-d1 ClassPropertyDeclaration
-    #[  T_ATTRIBUTE  | @ClassBody
-    Column  T_STRING  | @ClassBody A
-    (  | @ClassBody A
-    type  T_STRING  | @ClassBody A
-    :  | @ClassBody A
-    Types  T_STRING  | @ClassBody A
-    ::  T_DOUBLE_COLON  | @ClassBody A
-    STRING  T_STRING  | @ClassBody A
-    ,  | @ClassBody A
-    length  T_STRING  | @ClassBody A
-    :  | @ClassBody A
-    255  T_LNUMBER  | @ClassBody A
-    )  | @ClassBody A
-    ]  | @ClassBody A ]A
-    public  T_PUBLIC  | @ClassBody
-    string  T_STRING  | @ClassBody T
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 ClassDeclaration [File]
+    #[  T_ATTRIBUTE  | @ClassDeclaration #1
+    Entity  T_STRING  | @ClassDeclaration A b1
+    ]  | @ClassDeclaration A ]A #1 nl:1
+    #[  T_ATTRIBUTE  | @ClassDeclaration #2
+    Table  T_STRING  | @ClassDeclaration A b1
+    (  | @ClassDeclaration A b1 #3
+    name  T_STRING  | @ClassDeclaration A b2
+    :  | @ClassDeclaration A b2 sp:1
+    'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A b2
+    ,  | @ClassDeclaration A b2 sp:1
+    options  T_STRING  | @ClassDeclaration A b2
+    :  | @ClassDeclaration A b2 sp:1
+    [  | @ClassDeclaration A b2 #4
+    'charset'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A b3 sp:1
+    =>  T_DOUBLE_ARROW  | @ClassDeclaration A b3 sp:1
+    'utf8'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A b3
+    ]  | @ClassDeclaration A b2 #4
+    )  | @ClassDeclaration A b1 #3
+    ]  | @ClassDeclaration A ]A #2 nl:1
+    class  T_CLASS  | @ClassDeclaration sp:1
+    User  T_STRING  | @ClassDeclaration nl:1
+    {  | @ClassDeclaration #5 opens:ClassLike nl:1
+d1 ClassPropertyDeclaration [ClassLike]
+    #[  T_ATTRIBUTE  | @ClassBody #6
+    Column  T_STRING  | @ClassBody A b1
+    (  | @ClassBody A b1 #7
+    type  T_STRING  | @ClassBody A b2
+    :  | @ClassBody A b2 sp:1
+    Types  T_STRING  | @ClassBody A b2
+    ::  T_DOUBLE_COLON  | @ClassBody A b2
+    STRING  T_STRING  | @ClassBody A b2
+    ,  | @ClassBody A b2 sp:1
+    length  T_STRING  | @ClassBody A b2
+    :  | @ClassBody A b2 sp:1
+    255  T_LNUMBER  | @ClassBody A b2
+    )  | @ClassBody A b1 #7
+    ]  | @ClassBody A ]A #6 nl:1
+    public  T_PUBLIC  | @ClassBody sp:1
+    string  T_STRING  | @ClassBody T sp:1
     $name  T_VARIABLE  | @ClassBody
-    ;  | @ClassBody
-d1 FunctionDeclaration
-    #[  T_ATTRIBUTE  | @MethodDeclaration
-    Route  T_STRING  | @MethodDeclaration A
-    (  | @MethodDeclaration A
-    '/users/{id}'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A
-    ,  | @MethodDeclaration A
-    methods  T_STRING  | @MethodDeclaration A
-    :  | @MethodDeclaration A
-    [  | @MethodDeclaration A
-    'GET'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A
-    ]  | @MethodDeclaration A
-    )  | @MethodDeclaration A
-    ]  | @MethodDeclaration A ]A
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    ;  | @ClassBody nl:2
+d1 FunctionDeclaration [ClassLike]
+    #[  T_ATTRIBUTE  | @MethodDeclaration #8
+    Route  T_STRING  | @MethodDeclaration A b1
+    (  | @MethodDeclaration A b1 #9
+    '/users/{id}'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A b2
+    ,  | @MethodDeclaration A b2 sp:1
+    methods  T_STRING  | @MethodDeclaration A b2
+    :  | @MethodDeclaration A b2 sp:1
+    [  | @MethodDeclaration A b2 #10
+    'GET'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A b3
+    ]  | @MethodDeclaration A b2 #10
+    )  | @MethodDeclaration A b1 #9
+    ]  | @MethodDeclaration A ]A #8 nl:1
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     show  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    #[  T_ATTRIBUTE  | @MethodParameters
-    FromRoute  T_STRING  | @MethodParameters A
-    ]  | @MethodParameters A ]A
-    int  T_STRING  | @MethodParameters T
-    $id  T_VARIABLE  | @MethodParameters
-    ,  | @MethodParameters
-    #[  T_ATTRIBUTE  | @MethodParameters
-    Inject  T_STRING  | @MethodParameters A
-    (  | @MethodParameters A
-    Logger  T_STRING  | @MethodParameters A
-    ::  T_DOUBLE_COLON  | @MethodParameters A
-    class  T_STRING  | @MethodParameters A
-    )  | @MethodParameters A
-    ]  | @MethodParameters A ]A
-    Logger  T_STRING  | @MethodParameters T
-    $logger  T_VARIABLE  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    void  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d1 BlockCloser
-    }  | @MethodBody
-d1 FunctionDeclaration
-    #[  T_ATTRIBUTE  | @MethodDeclaration
-    First  T_STRING  | @MethodDeclaration A
-    ,  | @MethodDeclaration A
-    Second  T_STRING  | @MethodDeclaration A
-    (  | @MethodDeclaration A
-    1  T_LNUMBER  | @MethodDeclaration A
-    )  | @MethodDeclaration A
-    ]  | @MethodDeclaration A ]A
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    (  | @MethodDeclaration #11
+    #[  T_ATTRIBUTE  | @MethodParameters b1 #12
+    FromRoute  T_STRING  | @MethodParameters A b2
+    ]  | @MethodParameters A ]A b1 #12 sp:1
+    int  T_STRING  | @MethodParameters T b1 sp:1
+    $id  T_VARIABLE  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    #[  T_ATTRIBUTE  | @MethodParameters b1 #13
+    Inject  T_STRING  | @MethodParameters A b2
+    (  | @MethodParameters A b2 #14
+    Logger  T_STRING  | @MethodParameters A b3
+    ::  T_DOUBLE_COLON  | @MethodParameters A b3
+    class  T_STRING  | @MethodParameters A b3
+    )  | @MethodParameters A b2 #14
+    ]  | @MethodParameters A ]A b1 #13 sp:1
+    Logger  T_STRING  | @MethodParameters T b1 sp:1
+    $logger  T_VARIABLE  | @MethodParameters b1
+    )  | @MethodDeclaration #11
+    :  | @MethodReturnType sp:1
+    void  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #15 opens:Function nl:1
+d1 BlockCloser [ClassLike]
+    }  | @MethodBody #15 closes nl:2
+d1 FunctionDeclaration [ClassLike]
+    #[  T_ATTRIBUTE  | @MethodDeclaration #16
+    First  T_STRING  | @MethodDeclaration A b1
+    ,  | @MethodDeclaration A b1 sp:1
+    Second  T_STRING  | @MethodDeclaration A b1
+    (  | @MethodDeclaration A b1 #17
+    1  T_LNUMBER  | @MethodDeclaration A b2
+    )  | @MethodDeclaration A b1 #17
+    ]  | @MethodDeclaration A ]A #16 nl:1
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     multiple  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    void  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d1 BlockCloser
-    }  | @MethodBody
-d0 BlockCloser
-    }  | @GlobalScope
-d0 GenericStatement
-    $fn  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    #[  T_ATTRIBUTE  | @GlobalScope
-    Pure  T_STRING  | @GlobalScope A
-    ]  | @GlobalScope A ]A
+    (  | @MethodDeclaration #18
+    )  | @MethodDeclaration #18
+    :  | @MethodReturnType sp:1
+    void  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #19 opens:Function nl:1
+d1 BlockCloser [ClassLike]
+    }  | @MethodBody #19 closes nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #5 closes nl:2
+d0 GenericStatement [File]
+    $fn  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    #[  T_ATTRIBUTE  | @GlobalScope #20
+    Pure  T_STRING  | @GlobalScope A b1
+    ]  | @GlobalScope A ]A #20 sp:1
     fn  T_FN  | @GlobalScope
-    (  | @GlobalScope
-    int  T_STRING  | @GlobalScope T
+    (  | @GlobalScope #21
+    int  T_STRING  | @GlobalScope T b1 sp:1
+    $x  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #21
+    :  | @GlobalScope sp:1
+    int  T_STRING  | @GlobalScope T sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     $x  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    :  | @GlobalScope
-    int  T_STRING  | @GlobalScope T
-    =>  T_DOUBLE_ARROW  | @GlobalScope
-    $x  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope
+    ;  | @GlobalScope nl:1

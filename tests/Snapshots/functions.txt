@@ -1,190 +1,190 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 FunctionDeclaration
-    function  T_FUNCTION  | @FunctionDeclaration
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 FunctionDeclaration [File]
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
     plain  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration
-    $a  T_VARIABLE  | @MethodParameters
-    ,  | @MethodParameters
-    $b  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    1  T_LNUMBER  | @MethodParameters
-    ,  | @MethodParameters
-    ...  T_ELLIPSIS  | @MethodParameters
-    $rest  T_VARIABLE  | @MethodParameters
-    )  | @MethodDeclaration
-    {  | @MethodReturnType
-d0 BlockCloser
-    }  | @MethodBody
-d0 FunctionDeclaration
-    function  T_FUNCTION  | @FunctionDeclaration
+    (  | @FunctionDeclaration #1
+    $a  T_VARIABLE  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    $b  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    1  T_LNUMBER  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    ...  T_ELLIPSIS  | @MethodParameters b1
+    $rest  T_VARIABLE  | @MethodParameters b1
+    )  | @MethodDeclaration #1 nl:1
+    {  | @MethodReturnType #2 opens:Function nl:1
+d0 BlockCloser [File]
+    }  | @MethodBody #2 closes nl:2
+d0 FunctionDeclaration [File]
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
     typed  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration
-    int  T_STRING  | @MethodParameters T
-    $a  T_VARIABLE  | @MethodParameters
-    ,  | @MethodParameters
-    ?  | @MethodParameters T
-    string  T_STRING  | @MethodParameters T
-    $b  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    null  T_STRING  | @MethodParameters
-    ,  | @MethodParameters
-    int  T_STRING  | @MethodParameters T
-    |  | @MethodParameters T
-    float  T_STRING  | @MethodParameters T
-    $c  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    0  T_LNUMBER  | @MethodParameters
-    ,  | @MethodParameters
-    array  T_ARRAY  | @MethodParameters T
-    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
-    $d  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    [  | @MethodParameters
-    ]  | @MethodParameters
-    ,  | @MethodParameters
-    Foo  T_STRING  | @MethodParameters T
-    |  | @MethodParameters T
-    Bar  T_STRING  | @MethodParameters T
-    |  | @MethodParameters T
-    null  T_STRING  | @MethodParameters T
-    $e  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    null  T_STRING  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
+    (  | @FunctionDeclaration #3
+    int  T_STRING  | @MethodParameters T b1 sp:1
+    $a  T_VARIABLE  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    ?  | @MethodParameters T b1
+    string  T_STRING  | @MethodParameters T b1 sp:1
+    $b  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    null  T_STRING  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    int  T_STRING  | @MethodParameters T b1
+    |  | @MethodParameters T b1
+    float  T_STRING  | @MethodParameters T b1 sp:1
+    $c  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    0  T_LNUMBER  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    array  T_ARRAY  | @MethodParameters T b1 sp:1
+    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters b1
+    $d  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    [  | @MethodParameters b1 #4
+    ]  | @MethodParameters b1 #4
+    ,  | @MethodParameters b1 sp:1
+    Foo  T_STRING  | @MethodParameters T b1
+    |  | @MethodParameters T b1
+    Bar  T_STRING  | @MethodParameters T b1
+    |  | @MethodParameters T b1
+    null  T_STRING  | @MethodParameters T b1 sp:1
+    $e  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    null  T_STRING  | @MethodParameters b1
+    )  | @MethodDeclaration #3
+    :  | @MethodReturnType sp:1
     ?  | @MethodReturnType T
-    string  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d1 ReturnStatement
-    return  T_RETURN  | @MethodBody
+    string  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #5 opens:Function nl:1
+d1 ReturnStatement [Function]
+    return  T_RETURN  | @MethodBody sp:1
     null  T_STRING  | @MethodBody
-    ;  | @MethodBody
-d0 BlockCloser
-    }  | @MethodBody
-d0 FunctionDeclaration
-    function  T_FUNCTION  | @FunctionDeclaration
+    ;  | @MethodBody nl:1
+d0 BlockCloser [File]
+    }  | @MethodBody #5 closes nl:2
+d0 FunctionDeclaration [File]
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
     &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @FunctionDeclaration
     byReference  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    array  T_ARRAY  | @MethodReturnType T
-    {  | @MethodReturnType
-d1 GenericStatement
-    static  T_STATIC  | @MethodBody
+    (  | @FunctionDeclaration #6
+    )  | @MethodDeclaration #6
+    :  | @MethodReturnType sp:1
+    array  T_ARRAY  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #7 opens:Function nl:1
+d1 GenericStatement [Function]
+    static  T_STATIC  | @MethodBody sp:1
+    $cache  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
+    [  | @MethodBody #8
+    ]  | @MethodBody #8
+    ;  | @MethodBody nl:2
+d1 ReturnStatement [Function]
+    return  T_RETURN  | @MethodBody sp:1
     $cache  T_VARIABLE  | @MethodBody
-    =  | @MethodBody
-    [  | @MethodBody
-    ]  | @MethodBody
-    ;  | @MethodBody
-d1 ReturnStatement
-    return  T_RETURN  | @MethodBody
-    $cache  T_VARIABLE  | @MethodBody
-    ;  | @MethodBody
-d0 BlockCloser
-    }  | @MethodBody
-d0 FunctionDeclaration
-    function  T_FUNCTION  | @FunctionDeclaration
+    ;  | @MethodBody nl:1
+d0 BlockCloser [File]
+    }  | @MethodBody #7 closes nl:2
+d0 FunctionDeclaration [File]
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
     defaults  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration
-    $a  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    FOO  T_STRING  | @MethodParameters
-    ,  | @MethodParameters
-    $b  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    Bar  T_STRING  | @MethodParameters
-    ::  T_DOUBLE_COLON  | @MethodParameters
-    BAZ  T_STRING  | @MethodParameters
-    ,  | @MethodParameters
-    $c  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    [  | @MethodParameters
-    1  T_LNUMBER  | @MethodParameters
-    ,  | @MethodParameters
-    2  T_LNUMBER  | @MethodParameters
-    ]  | @MethodParameters
-    ,  | @MethodParameters
-    $d  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    new  T_NEW  | @MethodParameters
-    Foo  T_STRING  | @MethodParameters
-    (  | @MethodParameters
-    1  T_LNUMBER  | @MethodParameters
-    )  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    void  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d0 BlockCloser
-    }  | @MethodBody
-d0 GenericStatement
-    $closure  T_VARIABLE  | @MethodBody
-    =  | @MethodBody
-    function  T_FUNCTION  | @MethodBody
-    (  | @MethodBody
-    int  T_STRING  | @MethodBody T
-    $x  T_VARIABLE  | @MethodBody
-    )  | @MethodBody
-    use  T_USE  | @MethodBody
-    (  | @MethodBody
+    (  | @FunctionDeclaration #9
+    $a  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    FOO  T_STRING  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    $b  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    Bar  T_STRING  | @MethodParameters b1
+    ::  T_DOUBLE_COLON  | @MethodParameters b1
+    BAZ  T_STRING  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    $c  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    [  | @MethodParameters b1 #10
+    1  T_LNUMBER  | @MethodParameters b2
+    ,  | @MethodParameters b2 sp:1
+    2  T_LNUMBER  | @MethodParameters b2
+    ]  | @MethodParameters b1 #10
+    ,  | @MethodParameters b1 sp:1
+    $d  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    new  T_NEW  | @MethodParameters b1 sp:1
+    Foo  T_STRING  | @MethodParameters b1
+    (  | @MethodParameters b1 #11
+    1  T_LNUMBER  | @MethodParameters b2
+    )  | @MethodParameters b1 #11
+    )  | @MethodDeclaration #9
+    :  | @MethodReturnType sp:1
+    void  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #12 opens:Function nl:1
+d0 BlockCloser [File]
+    }  | @MethodBody #12 closes nl:2
+d0 GenericStatement [File]
+    $closure  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
+    function  T_FUNCTION  | @MethodBody sp:1
+    (  | @MethodBody #13
+    int  T_STRING  | @MethodBody T b1 sp:1
+    $x  T_VARIABLE  | @MethodBody b1
+    )  | @MethodBody #13 sp:1
+    use  T_USE  | @MethodBody sp:1
+    (  | @MethodBody #14
+    $y  T_VARIABLE  | @MethodBody b1
+    ,  | @MethodBody b1 sp:1
+    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodBody b1
+    $z  T_VARIABLE  | @MethodBody b1
+    )  | @MethodBody #14
+    :  | @MethodBody sp:1
+    int  T_STRING  | @MethodBody sp:1
+    {  | @MethodBody #15 opens:Closure nl:1
+d1 ReturnStatement [Closure]
+    return  T_RETURN  | @MethodBody sp:1
+    $x  T_VARIABLE  | @MethodBody sp:1
+    +  | @MethodBody sp:1
     $y  T_VARIABLE  | @MethodBody
-    ,  | @MethodBody
-    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodBody
-    $z  T_VARIABLE  | @MethodBody
-    )  | @MethodBody
-    :  | @MethodBody
-    int  T_STRING  | @MethodBody
-    {  | @MethodBody
-d1 ReturnStatement
-    return  T_RETURN  | @MethodBody
-    $x  T_VARIABLE  | @MethodBody
-    +  | @MethodBody
-    $y  T_VARIABLE  | @MethodBody
-    ;  | @MethodBody
-d0 BlockCloser
-    }  | @MethodBody
-d0 GenericStatement
-    ;  | @MethodBody
-d0 GenericStatement
-    $static  T_VARIABLE  | @MethodBody
-    =  | @MethodBody
-    static  T_STATIC  | @MethodBody
+    ;  | @MethodBody nl:1
+d0 BlockCloser [File]
+    }  | @MethodBody #15 closes
+d0 GenericStatement [File]
+    ;  | @MethodBody nl:2
+d0 GenericStatement [File]
+    $static  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
+    static  T_STATIC  | @MethodBody sp:1
     fn  T_FN  | @MethodBody
-    (  | @MethodBody
-    int  T_STRING  | @MethodBody T
-    $x  T_VARIABLE  | @MethodBody
-    )  | @MethodBody
-    :  | @MethodBody
-    int  T_STRING  | @MethodBody T
-    =>  T_DOUBLE_ARROW  | @MethodBody
-    $x  T_VARIABLE  | @MethodBody
-    *  | @MethodBody
+    (  | @MethodBody #16
+    int  T_STRING  | @MethodBody T b1 sp:1
+    $x  T_VARIABLE  | @MethodBody b1
+    )  | @MethodBody #16
+    :  | @MethodBody sp:1
+    int  T_STRING  | @MethodBody T sp:1
+    =>  T_DOUBLE_ARROW  | @MethodBody sp:1
+    $x  T_VARIABLE  | @MethodBody sp:1
+    *  | @MethodBody sp:1
     2  T_LNUMBER  | @MethodBody
-    ;  | @MethodBody
-d0 GenericStatement
-    $nested  T_VARIABLE  | @MethodBody
-    =  | @MethodBody
+    ;  | @MethodBody nl:2
+d0 GenericStatement [File]
+    $nested  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
     fn  T_FN  | @MethodBody
-    (  | @MethodBody
-    $x  T_VARIABLE  | @MethodBody
-    )  | @MethodBody
-    =>  T_DOUBLE_ARROW  | @MethodBody
+    (  | @MethodBody #17
+    $x  T_VARIABLE  | @MethodBody b1
+    )  | @MethodBody #17 sp:1
+    =>  T_DOUBLE_ARROW  | @MethodBody sp:1
     fn  T_FN  | @MethodBody
-    (  | @MethodBody
+    (  | @MethodBody #18
+    $y  T_VARIABLE  | @MethodBody b1
+    )  | @MethodBody #18 sp:1
+    =>  T_DOUBLE_ARROW  | @MethodBody sp:1
+    $x  T_VARIABLE  | @MethodBody sp:1
+    +  | @MethodBody sp:1
     $y  T_VARIABLE  | @MethodBody
-    )  | @MethodBody
-    =>  T_DOUBLE_ARROW  | @MethodBody
-    $x  T_VARIABLE  | @MethodBody
-    +  | @MethodBody
-    $y  T_VARIABLE  | @MethodBody
-    ;  | @MethodBody
-d0 GenericStatement
-    $callable  T_VARIABLE  | @MethodBody
-    =  | @MethodBody
+    ;  | @MethodBody nl:2
+d0 GenericStatement [File]
+    $callable  T_VARIABLE  | @MethodBody sp:1
+    =  | @MethodBody sp:1
     strlen  T_STRING  | @MethodBody
-    (  | @MethodBody
-    ...  T_ELLIPSIS  | @MethodBody
-    )  | @MethodBody
-    ;  | @MethodBody
+    (  | @MethodBody #19
+    ...  T_ELLIPSIS  | @MethodBody b1
+    )  | @MethodBody #19
+    ;  | @MethodBody nl:1

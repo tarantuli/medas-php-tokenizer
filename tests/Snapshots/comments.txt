@@ -1,37 +1,37 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 FunctionDeclaration
-    // A line comment  T_COMMENT  | @FunctionDeclaration
-    # A hash comment  T_COMMENT  | @FunctionDeclaration
-    /*\n * A block comment\n */  T_COMMENT  | @FunctionDeclaration
-    /**\n * A doc comment\n *\n * @param int $x\n */  T_DOC_COMMENT  | @FunctionDeclaration
-    function  T_FUNCTION  | @FunctionDeclaration
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 FunctionDeclaration [File]
+    // A line comment  T_COMMENT  | @FunctionDeclaration nl:1
+    # A hash comment  T_COMMENT  | @FunctionDeclaration nl:2
+    /*\n * A block comment\n */  T_COMMENT  | @FunctionDeclaration nl:2
+    /**\n * A doc comment\n *\n * @param int $x\n */  T_DOC_COMMENT  | @FunctionDeclaration nl:1
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
     documented  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration
-    int  T_STRING  | @MethodParameters T
-    $x  T_VARIABLE  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    void  T_STRING  | @MethodReturnType T
-    // Trailing comment  T_COMMENT  | @MethodReturnType
-    {  | @MethodReturnType
-d1 GenericStatement
-    $y  T_VARIABLE  | @PropertyHook
-    =  | @PropertyHook
+    (  | @FunctionDeclaration #1
+    int  T_STRING  | @MethodParameters T b1 sp:1
+    $x  T_VARIABLE  | @MethodParameters b1
+    )  | @MethodDeclaration #1
+    :  | @MethodReturnType sp:1
+    void  T_STRING  | @MethodReturnType T sp:1
+    // Trailing comment  T_COMMENT  | @MethodReturnType nl:1
+    {  | @MethodReturnType #2 opens:Plain nl:1
+d1 GenericStatement [Plain]
+    $y  T_VARIABLE  | @PropertyHook sp:1
+    =  | @PropertyHook sp:1
     1  T_LNUMBER  | @PropertyHook
-    ;  | @PropertyHook
-d1 GenericStatement
-    /* inline block comment */  T_COMMENT  | @PropertyHook
-    $z  T_VARIABLE  | @PropertyHook
-    =  | @PropertyHook
-    [  | @PropertyHook
-    // Comment in an array  T_COMMENT  | @PropertyHook
-    1  T_LNUMBER  | @PropertyHook
-    ,  | @PropertyHook
-    2  T_LNUMBER  | @PropertyHook
-    ,  | @PropertyHook
-    // Trailing comment in an array  T_COMMENT  | @PropertyHook
-    ]  | @PropertyHook
-    ;  | @PropertyHook
-d0 BlockCloser
-    }  | @ClassBody
+    ;  | @PropertyHook sp:1
+d1 GenericStatement [Plain]
+    /* inline block comment */  T_COMMENT  | @PropertyHook nl:1
+    $z  T_VARIABLE  | @PropertyHook sp:1
+    =  | @PropertyHook sp:1
+    [  | @PropertyHook #3 nl:1
+    // Comment in an array  T_COMMENT  | @PropertyHook b1 nl:1
+    1  T_LNUMBER  | @PropertyHook b1
+    ,  | @PropertyHook b1 nl:1
+    2  T_LNUMBER  | @PropertyHook b1
+    ,  | @PropertyHook b1 sp:1
+    // Trailing comment in an array  T_COMMENT  | @PropertyHook b1 nl:1
+    ]  | @PropertyHook #3
+    ;  | @PropertyHook nl:1
+d0 BlockCloser [File]
+    }  | @ClassBody #2 closes nl:1

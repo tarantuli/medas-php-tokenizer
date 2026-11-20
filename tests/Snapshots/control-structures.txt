@@ -1,162 +1,162 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 ControlStatement
-    if  T_IF  | @GlobalScope
-    (  | @GlobalScope
-    $a  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
-    $b  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 ControlStatement [File]
+    if  T_IF  | @GlobalScope sp:1
+    (  | @GlobalScope #1
+    $a  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #1 sp:1
+    {  | @GlobalScope #2 opens:Control nl:1
+d1 GenericStatement [Control]
+    $b  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
     1  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    elseif  T_ELSEIF  | @GlobalScope
-    (  | @GlobalScope
-    $c  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
-    $b  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #2 closes sp:1
+d0 ControlStatement [File]
+    elseif  T_ELSEIF  | @GlobalScope sp:1
+    (  | @GlobalScope #3
+    $c  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #3 sp:1
+    {  | @GlobalScope #4 opens:Control nl:1
+d1 GenericStatement [Control]
+    $b  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
     2  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    else  T_ELSE  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
-    $b  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #4 closes sp:1
+d0 ControlStatement [File]
+    else  T_ELSE  | @GlobalScope sp:1
+    {  | @GlobalScope #5 opens:Control nl:1
+d1 GenericStatement [Control]
+    $b  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
     3  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    for  T_FOR  | @GlobalScope
-    (  | @GlobalScope
-    $i  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    0  T_LNUMBER  | @GlobalScope
-    ,  | @GlobalScope
-    $j  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    10  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-    $i  T_VARIABLE  | @GlobalScope
-    <  | @GlobalScope
-    $j  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope
-    $i  T_VARIABLE  | @GlobalScope
-    ++  T_INC  | @GlobalScope
-    ,  | @GlobalScope
-    $j  T_VARIABLE  | @GlobalScope
-    --  T_DEC  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #5 closes nl:2
+d0 ControlStatement [File]
+    for  T_FOR  | @GlobalScope sp:1
+    (  | @GlobalScope #6
+    $i  T_VARIABLE  | @GlobalScope b1 sp:1
+    =  | @GlobalScope b1 sp:1
+    0  T_LNUMBER  | @GlobalScope b1
+    ,  | @GlobalScope b1 sp:1
+    $j  T_VARIABLE  | @GlobalScope b1 sp:1
+    =  | @GlobalScope b1 sp:1
+    10  T_LNUMBER  | @GlobalScope b1
+    ;  | @GlobalScope b1 sp:1
+    $i  T_VARIABLE  | @GlobalScope b1 sp:1
+    <  | @GlobalScope b1 sp:1
+    $j  T_VARIABLE  | @GlobalScope b1
+    ;  | @GlobalScope b1 sp:1
+    $i  T_VARIABLE  | @GlobalScope b1
+    ++  T_INC  | @GlobalScope b1
+    ,  | @GlobalScope b1 sp:1
+    $j  T_VARIABLE  | @GlobalScope b1
+    --  T_DEC  | @GlobalScope b1
+    )  | @GlobalScope #6 sp:1
+    {  | @GlobalScope #7 opens:Control nl:1
+d1 GenericStatement [Control]
     continue  T_CONTINUE  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    foreach  T_FOREACH  | @GlobalScope
-    (  | @GlobalScope
-    $items  T_VARIABLE  | @GlobalScope
-    as  T_AS  | @GlobalScope
-    $key  T_VARIABLE  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
-    $value  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #7 closes nl:2
+d0 ControlStatement [File]
+    foreach  T_FOREACH  | @GlobalScope sp:1
+    (  | @GlobalScope #8
+    $items  T_VARIABLE  | @GlobalScope b1 sp:1
+    as  T_AS  | @GlobalScope b1 sp:1
+    $key  T_VARIABLE  | @GlobalScope b1 sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope b1 sp:1
+    $value  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #8 sp:1
+    {  | @GlobalScope #9 opens:Control nl:1
+d1 GenericStatement [Control]
     break  T_BREAK  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    while  T_WHILE  | @GlobalScope
-    (  | @GlobalScope
-    $x  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #9 closes nl:2
+d0 ControlStatement [File]
+    while  T_WHILE  | @GlobalScope sp:1
+    (  | @GlobalScope #10
+    $x  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #10 sp:1
+    {  | @GlobalScope #11 opens:Control nl:1
+d1 GenericStatement [Control]
     $x  T_VARIABLE  | @GlobalScope
     --  T_DEC  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    do  T_DO  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #11 closes nl:2
+d0 ControlStatement [File]
+    do  T_DO  | @GlobalScope sp:1
+    {  | @GlobalScope #12 opens:Control nl:1
+d1 GenericStatement [Control]
     $y  T_VARIABLE  | @GlobalScope
     ++  T_INC  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    while  T_WHILE  | @GlobalScope
-    (  | @GlobalScope
-    $y  T_VARIABLE  | @GlobalScope
-    <  | @GlobalScope
-    10  T_LNUMBER  | @GlobalScope
-    )  | @GlobalScope
-    ;  | @GlobalScope
-d0 ControlStatement
-    try  T_TRY  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #12 closes sp:1
+d0 ControlStatement [File]
+    while  T_WHILE  | @GlobalScope sp:1
+    (  | @GlobalScope #13
+    $y  T_VARIABLE  | @GlobalScope b1 sp:1
+    <  | @GlobalScope b1 sp:1
+    10  T_LNUMBER  | @GlobalScope b1
+    )  | @GlobalScope #13
+    ;  | @GlobalScope nl:2
+d0 ControlStatement [File]
+    try  T_TRY  | @GlobalScope sp:1
+    {  | @GlobalScope #14 opens:Control nl:1
+d1 GenericStatement [Control]
     risky  T_STRING  | @GlobalScope
-    (  | @GlobalScope
-    )  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    catch  T_CATCH  | @GlobalScope
-    (  | @GlobalScope
-    FirstException  T_STRING  | @GlobalScope
-    |  | @GlobalScope
-    SecondException  T_STRING  | @GlobalScope
-    $e  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    (  | @GlobalScope #15
+    )  | @GlobalScope #15
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #14 closes sp:1
+d0 ControlStatement [File]
+    catch  T_CATCH  | @GlobalScope sp:1
+    (  | @GlobalScope #16
+    FirstException  T_STRING  | @GlobalScope b1 sp:1
+    |  | @GlobalScope b1 sp:1
+    SecondException  T_STRING  | @GlobalScope b1 sp:1
+    $e  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #16 sp:1
+    {  | @GlobalScope #17 opens:Control nl:1
+d1 GenericStatement [Control]
     report  T_STRING  | @GlobalScope
-    (  | @GlobalScope
-    $e  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    catch  T_CATCH  | @GlobalScope
-    (  | @GlobalScope
-    \Throwable  T_NAME_FULLY_QUALIFIED  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 GenericStatement
-    finally  T_FINALLY  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+    (  | @GlobalScope #18
+    $e  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #18
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #17 closes sp:1
+d0 ControlStatement [File]
+    catch  T_CATCH  | @GlobalScope sp:1
+    (  | @GlobalScope #19
+    \Throwable  T_NAME_FULLY_QUALIFIED  | @GlobalScope b1
+    )  | @GlobalScope #19 sp:1
+    {  | @GlobalScope #20 opens:Control nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #20 closes sp:1
+d0 GenericStatement [File]
+    finally  T_FINALLY  | @GlobalScope sp:1
+    {  | @GlobalScope #21 opens:Control nl:1
+d1 GenericStatement [Control]
     cleanUp  T_STRING  | @GlobalScope
-    (  | @GlobalScope
-    )  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 ControlStatement
-    if  T_IF  | @GlobalScope
-    (  | @GlobalScope
-    $short  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    echo  T_ECHO  | @GlobalScope
+    (  | @GlobalScope #22
+    )  | @GlobalScope #22
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #21 closes nl:2
+d0 ControlStatement [File]
+    if  T_IF  | @GlobalScope sp:1
+    (  | @GlobalScope #23
+    $short  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #23 sp:1
+    echo  T_ECHO  | @GlobalScope sp:1
     'short'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ;  | @GlobalScope
+    ;  | @GlobalScope nl:1

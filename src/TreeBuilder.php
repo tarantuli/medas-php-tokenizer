@@ -6,13 +6,16 @@ namespace Medas\PhpTokenizer;
 
 use Medas\Core\Attributes\Service;
 
+/**
+ * Builds a token tree from code by running every @class(Passes\TokenizerPass), in the order of
+ * @class(Passes\TokenizerPasses).
+ */
 #[Service]
 readonly class TreeBuilder
 {
     public function __construct(
-        private ContextAdder    $contextAdder,
-        private StructureFinder $structureFinder,
-        private Tokenizer       $tokenizer,
+        private Passes\TokenizerPasses $passes,
+        private Tokenizer              $tokenizer,
     )
     {
     }
@@ -24,10 +27,12 @@ readonly class TreeBuilder
 
     public function fromCollection(TokenCollection $collection): TokenTree
     {
-        $tree = $this->structureFinder->determine($collection);
+        $job = new Passes\TokenizerJob($collection);
 
-        $this->contextAdder->add($tree);
+        foreach ($this->passes->ordered() as $pass) {
+            $pass->run($job);
+        }
 
-        return $tree;
+        return $job->tree;
     }
 }

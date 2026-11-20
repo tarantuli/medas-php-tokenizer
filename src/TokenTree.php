@@ -54,6 +54,48 @@ class TokenTree implements \IteratorAggregate
         $this->doResetLinks = false;
     }
 
+    /**
+     * Checks that every token links to the tokens before and after it in the tree, and belongs to the statement and
+     * block it is in. Meant for tests, to find the formatter that leaves the tree broken.
+     *
+     * @throws Exceptions\TreeIsInconsistent
+     */
+    public function assertConsistent(): void
+    {
+        $previous = null;
+
+        foreach ($this->block as $statement) {
+            foreach ($statement as $token) {
+                if ($token->statement !== $statement) {
+                    $this->fail('the token belongs to another statement', $token);
+                }
+
+                if ($token->block !== $statement->block) {
+                    $this->fail('the token belongs to another block', $token);
+                }
+
+                if ($token->previous !== $previous) {
+                    $this->fail('previous is not the token before it', $token);
+                }
+
+                if ($previous !== null && $previous->next !== $token) {
+                    $this->fail('next of the token before it is not this token', $token);
+                }
+
+                $previous = $token;
+            }
+        }
+
+        if ($previous?->next !== null) {
+            $this->fail('the last token has a next token', $previous);
+        }
+    }
+
+    private function fail(string $problem, Token $token): never
+    {
+        throw new Exceptions\TreeIsInconsistent($problem, $token->text, $token->line);
+    }
+
     public function doResetLinks(): void
     {
         $this->doResetLinks = true;

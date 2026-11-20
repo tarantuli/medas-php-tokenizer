@@ -1,0 +1,45 @@
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 GenericStatement [File]
+    // requires PHP 8.5  T_COMMENT  | @GlobalScope nl:2
+    $slug  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $title  T_VARIABLE  | @GlobalScope nl:1
+    |>  T_PIPE  | @GlobalScope sp:1
+    trim  T_STRING  | @GlobalScope
+    (  | @GlobalScope #1
+    ...  T_ELLIPSIS  | @GlobalScope b1
+    )  | @GlobalScope #1 nl:1
+    |>  T_PIPE  | @GlobalScope sp:1
+    strtolower  T_STRING  | @GlobalScope
+    (  | @GlobalScope #2
+    ...  T_ELLIPSIS  | @GlobalScope b1
+    )  | @GlobalScope #2 nl:1
+    |>  T_PIPE  | @GlobalScope sp:1
+    (  | @GlobalScope #3
+    fn  T_FN  | @GlobalScope b1
+    (  | @GlobalScope b1 #4
+    string  T_STRING  | @GlobalScope T b2 sp:1
+    $text  T_VARIABLE  | @GlobalScope b2
+    )  | @GlobalScope b1 #4
+    :  | @GlobalScope b1 sp:1
+    string  T_STRING  | @GlobalScope T b1 sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope b1 sp:1
+    str_replace  T_STRING  | @GlobalScope b1
+    (  | @GlobalScope b1 #5
+    ' '  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope b2
+    ,  | @GlobalScope b2 sp:1
+    '-'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope b2
+    ,  | @GlobalScope b2 sp:1
+    $text  T_VARIABLE  | @GlobalScope b2
+    )  | @GlobalScope b1 #5
+    )  | @GlobalScope #3
+    ;  | @GlobalScope nl:2
+d0 GenericStatement [File]
+    (void)  T_VOID_CAST  | @GlobalScope sp:1
+    $logger  T_VARIABLE  | @GlobalScope
+    ->  T_OBJECT_OPERATOR  | @GlobalScope
+    flush  T_STRING  | @GlobalScope
+    (  | @GlobalScope #6
+    )  | @GlobalScope #6
+    ;  | @GlobalScope nl:1

@@ -1,114 +1,114 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 GenericStatement
-    $a  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    $b  T_VARIABLE  | @GlobalScope
-    ?  | @GlobalScope
-    $c  T_VARIABLE  | @GlobalScope
-    :  | @GlobalScope
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 GenericStatement [File]
+    $a  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $b  T_VARIABLE  | @GlobalScope sp:1
+    ?  | @GlobalScope sp:1
+    $c  T_VARIABLE  | @GlobalScope sp:1
+    :  | @GlobalScope sp:1
     $d  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope
-d0 GenericStatement
-    $e  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    $f  T_VARIABLE  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 GenericStatement [File]
+    $e  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $f  T_VARIABLE  | @GlobalScope sp:1
     ?  | @GlobalScope
-    :  | @GlobalScope
+    :  | @GlobalScope sp:1
     $g  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope
-d0 GenericStatement
-    $h  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    $i  T_VARIABLE  | @GlobalScope
-    ??  T_COALESCE  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 GenericStatement [File]
+    $h  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $i  T_VARIABLE  | @GlobalScope sp:1
+    ??  T_COALESCE  | @GlobalScope sp:1
     $j  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope
-d0 GenericStatement
-    $k  T_VARIABLE  | @GlobalScope
-    ??=  T_COALESCE_EQUAL  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 GenericStatement [File]
+    $k  T_VARIABLE  | @GlobalScope sp:1
+    ??=  T_COALESCE_EQUAL  | @GlobalScope sp:1
     'default'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ;  | @GlobalScope
-d0 GenericStatement
-    $l  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    $m  T_VARIABLE  | @GlobalScope
-    ?  | @GlobalScope
-    FOO  T_STRING  | @GlobalScope
-    :  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 GenericStatement [File]
+    $l  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $m  T_VARIABLE  | @GlobalScope sp:1
+    ?  | @GlobalScope sp:1
+    FOO  T_STRING  | @GlobalScope sp:1
+    :  | @GlobalScope sp:1
     BAR  T_STRING  | @GlobalScope
-    ;  | @GlobalScope
-d0 GenericStatement
-    $n  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 GenericStatement [File]
+    $n  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
     $o  T_VARIABLE  | @GlobalScope
     ?->  T_NULLSAFE_OBJECT_OPERATOR  | @GlobalScope
     p  T_STRING  | @GlobalScope
     ?->  T_NULLSAFE_OBJECT_OPERATOR  | @GlobalScope
     q  T_STRING  | @GlobalScope
-    (  | @GlobalScope
-    )  | @GlobalScope
-    ;  | @GlobalScope
-d0 GenericStatement
-    $r  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    $s  T_VARIABLE  | @GlobalScope
-    ?  | @GlobalScope
-    (  | @GlobalScope
-    $t  T_VARIABLE  | @GlobalScope
-    ?  | @GlobalScope
-    1  T_LNUMBER  | @GlobalScope
-    :  | @GlobalScope
-    2  T_LNUMBER  | @GlobalScope
-    )  | @GlobalScope
-    :  | @GlobalScope
+    (  | @GlobalScope #1
+    )  | @GlobalScope #1
+    ;  | @GlobalScope nl:1
+d0 GenericStatement [File]
+    $r  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $s  T_VARIABLE  | @GlobalScope sp:1
+    ?  | @GlobalScope sp:1
+    (  | @GlobalScope #2
+    $t  T_VARIABLE  | @GlobalScope b1 sp:1
+    ?  | @GlobalScope b1 sp:1
+    1  T_LNUMBER  | @GlobalScope b1 sp:1
+    :  | @GlobalScope b1 sp:1
+    2  T_LNUMBER  | @GlobalScope b1
+    )  | @GlobalScope #2 sp:1
+    :  | @GlobalScope sp:1
     3  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d0 FunctionDeclaration
-    function  T_FUNCTION  | @FunctionDeclaration
+    ;  | @GlobalScope nl:2
+d0 FunctionDeclaration [File]
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
     nullable  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration
-    ?  | @MethodParameters T
-    Foo  T_STRING  | @MethodParameters T
-    $foo  T_VARIABLE  | @MethodParameters
-    ,  | @MethodParameters
-    ?  | @MethodParameters T
-    int  T_STRING  | @MethodParameters T
-    $count  T_VARIABLE  | @MethodParameters
-    =  | @MethodParameters
-    null  T_STRING  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
+    (  | @FunctionDeclaration #3
+    ?  | @MethodParameters T b1
+    Foo  T_STRING  | @MethodParameters T b1 sp:1
+    $foo  T_VARIABLE  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    ?  | @MethodParameters T b1
+    int  T_STRING  | @MethodParameters T b1 sp:1
+    $count  T_VARIABLE  | @MethodParameters b1 sp:1
+    =  | @MethodParameters b1 sp:1
+    null  T_STRING  | @MethodParameters b1
+    )  | @MethodDeclaration #3
+    :  | @MethodReturnType sp:1
     ?  | @MethodReturnType T
-    Bar  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d1 ReturnStatement
-    return  T_RETURN  | @MethodBody
-    $foo  T_VARIABLE  | @MethodBody
-    ?  | @MethodBody
-    new  T_NEW  | @MethodBody
+    Bar  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #4 opens:Function nl:1
+d1 ReturnStatement [Function]
+    return  T_RETURN  | @MethodBody sp:1
+    $foo  T_VARIABLE  | @MethodBody sp:1
+    ?  | @MethodBody sp:1
+    new  T_NEW  | @MethodBody sp:1
     Bar  T_STRING  | @MethodBody
-    (  | @MethodBody
-    name  T_STRING  | @MethodBody
-    :  | @MethodBody
-    $foo  T_VARIABLE  | @MethodBody
-    ->  T_OBJECT_OPERATOR  | @MethodBody
-    name  T_STRING  | @MethodBody
-    ,  | @MethodBody
-    count  T_STRING  | @MethodBody
-    :  | @MethodBody
-    $count  T_VARIABLE  | @MethodBody
-    ??  T_COALESCE  | @MethodBody
-    0  T_LNUMBER  | @MethodBody
-    )  | @MethodBody
-    :  | @MethodBody
+    (  | @MethodBody #5
+    name  T_STRING  | @MethodBody b1
+    :  | @MethodBody b1 sp:1
+    $foo  T_VARIABLE  | @MethodBody b1
+    ->  T_OBJECT_OPERATOR  | @MethodBody b1
+    name  T_STRING  | @MethodBody b1
+    ,  | @MethodBody b1 sp:1
+    count  T_STRING  | @MethodBody b1
+    :  | @MethodBody b1 sp:1
+    $count  T_VARIABLE  | @MethodBody b1 sp:1
+    ??  T_COALESCE  | @MethodBody b1 sp:1
+    0  T_LNUMBER  | @MethodBody b1
+    )  | @MethodBody #5 sp:1
+    :  | @MethodBody sp:1
     null  T_STRING  | @MethodBody
-    ;  | @MethodBody
-d0 BlockCloser
-    }  | @MethodBody
-d0 GenericStatement
+    ;  | @MethodBody nl:1
+d0 BlockCloser [File]
+    }  | @MethodBody #4 closes nl:2
+d0 GenericStatement [File]
     label  T_STRING  | @MethodBody
-    :  | @MethodBody
-    goto  T_GOTO  | @MethodBody
+    :  | @MethodBody nl:1
+    goto  T_GOTO  | @MethodBody sp:1
     label  T_STRING  | @MethodBody
-    ;  | @MethodBody
+    ;  | @MethodBody nl:1

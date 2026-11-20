@@ -9,7 +9,11 @@ class Block implements \IteratorAggregate
     /** @var Statement[]|Block[] */
     private array $elements = [];
 
-    public function __construct(public int $depth, public Statement|null $opener)
+    public function __construct(
+        public int            $depth,
+        public Statement|null $opener,
+        public BlockType      $type = BlockType::Plain,
+    )
     {
     }
 
@@ -101,6 +105,12 @@ class Block implements \IteratorAggregate
         $this->insertStatementAfter($statement, $after);
     }
 
+    /**
+     * Takes a statement or block out of this block. Its tokens are unlinked from the tokens around it; with
+     * ```$deleteTokens```, they are removed from the statement too.
+     *
+     * @throws Exceptions\StatementNotFoundInBlock
+     */
     public function removeStatement(Statement|Block $statement, bool $deleteTokens = false): void
     {
         $index = $this->getIndex($statement);
@@ -109,29 +119,150 @@ class Block implements \IteratorAggregate
 
         if ($deleteTokens) {
             foreach ($statement as $token) {
-                $statement->removeToken($token);
+                $token->statement->removeToken($token);
             }
+
+            return;
         }
+
+        $this->unlink($statement);
     }
 
+    /**
+     * @throws Exceptions\StatementNotFoundInBlock
+     */
     public function insertStatementAfter(Statement|Block $statement, Statement $after): void
     {
         $index = $this->getIndex($after);
 
         array_splice($this->elements, $index + 1, 0, [$statement]);
+
+        $this->link($statement, $index + 1);
     }
 
+    /**
+     * @throws Exceptions\StatementNotFoundInBlock
+     */
     public function insertStatementBefore(Statement|Block $statement, Statement $before): void
     {
         $index = $this->getIndex($before);
 
         array_splice($this->elements, $index, 0, [$statement]);
+
+        $this->link($statement, $index);
     }
 
-    private function getIndex(Statement|Block $statement): int|null
+    /**
+     * The first token of a statement or block, looking into the blocks inside it.
+     */
+    public static function firstTokenOf(Statement|Block $element): Token|null
+    {
+        foreach ($element instanceof Block ? $element : [$element] as $statement) {
+            if (null !== $token = $statement->firstToken()) {
+                return $token;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * The last token of a statement or block, looking into the blocks inside it.
+     */
+    public static function lastTokenOf(Statement|Block $element): Token|null
+    {
+        $last = null;
+
+        foreach ($element instanceof Block ? $element : [$element] as $statement) {
+            $last = $statement->lastToken() ?? $last;
+        }
+
+        return $last;
+    }
+
+    /**
+     * Links the tokens of the element at the given index to the tokens before and after it in this block. The tokens
+     * inside the element are already linked to each other.
+     */
+    private function link(Statement|Block $element, int $index): void
+    {
+        $first = self::firstTokenOf($element);
+        $last = self::lastTokenOf($element);
+
+        if ($first === null) {
+            return;
+        }
+
+        $before = $this->lastTokenBefore($index);
+        $after = $before !== null ? $before->next : $this->firstTokenAfter($index);
+
+        $first->previous = $before;
+        $last->next = $after;
+
+        if ($before !== null) {
+            $before->next = $first;
+        }
+
+        if ($after !== null) {
+            $after->previous = $last;
+        }
+    }
+
+    private function unlink(Statement|Block $element): void
+    {
+        $first = self::firstTokenOf($element);
+        $last = self::lastTokenOf($element);
+
+        if ($first === null) {
+            return;
+        }
+
+        if ($first->previous?->next === $first) {
+            $first->previous->next = $last->next;
+        }
+
+        if ($last->next?->previous === $last) {
+            $last->next->previous = $first->previous;
+        }
+
+        $first->previous = null;
+        $last->next = null;
+    }
+
+    private function lastTokenBefore(int $index): Token|null
+    {
+        for ($i = $index - 1; $i >= 0; --$i) {
+            if (null !== $token = self::lastTokenOf($this->elements[$i])) {
+                return $token;
+            }
+        }
+
+        // Nothing before it in this block: the token before the block is the last token of its opener
+        return $this->opener?->block !== $this ? $this->opener?->lastToken() : null;
+    }
+
+    private function firstTokenAfter(int $index): Token|null
+    {
+        for ($i = $index + 1; $i < count($this->elements); ++$i) {
+            if (null !== $token = self::firstTokenOf($this->elements[$i])) {
+                return $token;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws Exceptions\StatementNotFoundInBlock
+     */
+    private function getIndex(Statement|Block $statement): int
     {
         $index = array_search($statement, $this->elements, true);
 
-        return false === $index ? null : $index;
+        if ($index === false) {
+            throw new Exceptions\StatementNotFoundInBlock($statement, $this);
+        }
+
+        return $index;
     }
 }

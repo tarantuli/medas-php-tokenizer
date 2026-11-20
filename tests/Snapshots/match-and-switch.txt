@@ -1,129 +1,129 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 GenericStatement
-    $label  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    match  T_MATCH  | @GlobalScope
-    (  | @GlobalScope
-    $status  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 GenericStatement [File]
+    $label  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    match  T_MATCH  | @GlobalScope sp:1
+    (  | @GlobalScope #1
+    $status  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #1 sp:1
+    {  | @GlobalScope #2 opens:Match nl:1
+d1 GenericStatement [Match]
     Status  T_STRING  | @GlobalScope
     ::  T_DOUBLE_COLON  | @GlobalScope
     Active  T_STRING  | @GlobalScope
-    ,  | @GlobalScope
+    ,  | @GlobalScope sp:1
     Status  T_STRING  | @GlobalScope
     ::  T_DOUBLE_COLON  | @GlobalScope
-    Pending  T_STRING  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
+    Pending  T_STRING  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'open'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ,  | @GlobalScope
-d1 GenericStatement
+    ,  | @GlobalScope nl:1
+d1 GenericStatement [Match]
     Status  T_STRING  | @GlobalScope
     ::  T_DOUBLE_COLON  | @GlobalScope
-    Closed  T_STRING  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
+    Closed  T_STRING  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'closed'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ,  | @GlobalScope
-d1 GenericStatement
-    default  T_DEFAULT  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
-    throw  T_THROW  | @GlobalScope
-    new  T_NEW  | @GlobalScope
+    ,  | @GlobalScope nl:1
+d1 GenericStatement [Match]
+    default  T_DEFAULT  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
+    throw  T_THROW  | @GlobalScope sp:1
+    new  T_NEW  | @GlobalScope sp:1
     UnexpectedValueException  T_STRING  | @GlobalScope
-    (  | @GlobalScope
-    )  | @GlobalScope
-    ,  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-    ;  | @GlobalScope
-d0 ControlStatement
-    switch  T_SWITCH  | @GlobalScope
-    (  | @GlobalScope
-    $type  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 SwitchBranch
-    case  T_CASE  | @GlobalScope
+    (  | @GlobalScope #3
+    )  | @GlobalScope #3
+    ,  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #2 closes
+    ;  | @GlobalScope nl:2
+d0 ControlStatement [File]
+    switch  T_SWITCH  | @GlobalScope sp:1
+    (  | @GlobalScope #4
+    $type  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #4 sp:1
+    {  | @GlobalScope #5 opens:Switch nl:1
+d1 SwitchBranch [Switch]
+    case  T_CASE  | @GlobalScope sp:1
     'a'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    :  | @GlobalScope
-d1 SwitchBranch
-    case  T_CASE  | @GlobalScope
+    :  | @GlobalScope nl:1
+d1 SwitchBranch [Switch]
+    case  T_CASE  | @GlobalScope sp:1
     'b'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    :  | @GlobalScope
-d1 GenericStatement
-    $x  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
+    :  | @GlobalScope nl:1
+d1 GenericStatement [Switch]
+    $x  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
     1  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d1 GenericStatement [Switch]
     break  T_BREAK  | @GlobalScope
-    ;  | @GlobalScope
-d1 SwitchBranch
-    case  T_CASE  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d1 SwitchBranch [Switch]
+    case  T_CASE  | @GlobalScope sp:1
     Foo  T_STRING  | @GlobalScope
     ::  T_DOUBLE_COLON  | @GlobalScope
     BAR  T_STRING  | @GlobalScope
-    :  | @GlobalScope
-d1 GenericStatement
-    $x  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    $y  T_VARIABLE  | @GlobalScope
-    ?  | @GlobalScope
-    2  T_LNUMBER  | @GlobalScope
-    :  | @GlobalScope
-d1 GenericStatement
+    :  | @GlobalScope nl:1
+d1 GenericStatement [Switch]
+    $x  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    $y  T_VARIABLE  | @GlobalScope sp:1
+    ?  | @GlobalScope sp:1
+    2  T_LNUMBER  | @GlobalScope sp:1
+    :  | @GlobalScope sp:1
+d1 GenericStatement [Switch]
     3  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d1 GenericStatement
+    ;  | @GlobalScope nl:1
+d1 GenericStatement [Switch]
     break  T_BREAK  | @GlobalScope
-    ;  | @GlobalScope
-d1 SwitchBranch
+    ;  | @GlobalScope nl:1
+d1 SwitchBranch [Switch]
     default  T_DEFAULT  | @GlobalScope
-    :  | @GlobalScope
-d1 GenericStatement
-    $x  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
+    :  | @GlobalScope nl:1
+d1 GenericStatement [Switch]
+    $x  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
     0  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-d0 GenericStatement
-    $nested  T_VARIABLE  | @GlobalScope
-    =  | @GlobalScope
-    match  T_MATCH  | @GlobalScope
-    (  | @GlobalScope
-    true  T_STRING  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d1 GenericStatement
-    $a  T_VARIABLE  | @GlobalScope
-    >  | @GlobalScope
-    1  T_LNUMBER  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
-    match  T_MATCH  | @GlobalScope
-    (  | @GlobalScope
-    $b  T_VARIABLE  | @GlobalScope
-    )  | @GlobalScope
-    {  | @GlobalScope
-d2 GenericStatement
-    1  T_LNUMBER  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #5 closes nl:2
+d0 GenericStatement [File]
+    $nested  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    match  T_MATCH  | @GlobalScope sp:1
+    (  | @GlobalScope #6
+    true  T_STRING  | @GlobalScope b1
+    )  | @GlobalScope #6 sp:1
+    {  | @GlobalScope #7 opens:Match nl:1
+d1 GenericStatement [Match]
+    $a  T_VARIABLE  | @GlobalScope sp:1
+    >  | @GlobalScope sp:1
+    1  T_LNUMBER  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
+    match  T_MATCH  | @GlobalScope sp:1
+    (  | @GlobalScope #8
+    $b  T_VARIABLE  | @GlobalScope b1
+    )  | @GlobalScope #8 sp:1
+    {  | @GlobalScope #9 opens:Match nl:1
+d2 GenericStatement [Match]
+    1  T_LNUMBER  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'one'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ,  | @GlobalScope
-d2 GenericStatement
-    default  T_DEFAULT  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
+    ,  | @GlobalScope nl:1
+d2 GenericStatement [Match]
+    default  T_DEFAULT  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'many'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ,  | @GlobalScope
-d1 BlockCloser
-    }  | @GlobalScope
-    ,  | @GlobalScope
-    default  T_DEFAULT  | @GlobalScope
-    =>  T_DOUBLE_ARROW  | @GlobalScope
+    ,  | @GlobalScope nl:1
+d1 BlockCloser [Match]
+    }  | @GlobalScope #9 closes
+    ,  | @GlobalScope nl:1
+    default  T_DEFAULT  | @GlobalScope sp:1
+    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
     'none'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ,  | @GlobalScope
-d0 BlockCloser
-    }  | @GlobalScope
-    ;  | @GlobalScope
+    ,  | @GlobalScope nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #7 closes
+    ;  | @GlobalScope nl:1

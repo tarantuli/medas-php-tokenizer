@@ -6,13 +6,27 @@ namespace Medas\PhpTokenizer;
 
 use Medas\Core\Attributes\Service;
 
+/**
+ * Sets the context of every token: global scope, class declaration, class body, method declaration, parameters,
+ * return type, method body or property hook.
+ */
 #[Service]
-readonly class ContextAdder
+readonly class ContextAdder implements Passes\TokenizerPass
 {
     public function __construct(
         private StatementTypeFinder $typeFinder,
     )
     {
+    }
+
+    public function runsAfter(): array
+    {
+        return [Passes\StatementBuilder::class];
+    }
+
+    public function run(Passes\TokenizerJob $job): void
+    {
+        $this->add($job->tree);
     }
 
     public function add(TokenTree $tree): void

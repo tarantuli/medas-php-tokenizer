@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Medas\PhpTokenizer\StructureFinder;
+namespace Medas\PhpTokenizer\Passes;
 
+/**
+ * The state of @class(LegacyTypeDeclarationMarker) while it walks through the tokens of one file.
+ */
 class TypeDeclarationState
 {
     public bool $nextBracesIsArguments = false;

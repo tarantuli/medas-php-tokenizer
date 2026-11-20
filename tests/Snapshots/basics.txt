@@ -1,112 +1,112 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 DeclareStatement
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 DeclareStatement [File]
     declare  T_DECLARE  | @GlobalScope
-    (  | @GlobalScope
-    strict_types  T_STRING  | @GlobalScope
-    =  | @GlobalScope
-    1  T_LNUMBER  | @GlobalScope
-    )  | @GlobalScope
-    ;  | @GlobalScope
-d0 NamespaceDeclaration
-    namespace  T_NAMESPACE  | @GlobalScope
+    (  | @GlobalScope #1
+    strict_types  T_STRING  | @GlobalScope b1
+    =  | @GlobalScope b1
+    1  T_LNUMBER  | @GlobalScope b1
+    )  | @GlobalScope #1
+    ;  | @GlobalScope nl:2
+d0 NamespaceDeclaration [File]
+    namespace  T_NAMESPACE  | @GlobalScope sp:1
     App\Models  T_NAME_QUALIFIED  | @GlobalScope
-    ;  | @GlobalScope
-d0 UseClassStatement
-    use  T_USE  | @GlobalScope
+    ;  | @GlobalScope nl:2
+d0 UseClassStatement [File]
+    use  T_USE  | @GlobalScope sp:1
     App\Contracts\HasName  T_NAME_QUALIFIED  | @GlobalScope
-    ;  | @GlobalScope
-d0 UseClassStatement
-    use  T_USE  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 UseClassStatement [File]
+    use  T_USE  | @GlobalScope sp:1
     App\Support  T_NAME_QUALIFIED  | @GlobalScope
     \  T_NS_SEPARATOR  | @GlobalScope
-    {  | @GlobalScope
-    Collection  T_STRING  | @GlobalScope
-    ,  | @GlobalScope
-    Str  T_STRING  | @GlobalScope
-    as  T_AS  | @GlobalScope
-    Strings  T_STRING  | @GlobalScope
-    }  | @GlobalScope
-    ;  | @GlobalScope
-d0 UseFunctionStatement
-    use  T_USE  | @GlobalScope
-    function  T_FUNCTION  | @GlobalScope
+    {  | @GlobalScope #2
+    Collection  T_STRING  | @GlobalScope b1
+    ,  | @GlobalScope b1 sp:1
+    Str  T_STRING  | @GlobalScope b1 sp:1
+    as  T_AS  | @GlobalScope b1 sp:1
+    Strings  T_STRING  | @GlobalScope b1
+    }  | @GlobalScope #2
+    ;  | @GlobalScope nl:1
+d0 UseFunctionStatement [File]
+    use  T_USE  | @GlobalScope sp:1
+    function  T_FUNCTION  | @GlobalScope sp:1
     App\Support\helper  T_NAME_QUALIFIED  | @GlobalScope
-    ;  | @GlobalScope
-d0 UseConstStatement
-    use  T_USE  | @GlobalScope
-    const  T_CONST  | @GlobalScope
+    ;  | @GlobalScope nl:1
+d0 UseConstStatement [File]
+    use  T_USE  | @GlobalScope sp:1
+    const  T_CONST  | @GlobalScope sp:1
     App\Support\VERSION  T_NAME_QUALIFIED  | @GlobalScope
-    ;  | @GlobalScope
-d0 ClassDeclaration
-    final  T_FINAL  | @ClassDeclaration
-    class  T_CLASS  | @ClassDeclaration
-    User  T_STRING  | @ClassDeclaration
-    extends  T_EXTENDS  | @ClassDeclaration
-    Model  T_STRING  | @ClassDeclaration
-    implements  T_IMPLEMENTS  | @ClassDeclaration
-    HasName  T_STRING  | @ClassDeclaration
-    {  | @ClassDeclaration
-d1 ClassConstDeclaration
-    public  T_PUBLIC  | @ClassBody
-    const  T_CONST  | @ClassBody
-    string  T_STRING  | @ClassBody
-    TABLE  T_STRING  | @ClassBody
-    =  | @ClassBody
+    ;  | @GlobalScope nl:2
+d0 ClassDeclaration [File]
+    final  T_FINAL  | @ClassDeclaration sp:1
+    class  T_CLASS  | @ClassDeclaration sp:1
+    User  T_STRING  | @ClassDeclaration sp:1
+    extends  T_EXTENDS  | @ClassDeclaration sp:1
+    Model  T_STRING  | @ClassDeclaration sp:1
+    implements  T_IMPLEMENTS  | @ClassDeclaration sp:1
+    HasName  T_STRING  | @ClassDeclaration nl:1
+    {  | @ClassDeclaration #3 opens:ClassLike nl:1
+d1 ClassConstDeclaration [ClassLike]
+    public  T_PUBLIC  | @ClassBody sp:1
+    const  T_CONST  | @ClassBody sp:1
+    string  T_STRING  | @ClassBody sp:1
+    TABLE  T_STRING  | @ClassBody sp:1
+    =  | @ClassBody sp:1
     'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassBody
-    ;  | @ClassBody
-d1 ClassPropertyDeclaration
-    private  T_PRIVATE  | @ClassBody
-    static  T_STATIC  | @ClassBody
-    int  T_STRING  | @ClassBody T
-    $count  T_VARIABLE  | @ClassBody
-    =  | @ClassBody
+    ;  | @ClassBody nl:1
+d1 ClassPropertyDeclaration [ClassLike]
+    private  T_PRIVATE  | @ClassBody sp:1
+    static  T_STATIC  | @ClassBody sp:1
+    int  T_STRING  | @ClassBody T sp:1
+    $count  T_VARIABLE  | @ClassBody sp:1
+    =  | @ClassBody sp:1
     0  T_LNUMBER  | @ClassBody
-    ;  | @ClassBody
-d1 ClassPropertyDeclaration
-    protected  T_PROTECTED  | @ClassBody
-    readonly  T_READONLY  | @ClassBody
-    array  T_ARRAY  | @ClassBody T
+    ;  | @ClassBody nl:1
+d1 ClassPropertyDeclaration [ClassLike]
+    protected  T_PROTECTED  | @ClassBody sp:1
+    readonly  T_READONLY  | @ClassBody sp:1
+    array  T_ARRAY  | @ClassBody T sp:1
     $roles  T_VARIABLE  | @ClassBody
-    ;  | @ClassBody
-d1 FunctionDeclaration
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    ;  | @ClassBody nl:2
+d1 FunctionDeclaration [ClassLike]
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     __construct  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    private  T_PRIVATE  | @MethodParameters
-    string  T_STRING  | @MethodParameters T
-    $name  T_VARIABLE  | @MethodParameters
-    ,  | @MethodParameters
-    int  T_STRING  | @MethodParameters T
-    ...  T_ELLIPSIS  | @MethodParameters
-    $ids  T_VARIABLE  | @MethodParameters
-    )  | @MethodDeclaration
-    {  | @MethodReturnType
-d2 GenericStatement
+    (  | @MethodDeclaration #4
+    private  T_PRIVATE  | @MethodParameters b1 sp:1
+    string  T_STRING  | @MethodParameters T b1 sp:1
+    $name  T_VARIABLE  | @MethodParameters b1
+    ,  | @MethodParameters b1 sp:1
+    int  T_STRING  | @MethodParameters T b1 sp:1
+    ...  T_ELLIPSIS  | @MethodParameters b1
+    $ids  T_VARIABLE  | @MethodParameters b1
+    )  | @MethodDeclaration #4 nl:1
+    {  | @MethodReturnType #5 opens:Function nl:1
+d2 GenericStatement [Function]
     self  T_STRING  | @MethodBody
     ::  T_DOUBLE_COLON  | @MethodBody
     $count  T_VARIABLE  | @MethodBody
     ++  T_INC  | @MethodBody
-    ;  | @MethodBody
-d1 BlockCloser
-    }  | @ClassBody
-d1 FunctionDeclaration
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    ;  | @MethodBody nl:1
+d1 BlockCloser [ClassLike]
+    }  | @ClassBody #5 closes nl:2
+d1 FunctionDeclaration [ClassLike]
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     name  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    string  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d2 ReturnStatement
-    return  T_RETURN  | @MethodBody
+    (  | @MethodDeclaration #6
+    )  | @MethodDeclaration #6
+    :  | @MethodReturnType sp:1
+    string  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #7 opens:Function nl:1
+d2 ReturnStatement [Function]
+    return  T_RETURN  | @MethodBody sp:1
     $this  T_VARIABLE  | @MethodBody
     ->  T_OBJECT_OPERATOR  | @MethodBody
     name  T_STRING  | @MethodBody
-    ;  | @MethodBody
-d1 BlockCloser
-    }  | @ClassBody
-d0 BlockCloser
-    }  | @GlobalScope
+    ;  | @MethodBody nl:1
+d1 BlockCloser [ClassLike]
+    }  | @ClassBody #7 closes nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #3 closes nl:1

@@ -1,65 +1,65 @@
-d0 PhpOpenTag
-    <?php  T_OPEN_TAG  | @GlobalScope
-d0 ClassDeclaration
-    class  T_CLASS  | @ClassDeclaration
-    Repository  T_STRING  | @ClassDeclaration
-    {  | @ClassDeclaration
-d1 ClassPropertyDeclaration
-    private  T_PRIVATE  | @ClassBody
-    (  | @ClassBody
-    Countable  T_STRING  | @ClassBody T
-    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @ClassBody
-    Iterator  T_STRING  | @ClassBody T
-    )  | @ClassBody
+d0 PhpOpenTag [File]
+    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+d0 ClassDeclaration [File]
+    class  T_CLASS  | @ClassDeclaration sp:1
+    Repository  T_STRING  | @ClassDeclaration nl:1
+    {  | @ClassDeclaration #1 opens:ClassLike nl:1
+d1 ClassPropertyDeclaration [ClassLike]
+    private  T_PRIVATE  | @ClassBody sp:1
+    (  | @ClassBody #2
+    Countable  T_STRING  | @ClassBody T b1
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @ClassBody b1
+    Iterator  T_STRING  | @ClassBody T b1
+    )  | @ClassBody #2
     |  | @ClassBody T
-    null  T_STRING  | @ClassBody T
-    $items  T_VARIABLE  | @ClassBody
-    =  | @ClassBody
+    null  T_STRING  | @ClassBody T sp:1
+    $items  T_VARIABLE  | @ClassBody sp:1
+    =  | @ClassBody sp:1
     null  T_STRING  | @ClassBody
-    ;  | @ClassBody
-d1 FunctionDeclaration
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    ;  | @ClassBody nl:2
+d1 FunctionDeclaration [ClassLike]
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     find  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    (  | @MethodParameters
-    A  T_STRING  | @MethodParameters T
-    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
-    B  T_STRING  | @MethodParameters T
-    )  | @MethodParameters
-    |  | @MethodParameters T
-    C  T_STRING  | @MethodParameters T
-    $criteria  T_VARIABLE  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    (  | @MethodReturnType
-    X  T_STRING  | @MethodParameters
-    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
-    Y  T_STRING  | @MethodParameters
-    )  | @MethodDeclaration
+    (  | @MethodDeclaration #3
+    (  | @MethodParameters b1 #4
+    A  T_STRING  | @MethodParameters T b2
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters b2
+    B  T_STRING  | @MethodParameters T b2
+    )  | @MethodParameters b1 #4
+    |  | @MethodParameters T b1
+    C  T_STRING  | @MethodParameters T b1 sp:1
+    $criteria  T_VARIABLE  | @MethodParameters b1
+    )  | @MethodDeclaration #3
+    :  | @MethodReturnType sp:1
+    (  | @MethodReturnType #5
+    X  T_STRING  | @MethodParameters b1
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters b1
+    Y  T_STRING  | @MethodParameters b1
+    )  | @MethodDeclaration #5
     |  | @MethodReturnType
-    false  T_STRING  | @MethodReturnType
-    {  | @MethodReturnType
-d2 ReturnStatement
-    return  T_RETURN  | @MethodBody
+    false  T_STRING  | @MethodReturnType nl:1
+    {  | @MethodReturnType #6 opens:Function nl:1
+d2 ReturnStatement [Function]
+    return  T_RETURN  | @MethodBody sp:1
     false  T_STRING  | @MethodBody
-    ;  | @MethodBody
-d1 BlockCloser
-    }  | @ClassBody
-d1 FunctionDeclaration
-    public  T_PUBLIC  | @MethodDeclaration
-    function  T_FUNCTION  | @MethodDeclaration
+    ;  | @MethodBody nl:1
+d1 BlockCloser [ClassLike]
+    }  | @ClassBody #6 closes nl:2
+d1 FunctionDeclaration [ClassLike]
+    public  T_PUBLIC  | @MethodDeclaration sp:1
+    function  T_FUNCTION  | @MethodDeclaration sp:1
     intersection  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration
-    Countable  T_STRING  | @MethodParameters T
-    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters
-    ArrayAccess  T_STRING  | @MethodParameters T
-    $value  T_VARIABLE  | @MethodParameters
-    )  | @MethodDeclaration
-    :  | @MethodReturnType
-    void  T_STRING  | @MethodReturnType T
-    {  | @MethodReturnType
-d1 BlockCloser
-    }  | @MethodBody
-d0 BlockCloser
-    }  | @GlobalScope
+    (  | @MethodDeclaration #7
+    Countable  T_STRING  | @MethodParameters T b1
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters b1
+    ArrayAccess  T_STRING  | @MethodParameters T b1 sp:1
+    $value  T_VARIABLE  | @MethodParameters b1
+    )  | @MethodDeclaration #7
+    :  | @MethodReturnType sp:1
+    void  T_STRING  | @MethodReturnType T nl:1
+    {  | @MethodReturnType #8 opens:Function nl:1
+d1 BlockCloser [ClassLike]
+    }  | @MethodBody #8 closes nl:1
+d0 BlockCloser [File]
+    }  | @GlobalScope #1 closes nl:1

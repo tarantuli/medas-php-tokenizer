@@ -53,6 +53,17 @@ class TokenCollection implements \IteratorAggregate, \Countable
         }
     }
 
+    /**
+     * Replaces all tokens, e.g. by the same tokens without whitespace. The tokens must already be linked.
+     *
+     * @param Token[] $tokens
+     */
+    public function replaceAll(array $tokens): void
+    {
+        $this->tokens = array_values($tokens);
+        $this->previousToken = $this->tokens[count($this->tokens) - 1] ?? null;
+    }
+
     public function count(): int
     {
         return count($this->tokens);

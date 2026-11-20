@@ -13,14 +13,15 @@ A structured PHP tokenizer that wraps PHP's native `PhpToken::tokenize()` and en
 | `Tokenizer`               | Calls `PhpToken::tokenize()` and returns a `TokenCollection`                              |
 | `TokenCollection`         | Iterable, countable collection of `Token` objects with linked-list links                  |
 | `Token`                   | Extends `PhpToken`; adds block/statement membership, context, string/attribute flags      |
-| `TreeBuilder`             | Orchestrates `Tokenizer → StructureFinder → ContextAdder` to produce a `TokenTree`        |
+| `TreeBuilder`             | Runs every `TokenizerPass`, in dependency order, to produce a `TokenTree`                 |
 | `TokenTree`               | Root container; iterate over tokens or walk the `Block` tree of `Statement`s              |
-| `Block`                   | An ordered list of `Statement`s and nested `Block`s at a given brace depth                |
+| `Block`                   | An ordered list of `Statement`s and nested `Block`s, with a depth and a `BlockType`       |
+| `BlockType`               | What a block is the body of: `ClassLike`, `Function`, `Closure`, `Control`, `Match`, …    |
 | `Statement`               | A logical line of `Token`s terminated by `;`, `{`, `}`, or a match/switch colon           |
-| `StructureFinder`         | Groups tokens into statements and blocks; resolves string/attribute/heredoc regions       |
 | `ContextAdder`            | Labels every token with a `Context` (GlobalScope, ClassBody, MethodDeclaration, …)        |
 | `StatementTypeFinder`     | Classifies each `Statement` (ClassDeclaration, FunctionDeclaration, UseClassStatement, …) |
 | `BlockDumper`             | Debug utility; pretty-prints a `Block` or `Statement` to the console                      |
+| `TreeDumper`              | Writes a `TokenTree` as plain text, for snapshot tests                                    |
 | `TokenGroups`             | Categorised lists of token-type constants (keywords, operators, brackets, …)              |
 | `AdditionalTokensDefiner` | Defines single-character token constants absent from PHP's tokenizer (e.g. `T_SEMICOLON`) |
 
@@ -34,6 +35,26 @@ A structured PHP tokenizer that wraps PHP's native `PhpToken::tokenize()` and en
 | `previous` / `next` | `Token\|null` | Doubly-linked list navigation                     |
 | `spaceAfter`        | `bool`        | Formatting hint: a space follows this token       |
 | `lineBreakAfter`    | `bool`        | Formatting hint: a line break follows this token  |
+| `matchingBracket`   | `Token\|null` | The other half of `( )`, `[ ]`, `{ }`, `#[ ]`, `${ }` and `{$ }` |
+| `bracketDepth`      | `int`         | Open brackets around the token, not counting block braces |
+| `opensBlock`        | `BlockType\|null` | Set on a `{`, or an alternative syntax `:`, that opens a block |
+| `closesBlock`       | `bool`        | Set on a `}` that closes a block, and on `endif`, `else:` etc. |
+| `originalLineBreaksAfter` / `originalSpacesAfter` | `int` | The whitespace after the token in the source |
+
+**Tokenizer passes:**
+
+`TreeBuilder` runs every `#[Service]` that implements `Passes\TokenizerPass`. Each pass names the passes it reads from in `runsAfter()`, and `Passes\TokenizerPasses` sorts them on those dependencies. Other packages can add passes the same way.
+
+| Pass                          | Runs after                    | Sets                                                              |
+|-------------------------------|-------------------------------|-------------------------------------------------------------------|
+| `Lexer`                       | –                             | Drops whitespace into `originalLineBreaksAfter`/`originalSpacesAfter`; links `previous`/`next` |
+| `BracketMatcher`              | `Lexer`                       | `matchingBracket`, `inString`, `inAttribute`, `closesAttribute`   |
+| `BlockTypeResolver`           | `BracketMatcher`              | `opensBlock`, `closesBlock`, `bracketDepth`                       |
+| `StatementBuilder`            | `BlockTypeResolver`           | The statements and blocks of the `TokenTree`                      |
+| `LegacyTypeDeclarationMarker` | `BracketMatcher`              | `inTypeDeclaration` (until 4.0)                                   |
+| `ContextAdder`                | `StatementBuilder`            | `context`                                                         |
+
+`Block` and `Statement` keep the tokens linked when statements or tokens are inserted, moved or removed, and throw `StatementNotFoundInBlock` or `TokenNotFoundInStatementException` for a statement or token that isn't there. `TokenTree::assertConsistent()` checks the links, for use in tests.
 
 **Contexts:**
 
@@ -216,4 +237,4 @@ dumpStatement($statement);
 
 This package has no CLI commands and no configuration options. It is consumed as a library by `medas-php-formatter`, `medas-php-class-analysis`, and any custom tooling that needs structured access to PHP token streams.
 
-**`AdditionalTokensDefiner`** — PHP's tokenizer assigns integer IDs to multi-character tokens (e.g. `T_FUNCTION`, `T_STRING`) but represents single-character tokens as their ASCII code without a named constant. This class defines named constants for the most common ones: `T_SEMICOLON`, `T_COMMA`, `T_DOT`, `T_OPEN_PAREN`, `T_CLOSE_PAREN`, `T_OPEN_BRACKET`, `T_CLOSE_BRACKET`, `T_OPEN_BRACE`, `T_CLOSE_BRACE`, `T_EQUALS`, `T_COLON`, `T_PIPE`, `T_AMPERSAND`, and others. These constants are defined globally in the package's `ready()`, which runs on every request. They have to exist before the first `StructureFinder` or `TokenGroups` is created, because class constants use them; with lazily injected services, the constructors that also define them may not have run by then.
+**`AdditionalTokensDefiner`** — PHP's tokenizer assigns integer IDs to multi-character tokens (e.g. `T_FUNCTION`, `T_STRING`) but represents single-character tokens as their ASCII code without a named constant. This class defines named constants for the most common ones: `T_SEMICOLON`, `T_COMMA`, `T_DOT`, `T_OPEN_PAREN`, `T_CLOSE_PAREN`, `T_OPEN_BRACKET`, `T_CLOSE_BRACKET`, `T_OPEN_BRACE`, `T_CLOSE_BRACE`, `T_EQUALS`, `T_COLON`, `T_PIPE`, `T_AMPERSAND`, and others. These constants are defined globally in the package's `ready()`, which runs on every request. They have to exist before the first tokenizer pass or `TokenGroups` is created, because class constants use them; with lazily injected services, the constructors that also define them may not have run by then.

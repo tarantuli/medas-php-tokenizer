@@ -33,7 +33,10 @@ readonly class Tokenizer
 
         foreach ($tokens as $token) {
             if ($token->is(T_OPEN_TAG)) {
-                $token->text = rtrim($token->text);
+                // The whitespace in "<?php\n" belongs to the layout, not to the tag
+                $trimmed = rtrim($token->text);
+                $token->originalLineBreaksAfter = substr_count(substr($token->text, strlen($trimmed)), "\n");
+                $token->text = $trimmed;
             }
 
             $collection->add($token);

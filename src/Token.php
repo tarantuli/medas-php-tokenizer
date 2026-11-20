@@ -19,6 +19,36 @@ class Token extends \PhpToken
     public Token|null $previous = null;
     public Token|null $next = null;
 
+    // The other half of ( ), [ ], { }, #[ ], ${ } and {$ }; null for every other token
+    public Token|null $matchingBracket = null;
+
+    // The number of open brackets around this token, not counting the braces of blocks. A bracket has the depth of
+    // the code around it, not of the code inside it.
+    public int $bracketDepth = 0;
+
+    // Set on a { or an alternative syntax : that opens a block
+    public BlockType|null $opensBlock = null;
+
+    // Set on a } that closes a block, and on endif, endforeach, else, elseif etc. that end an alternative syntax block
+    public bool $closesBlock = false;
+
+    // The whitespace after this token in the source: the number of line breaks, and when there are none, the number of
+    // spaces and tabs. Set by Passes\Lexer; formatters change spaceAfter and lineBreakAfter, never these.
+    public int $originalLineBreaksAfter = 0;
+    public int $originalSpacesAfter = 0;
+
+    /**
+     * Creates a token for code that a formatter adds. The token id is looked up from the text, the line and position
+     * are taken from a token nearby, so error messages point to the right place.
+     */
+    public static function fromText(string $text, Token $nearby): static
+    {
+        $tokens = static::tokenize('<?php ' . $text);
+        $id = isset($tokens[1]) && $tokens[1]->text === $text ? $tokens[1]->id : T_STRING;
+
+        return new static($id, $text, $nearby->line, $nearby->pos);
+    }
+
     public function __serialize(): array
     {
         return [
@@ -38,6 +68,12 @@ class Token extends \PhpToken
             'extraSpacesAfter' => $this->extraSpacesAfter,
             'previous' => $this->previous ? spl_object_id($this->previous) : null,
             'next' => $this->next ? spl_object_id($this->next) : null,
+            'matchingBracket' => $this->matchingBracket ? spl_object_id($this->matchingBracket) : null,
+            'bracketDepth' => $this->bracketDepth,
+            'opensBlock' => $this->opensBlock?->name,
+            'closesBlock' => $this->closesBlock,
+            'originalLineBreaksAfter' => $this->originalLineBreaksAfter,
+            'originalSpacesAfter' => $this->originalSpacesAfter,
         ];
     }
 

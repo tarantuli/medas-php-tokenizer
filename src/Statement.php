@@ -55,33 +55,55 @@ class Statement implements \IteratorAggregate
         $this->type = $type;
     }
 
+    /**
+     * Puts a token at the start of this statement, and links it to the tokens around it.
+     */
     public function prependToken(Token $token): void
     {
+        $first = $this->tokens[0] ?? null;
+
         array_unshift($this->tokens, $token);
 
         $token->block = $this->block;
         $token->statement = $this;
 
-        if (isset($this->tokens[1])) {
-            $token->next = $this->tokens[1];
-            $this->tokens[1]->previous = $token;
+        if ($first !== null && $first->previous !== $token) {
+            $token->previous = $first->previous;
+            $token->next = $first;
+
+            if ($first->previous !== null) {
+                $first->previous->next = $token;
+            }
+
+            $first->previous = $token;
         }
 
         $this->type = null;
     }
 
+    /**
+     * Puts a token at the end of this statement, and links it to the tokens around it. A token that already follows the
+     * last token, like when the tokenizer builds the tree, keeps its links.
+     */
     public function appendToken(Token $token): void
     {
+        $last = $this->tokens[count($this->tokens) - 1] ?? null;
+
         $this->tokens[] = $token;
-        $newIndex = count($this->tokens) - 1;
 
-        if ($newIndex > 0) {
-            $this->tokens[$newIndex - 1]->next = $token;
-            $token->previous = $this->tokens[$newIndex - 1];
+        if ($last !== null && $last->next !== $token) {
+            $token->previous = $last;
+            $token->next = $last->next;
 
-            if (isset($token->previous->context)) {
-                $token->context = $token->previous->context;
+            if ($last->next !== null) {
+                $last->next->previous = $token;
             }
+
+            $last->next = $token;
+        }
+
+        if ($last !== null && isset($last->context)) {
+            $token->context = $last->context;
         }
 
         $token->block = $this->block;
@@ -97,31 +119,34 @@ class Statement implements \IteratorAggregate
         $this->type = null;
     }
 
+    /**
+     * Takes a token out of this statement, and links the tokens before and after it to each other.
+     *
+     * @throws Exceptions\TokenNotFoundInStatementException
+     */
     public function removeToken(Token $token): void
     {
         if (false === $i = array_search($token, $this->tokens, true)) {
             throw new Exceptions\TokenNotFoundInStatementException($token, $this);
         }
 
-        unset($this->tokens[$i]);
+        array_splice($this->tokens, $i, 1);
 
-        $this->tokens = array_values($this->tokens);
+        if ($token->previous?->next === $token) {
+            $token->previous->next = $token->next;
+        }
 
-        if (isset($this->tokens[$i - 1]) && isset($this->tokens[$i])) {
-            $this->tokens[$i - 1]->next = $this->tokens[$i];
-            $this->tokens[$i]->previous = $this->tokens[$i - 1];
-        }
-        elseif (isset($this->tokens[$i - 1])) {
-            $this->tokens[$i - 1]->next = null;
-        }
-        elseif (isset($this->tokens[$i])) {
-            $this->tokens[$i]->previous = null;
+        if ($token->next?->previous === $token) {
+            $token->next->previous = $token->previous;
         }
 
         $token->previous = $token->next = null;
         $this->type = null;
     }
 
+    /**
+     * @throws Exceptions\TokenNotFoundInStatementException
+     */
     public function insertTokenAfter(Token $token, Token $after): void
     {
         if (false === $i = array_search($after, $this->tokens, true)) {
@@ -132,17 +157,18 @@ class Statement implements \IteratorAggregate
         $token->statement = $after->statement;
         $token->inString = $after->inString;
         $token->inAttribute = $after->inAttribute;
-        $token->previous = $after;
-        $after->next = $token;
 
-        if (isset($this->tokens[$i + 1])) {
-            $token->next = $this->tokens[$i + 1];
-            $this->tokens[$i + 1]->previous = $token;
+        $token->previous = $after;
+        $token->next = $after->next;
+
+        if ($after->next !== null) {
+            $after->next->previous = $token;
         }
+
+        $after->next = $token;
 
         array_splice($this->tokens, $i + 1, 0, [$token]);
 
-        $this->tokens = array_values($this->tokens);
         $this->type = null;
     }
 
@@ -189,11 +215,18 @@ class Statement implements \IteratorAggregate
         return $this->tokens[$index] ?? null;
     }
 
-    public function getIndex(Token $token): int|null
+    /**
+     * @throws Exceptions\TokenNotFoundInStatementException
+     */
+    public function getIndex(Token $token): int
     {
-        $index = array_search($token, $this->tokens);
+        $index = array_search($token, $this->tokens, true);
 
-        return $index === false ? null : $index;
+        if ($index === false) {
+            throw new Exceptions\TokenNotFoundInStatementException($token, $this);
+        }
+
+        return $index;
     }
 
     public function mergeWithPrevious(): void
