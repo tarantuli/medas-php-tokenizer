@@ -83,7 +83,7 @@ readonly class RoleAssigner implements TokenizerPass
         }
 
         if ($token->next?->is(T_COLON)) {
-            return TokenRole::Elvis;
+            return TokenRole::ShortTernary;
         }
 
         return TokenRole::TernaryThen;
@@ -104,8 +104,8 @@ readonly class RoleAssigner implements TokenizerPass
             return TokenRole::ReturnTypeColon;
         }
 
-        if ($previous?->role === TokenRole::Elvis) {
-            return TokenRole::Elvis;
+        if ($previous?->role === TokenRole::ShortTernary) {
+            return TokenRole::ShortTernary;
         }
 
         if ($previous?->previous?->is(T_ENUM)) {

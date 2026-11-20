@@ -13,8 +13,8 @@ d0 GenericStatement [File]
     $e  T_VARIABLE  | @GlobalScope sp:1
     =  | @GlobalScope sp:1
     $f  T_VARIABLE  | @GlobalScope sp:1
-    ?  | @GlobalScope role:Elvis
-    :  | @GlobalScope role:Elvis sp:1
+    ?  | @GlobalScope role:ShortTernary
+    :  | @GlobalScope role:ShortTernary sp:1
     $g  T_VARIABLE  | @GlobalScope
     ;  | @GlobalScope nl:1
 d0 GenericStatement [File]

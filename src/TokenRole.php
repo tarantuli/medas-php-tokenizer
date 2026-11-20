@@ -17,7 +17,7 @@ enum TokenRole
     case TernaryElse;
 
     // Both tokens of $a ?: $b
-    case Elvis;
+    case ShortTernary;
 
     // The ? of ?int
     case NullableMarker;
