@@ -28,6 +28,22 @@ class BracketMatcherTest extends PassTestCase
         self::assertSame($this->token($job, '}', 2), $this->token($job, '${')->matchingBracket);
     }
 
+    /**
+     * The string parts "[" and "]" of "[$b]" are text, even though ```T_SQUARE_BRACKET_CLOSE``` is the text "]".
+     */
+    public function testStringPartsAreNoBrackets(): void
+    {
+        $job = $this->job('<?php $a = "[$b]" . "(x {$c[1]})";');
+
+        self::assertNull($this->token($job, '[')->matchingBracket);
+        self::assertNull($this->token($job, ']')->matchingBracket);
+        self::assertFalse($this->token($job, ']')->is(T_SQUARE_BRACKET_CLOSE));
+        self::assertFalse($this->token($job, ')')->is([T_ROUND_BRACKET_CLOSE, T_SEMICOLON]));
+        self::assertTrue($this->token($job, ')')->is(T_ENCAPSED_AND_WHITESPACE));
+        self::assertSame($this->token($job, ']', 2), $this->token($job, '[', 2)->matchingBracket);
+        self::assertSame($this->token($job, '}'), $this->token($job, '{')->matchingBracket);
+    }
+
     public function testStringsAreMarked(): void
     {
         $job = $this->job('<?php $a = "x {$b} y";');

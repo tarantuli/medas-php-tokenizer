@@ -13,32 +13,32 @@ d1 ClassDeclaration [Namespace] Class_ A
     A  T_STRING  | @ClassDeclaration nl:1
     {  | @ClassDeclaration #2 opens:ClassLike nl:1
 d1 BlockCloser [Namespace]
-    }  | @ClassBody #2 closes nl:1
+    }  | @GlobalScope #2 closes nl:1
 d0 BlockCloser [File]
-    }  | @ClassBody #1 closes nl:2
+    }  | @GlobalScope #1 closes nl:2
 d0 NamespaceDeclaration [File]
-    namespace  T_NAMESPACE  | @ClassBody sp:1
-    Second  T_STRING  | @ClassBody sp:1
-    {  | @ClassBody #3 opens:Namespace nl:1
+    namespace  T_NAMESPACE  | @GlobalScope sp:1
+    Second  T_STRING  | @GlobalScope sp:1
+    {  | @GlobalScope #3 opens:Namespace nl:1
 d1 FunctionDeclaration [Namespace] Function helper
-    function  T_FUNCTION  | @MethodDeclaration sp:1
-    helper  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration #4
+    function  T_FUNCTION  | @FunctionDeclaration sp:1
+    helper  T_STRING  | @FunctionDeclaration
+    (  | @FunctionDeclaration #4
     )  | @MethodDeclaration #4
     :  | @MethodReturnType role:ReturnTypeColon sp:1
     void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #5 opens:Function nl:1
 d1 BlockCloser [Namespace]
-    }  | @MethodBody #5 closes nl:1
+    }  | @GlobalScope #5 closes nl:1
 d0 BlockCloser [File]
-    }  | @MethodBody #3 closes nl:2
+    }  | @GlobalScope #3 closes nl:2
 d0 NamespaceDeclaration [File]
-    namespace  T_NAMESPACE  | @MethodBody sp:1
-    {  | @MethodBody #6 opens:Namespace nl:1
+    namespace  T_NAMESPACE  | @GlobalScope sp:1
+    {  | @GlobalScope #6 opens:Namespace nl:1
 d1 GenericStatement [Namespace]
-    $global  T_VARIABLE  | @ClassBody sp:1
-    =  | @ClassBody sp:1
-    true  T_STRING  | @ClassBody
-    ;  | @ClassBody nl:1
+    $global  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    true  T_STRING  | @GlobalScope
+    ;  | @GlobalScope nl:1
 d0 BlockCloser [File]
-    }  | @ClassBody #6 closes nl:1
+    }  | @GlobalScope #6 closes nl:1

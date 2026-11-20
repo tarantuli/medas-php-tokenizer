@@ -80,6 +80,6 @@ d1 ClassPropertyDeclaration [ClassLike]
     )  | @ClassBody #7 nl:1
     {  | @ClassBody #10 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @PropertyHook #10 closes nl:1
+    }  | @ClassBody #10 closes nl:1
 d0 BlockCloser [File]
-    }  | @ClassBody #1 closes nl:1
+    }  | @GlobalScope #1 closes nl:1

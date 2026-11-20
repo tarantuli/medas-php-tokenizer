@@ -16,22 +16,22 @@ d0 FunctionDeclaration [File] Function documented
     // Trailing comment  T_COMMENT  | @MethodReturnType nl:1
     {  | @MethodReturnType #2 opens:Plain nl:1
 d1 GenericStatement [Plain]
-    $y  T_VARIABLE  | @PropertyHook sp:1
-    =  | @PropertyHook sp:1
-    1  T_LNUMBER  | @PropertyHook
-    ;  | @PropertyHook sp:1
+    $y  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    1  T_LNUMBER  | @GlobalScope
+    ;  | @GlobalScope sp:1
 d1 GenericStatement [Plain]
-    /* inline block comment */  T_COMMENT  | @PropertyHook nl:1
-    $z  T_VARIABLE  | @PropertyHook sp:1
-    =  | @PropertyHook sp:1
-    [  | @PropertyHook #3 nl:1
-    // Comment in an array  T_COMMENT  | @PropertyHook b1 nl:1
-    1  T_LNUMBER  | @PropertyHook b1
-    ,  | @PropertyHook b1 nl:1
-    2  T_LNUMBER  | @PropertyHook b1
-    ,  | @PropertyHook b1 sp:1
-    // Trailing comment in an array  T_COMMENT  | @PropertyHook b1 nl:1
-    ]  | @PropertyHook #3
-    ;  | @PropertyHook nl:1
+    /* inline block comment */  T_COMMENT  | @GlobalScope nl:1
+    $z  T_VARIABLE  | @GlobalScope sp:1
+    =  | @GlobalScope sp:1
+    [  | @GlobalScope #3 nl:1
+    // Comment in an array  T_COMMENT  | @GlobalScope b1 nl:1
+    1  T_LNUMBER  | @GlobalScope b1
+    ,  | @GlobalScope b1 nl:1
+    2  T_LNUMBER  | @GlobalScope b1
+    ,  | @GlobalScope b1 sp:1
+    // Trailing comment in an array  T_COMMENT  | @GlobalScope b1 nl:1
+    ]  | @GlobalScope #3
+    ;  | @GlobalScope nl:1
 d0 BlockCloser [File]
-    }  | @ClassBody #2 closes nl:1
+    }  | @GlobalScope #2 closes nl:1

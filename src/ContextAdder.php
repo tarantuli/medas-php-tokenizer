@@ -31,161 +31,68 @@ readonly class ContextAdder implements Passes\TokenizerPass
 
     public function add(TokenTree $tree): void
     {
-        $context = Contexts\GlobalScope::instance();
-        $globalScopeDepth = null;
-        $classBodyDepth = null;
-        $nextStatementIsClassBody = false;
-        $nextStatementIsMethodBody = false;
-        $nextStatementIsPropertyHook = false;
-        $propertyHookDepth = null;
-        $openParentheses = 0;
-
         foreach ($tree->statements() as $statement) {
-            if ($statement->block->depth === $globalScopeDepth) {
-                $context = Contexts\GlobalScope::instance();
-                $globalScopeDepth = null;
-            }
-
-            if ($statement->block->depth === $classBodyDepth) {
-                $context = Contexts\ClassBody::instance();
-            }
-
-            // Exit property hook context when we return to the depth that contains the declaration
-            if ($propertyHookDepth !== null && $statement->block->depth < $propertyHookDepth) {
-                $propertyHookDepth = null;
-                $context = Contexts\ClassBody::instance();
-            }
-
-            if ($nextStatementIsClassBody) {
-                $context = Contexts\ClassBody::instance();
-                $classBodyDepth = $statement->block->depth;
-                $nextStatementIsClassBody = false;
-            }
-
-            if ($nextStatementIsMethodBody) {
-                $context = Contexts\MethodBody::instance();
-                $nextStatementIsMethodBody = false;
-            }
-
-            if ($nextStatementIsPropertyHook) {
-                $context = Contexts\PropertyHook::instance();
-                $propertyHookDepth = $statement->block->depth;
-                $nextStatementIsPropertyHook = false;
-            }
-
+            $context = $this->contextOfBlock($statement->block);
             $statementType = $this->typeFinder->for($statement);
+
+            if ($statementType instanceof StatementTypes\FunctionDeclaration) {
+                $this->addToFunctionDeclaration($statement, $context instanceof Contexts\ClassBody);
+
+                continue;
+            }
 
             if ($statementType instanceof StatementTypes\ClassDeclaration) {
                 $context = Contexts\ClassDeclaration::instance();
-                $globalScopeDepth = $statement->block->depth;
-                $nextStatementIsClassBody = true;
-            }
-
-            // If the statement type is UseClassStatement, but we're already in a class body,
-            // then it's a UseTraitStatement. The type finder can't know that, but we can.
-            if ($statementType instanceof StatementTypes\UseClassStatement && $context instanceof Contexts\ClassBody) {
-                $statement->setType(StatementTypes\UseTraitStatement::instance());
-            }
-
-            if ($statementType instanceof StatementTypes\FunctionDeclaration) {
-                // In the context of a class body, this is a method declaration; otherwise, it's a function declaration
-                $context = ($context instanceof Contexts\ClassBody)
-                    ? Contexts\MethodDeclaration::instance()
-                    : Contexts\FunctionDeclaration::instance();
-
-                // If it ends in a semicolon, it's an abstract or interface declaration.
-                // If it ends in a curly bracket open, determine whether it's a promoted property
-                // hook or a regular function body by walking back from the {.
-                if ($statement->lastToken()->is(T_CURLY_BRACKET_OPEN)) {
-                    if ($this->isPromotedPropertyHookOpener($statement)) {
-                        $nextStatementIsPropertyHook = true;
-                    }
-                    else {
-                        $nextStatementIsMethodBody = true;
-                    }
-                }
-
-                $openParentheses = 0;
-            }
-
-            // Detect a property hook declaration: class body statement ending with {, containing a
-            // variable, but not a function (which would be a method declaration)
-            if ($context instanceof Contexts\ClassBody
-                    && $statement->lastToken()->is(T_CURLY_BRACKET_OPEN)
-                    && !$statementType instanceof StatementTypes\FunctionDeclaration
-                    && !$statementType instanceof StatementTypes\ClassDeclaration
-                    && $statement->containsType(T_VARIABLE)) {
-                $nextStatementIsPropertyHook = true;
-            }
-
-            // Detect a constructor body opener that follows promoted property hook blocks.
-            // After all promoted hook blocks close, the remaining ", ) {" opens the method body.
-            if ($context instanceof Contexts\ClassBody
-                    && $statement->lastToken()->is(T_CURLY_BRACKET_OPEN)
-                    && !$statementType instanceof StatementTypes\FunctionDeclaration
-                    && !$statementType instanceof StatementTypes\ClassDeclaration
-                    && !$statementType instanceof StatementTypes\ClassPropertyDeclaration
-                    && $statement->containsType(T_ROUND_BRACKET_CLOSE)
-                    && !$statement->containsType(T_VARIABLE)) {
-                $nextStatementIsMethodBody = true;
             }
 
             foreach ($statement as $token) {
                 $token->context = $context;
-
-                if (!$token->inAttribute && $statementType instanceof StatementTypes\FunctionDeclaration) {
-                    // The context of the following tokens may change
-                    if ($token->is(T_ROUND_BRACKET_OPEN)) {
-                        ++$openParentheses;
-
-                        $context = Contexts\MethodParameters::instance();
-                    }
-
-                    if ($token->is(T_ROUND_BRACKET_CLOSE)) {
-                        if (--$openParentheses === 0) {
-                            $token->context = Contexts\MethodDeclaration::instance();
-                            $context = Contexts\MethodReturnType::instance();
-                        }
-                    }
-                }
             }
         }
     }
 
-    private function isPromotedPropertyHookOpener(Statement $statement): bool
+    /**
+     * The block a statement is in tells its context. A control structure, closure or match has the context of the
+     * block around it.
+     */
+    private function contextOfBlock(Block $block): Contexts\Context
     {
-        // Walk backwards from the opening { to determine whether it opens a promoted
-        // property hook block or the regular function body.
-        // A function body { is always preceded (possibly through return type tokens) by ).
-        // A promoted hook { is preceded by a variable name or a default value.
-        $token = $statement->lastToken();
+        return match ($block->type) {
+            BlockType::ClassLike, BlockType::TraitAdaptation => Contexts\ClassBody::instance(),
+            BlockType::Function => Contexts\MethodBody::instance(),
+            BlockType::HookList, BlockType::HookBody => Contexts\PropertyHook::instance(),
+            BlockType::File, BlockType::Namespace => Contexts\GlobalScope::instance(),
+            default => $block->opener === null
+                ? Contexts\GlobalScope::instance()
+                : $this->contextOfBlock($block->opener->block),
+        };
+    }
 
-        while ($token = $token->previous) {
-            if ($token->is(T_ROUND_BRACKET_CLOSE)) {
-                return false;
-            }
+    /**
+     * The keyword and name of a function or method have its declaration context, the parameters between the outer
+     * parentheses the parameter context, and what follows them the return type context.
+     */
+    private function addToFunctionDeclaration(Statement $statement, bool $isMethod): void
+    {
+        $context = $isMethod ? Contexts\MethodDeclaration::instance() : Contexts\FunctionDeclaration::instance();
+        $openParentheses = 0;
 
-            // Return type tokens — skip past them and keep looking
-            if ($token->is([
-                T_STRING,
-                T_ARRAY,
-                T_CALLABLE,
-                T_STATIC,
-                T_COLON,
-                T_VERTICAL_BAR,
-                T_NAME_FULLY_QUALIFIED,
-                T_NAME_QUALIFIED,
-                T_NAME_RELATIVE,
-                T_QUESTION_MARK
-            ])) {
+        foreach ($statement as $token) {
+            $token->context = $context;
+
+            if ($token->inAttribute) {
                 continue;
             }
 
-            // Anything else (T_VARIABLE, string literal, number, etc.) means the
-            // { directly follows a promoted property name or its default value.
-            return true;
-        }
+            if ($token->is(T_ROUND_BRACKET_OPEN)) {
+                ++$openParentheses;
 
-        return true;
+                $context = Contexts\MethodParameters::instance();
+            }
+            elseif ($token->is(T_ROUND_BRACKET_CLOSE) && --$openParentheses === 0) {
+                $token->context = Contexts\MethodDeclaration::instance();
+                $context = Contexts\MethodReturnType::instance();
+            }
+        }
     }
 }

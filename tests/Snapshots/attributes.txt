@@ -80,7 +80,7 @@ d1 FunctionDeclaration [ClassLike] Method show public
     void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #15 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @MethodBody #15 closes nl:2
+    }  | @ClassBody #15 closes nl:2
 d1 FunctionDeclaration [ClassLike] Method multiple public
     #[  T_ATTRIBUTE  | @MethodDeclaration #16
     First  T_STRING  | @MethodDeclaration A C b1
@@ -99,7 +99,7 @@ d1 FunctionDeclaration [ClassLike] Method multiple public
     void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
     {  | @MethodReturnType #19 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @MethodBody #19 closes nl:1
+    }  | @ClassBody #19 closes nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #5 closes nl:2
 d0 GenericStatement [File]

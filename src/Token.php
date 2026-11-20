@@ -90,6 +90,25 @@ class Token extends \PhpToken
         ];
     }
 
+    /**
+     * Like ```PhpToken::is()```, except that the text of a string or of HTML outside the PHP tags never matches a kind
+     * given as text. ```PhpToken::is()``` compares such a kind with the token's text, and ```T_SQUARE_BRACKET_CLOSE```
+     * and the other ```AdditionalTokensDefiner``` constants are text. Without this, the part ```]``` of
+     * ```"[$a]"``` would be a closing bracket.
+     */
+    public function is($kind): bool
+    {
+        if ($this->id !== T_ENCAPSED_AND_WHITESPACE && $this->id !== T_INLINE_HTML) {
+            return parent::is($kind);
+        }
+
+        if (is_array($kind)) {
+            return in_array($this->id, $kind, true);
+        }
+
+        return $kind === $this->id;
+    }
+
     public function isTrueFalseNull(): bool
     {
         return $this->is(T_STRING)

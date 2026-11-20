@@ -157,7 +157,7 @@ d1 FunctionDeclaration [ClassLike] Method __construct public
     )  | @MethodDeclaration #16 nl:1
     {  | @MethodReturnType #17 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @MethodBody #17 closes nl:1
+    }  | @ClassBody #17 closes nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #15 closes
 d0 GenericStatement [File]
@@ -186,6 +186,6 @@ d1 FunctionDeclaration [ClassLike] Method __construct public
     )  | @MethodDeclaration #19 nl:1
     {  | @MethodReturnType #20 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @MethodBody #20 closes nl:1
+    }  | @ClassBody #20 closes nl:1
 d0 BlockCloser [File]
     }  | @GlobalScope #18 closes nl:1
