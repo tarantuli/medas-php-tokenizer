@@ -263,55 +263,93 @@ readonly class StructureFinder
 
     private function typeDeclarationChecks(StructureFinder\Job $job, Token $token): void
     {
-        if ($job->typeDeclarationState->inArguments
+        $state = $job->typeDeclarationState;
+
+        if ($state->inArguments
+                && !$state->inDefaultValue
+                && $state->hookDepth === 0
                 && !$token->inAttribute
                 && $token->next
                 && $token->is($this->typeDeclarationTypes)) {
             $token->inTypeDeclaration = true;
         }
 
-        if ($job->typeDeclarationState->nextValueIsReturnType) {
+        if ($state->inArguments && !$token->inAttribute) {
+            $atArgumentLevel = $state->argumentsDepth === 0 && $state->hookDepth === 0;
+
+            if ($token->is([T_ROUND_BRACKET_OPEN, T_SQUARE_BRACKET_OPEN])) {
+                ++$state->argumentsDepth;
+            }
+            elseif ($token->is(T_SQUARE_BRACKET_CLOSE)) {
+                --$state->argumentsDepth;
+            }
+            elseif ($token->is(T_CURLY_BRACKET_OPEN)) {
+                ++$state->hookDepth;
+            }
+            elseif ($token->is(T_CURLY_BRACKET_CLOSE)) {
+                --$state->hookDepth;
+            }
+            elseif ($atArgumentLevel && $token->is(T_ASSIGNMENT)) {
+                $state->inDefaultValue = true;
+            }
+            elseif ($atArgumentLevel && $token->is(T_COMMA)) {
+                $state->inDefaultValue = false;
+            }
+        }
+
+        if ($state->nextValueIsReturnType) {
             if ($token->is($this->typeDeclarationTypes)) {
                 $token->inTypeDeclaration = true;
             }
             else {
-                $job->typeDeclarationState->nextValueIsReturnType = false;
+                $state->nextValueIsReturnType = false;
             }
         }
 
-        if ($job->typeDeclarationState->nextNextValueIsReturnType) {
-            $job->typeDeclarationState->nextValueIsReturnType = true;
-            $job->typeDeclarationState->nextNextValueIsReturnType = false;
+        if ($state->nextNextValueIsReturnType) {
+            $state->nextValueIsReturnType = true;
+            $state->nextNextValueIsReturnType = false;
         }
 
-        if ($token->is([T_FN, T_FUNCTION])) {
-            $job->typeDeclarationState->nextBracesIsArguments = true;
+        // "use function A\b;" imports a function, it doesn't declare one
+        if ($token->is([T_FN, T_FUNCTION]) && !$token->previous?->is(T_USE)) {
+            $state->nextBracesIsArguments = true;
         }
 
-        if ($job->typeDeclarationState->nextBracesIsArguments && $token->is(T_ROUND_BRACKET_OPEN)) {
-            $job->typeDeclarationState->inArguments = true;
-            $job->typeDeclarationState->nextBracesIsArguments = false;
+        if ($state->nextBracesIsArguments && !$token->inAttribute && $token->is(T_ROUND_BRACKET_OPEN)) {
+            $state->inArguments = true;
+            $state->argumentsDepth = 0;
+            $state->hookDepth = 0;
+            $state->inDefaultValue = false;
+            $state->nextBracesIsArguments = false;
         }
 
-        if ($job->typeDeclarationState->inArguments && !$token->inAttribute && $token->is(T_ROUND_BRACKET_CLOSE)) {
-            $job->typeDeclarationState->inArguments = false;
+        if ($state->inArguments && !$token->inAttribute && $token->is(T_ROUND_BRACKET_CLOSE)) {
+            if ($state->argumentsDepth > 0) {
+                // This closes a nested call or a DNF type group, not the argument list
+                --$state->argumentsDepth;
+            }
+            else {
+                $state->inArguments = false;
+                $state->inDefaultValue = false;
 
-            if ($token->next && $token->next->is(T_COLON)) {
-                $job->typeDeclarationState->nextNextValueIsReturnType = true;
+                if ($token->next && $token->next->is(T_COLON)) {
+                    $state->nextNextValueIsReturnType = true;
+                }
             }
         }
 
-        if ($job->typeDeclarationState->afterVisibilityKeyword) {
+        if ($state->afterVisibilityKeyword) {
             if ($token->is($this->typeDeclarationTypes)) {
                 $token->inTypeDeclaration = true;
             }
             elseif ($token->is([T_FUNCTION, T_VARIABLE, T_CONST])) {
-                $job->typeDeclarationState->afterVisibilityKeyword = false;
+                $state->afterVisibilityKeyword = false;
             }
         }
 
         if ($token->is($this->visibilityKeywords)) {
-            $job->typeDeclarationState->afterVisibilityKeyword = true;
+            $state->afterVisibilityKeyword = true;
         }
     }
 }
