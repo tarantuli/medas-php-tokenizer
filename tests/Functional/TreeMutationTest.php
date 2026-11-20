@@ -109,6 +109,23 @@ class TreeMutationTest extends TestCase
         self::assertSame($second->firstToken(), $semicolon->next);
     }
 
+    /**
+     * Moving the name of an attribute after its #[, which itself isn't in the attribute, kept it in the attribute.
+     */
+    public function testMovedTokenKeepsBeingInAnAttribute(): void
+    {
+        $tree = service(TreeBuilder::class)->fromCode('<?php function f(#[A] $a) {}');
+        $statement = $this->statement($tree, 1);
+        $open = $statement->getToken(3);
+        $name = $statement->getToken(4);
+
+        $statement->moveTokenAfter($name, $open);
+
+        self::assertSame('A', $name->text);
+        self::assertTrue($name->inAttribute);
+        $tree->assertConsistent();
+    }
+
     public function testStatementNotInBlockThrows(): void
     {
         $tree = service(TreeBuilder::class)->fromCode('<?php if ($a) { $b = 1; }');

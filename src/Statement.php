@@ -137,11 +137,21 @@ class Statement implements \IteratorAggregate
         }
     }
 
+    /**
+     * Moves a token of this statement to just after another one. The token keeps whether it's in a string or an
+     * attribute: unlike a new token inserted with ```insertTokenAfter()```, it doesn't take that over from its new
+     * neighbour.
+     */
     public function moveTokenAfter(Token $token, Token $after): void
     {
+        $inString = $token->inString;
+        $inAttribute = $token->inAttribute;
+
         $this->removeToken($token);
         $this->insertTokenAfter($token, $after);
 
+        $token->inString = $inString;
+        $token->inAttribute = $inAttribute;
         $this->type = null;
     }
 
@@ -171,6 +181,8 @@ class Statement implements \IteratorAggregate
     }
 
     /**
+     * Inserts a new token after another one. It's in a string or an attribute when the token before it is.
+     *
      * @throws Exceptions\TokenNotFoundInStatementException
      */
     public function insertTokenAfter(Token $token, Token $after): void
