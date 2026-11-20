@@ -1,114 +1,114 @@
 d0 PhpOpenTag [File]
-    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+    <?php  T_OPEN_TAG  | nl:2
 d0 GenericStatement [File]
-    $a  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $b  T_VARIABLE  | @GlobalScope sp:1
-    ?  | @GlobalScope role:TernaryThen sp:1
-    $c  T_VARIABLE  | @GlobalScope sp:1
-    :  | @GlobalScope role:TernaryElse sp:1
-    $d  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $a  T_VARIABLE  | sp:1
+    =  | sp:1
+    $b  T_VARIABLE  | sp:1
+    ?  | role:TernaryThen sp:1
+    $c  T_VARIABLE  | sp:1
+    :  | role:TernaryElse sp:1
+    $d  T_VARIABLE
+    ;  | nl:1
 d0 GenericStatement [File]
-    $e  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $f  T_VARIABLE  | @GlobalScope sp:1
-    ?  | @GlobalScope role:ShortTernary
-    :  | @GlobalScope role:ShortTernary sp:1
-    $g  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $e  T_VARIABLE  | sp:1
+    =  | sp:1
+    $f  T_VARIABLE  | sp:1
+    ?  | role:ShortTernary
+    :  | role:ShortTernary sp:1
+    $g  T_VARIABLE
+    ;  | nl:1
 d0 GenericStatement [File]
-    $h  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $i  T_VARIABLE  | @GlobalScope sp:1
-    ??  T_COALESCE  | @GlobalScope sp:1
-    $j  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $h  T_VARIABLE  | sp:1
+    =  | sp:1
+    $i  T_VARIABLE  | sp:1
+    ??  T_COALESCE  | sp:1
+    $j  T_VARIABLE
+    ;  | nl:1
 d0 GenericStatement [File]
-    $k  T_VARIABLE  | @GlobalScope sp:1
-    ??=  T_COALESCE_EQUAL  | @GlobalScope sp:1
-    'default'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $k  T_VARIABLE  | sp:1
+    ??=  T_COALESCE_EQUAL  | sp:1
+    'default'  T_CONSTANT_ENCAPSED_STRING
+    ;  | nl:1
 d0 GenericStatement [File]
-    $l  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $m  T_VARIABLE  | @GlobalScope sp:1
-    ?  | @GlobalScope role:TernaryThen sp:1
-    FOO  T_STRING  | @GlobalScope sp:1
-    :  | @GlobalScope role:TernaryElse sp:1
-    BAR  T_STRING  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $l  T_VARIABLE  | sp:1
+    =  | sp:1
+    $m  T_VARIABLE  | sp:1
+    ?  | role:TernaryThen sp:1
+    FOO  T_STRING  | sp:1
+    :  | role:TernaryElse sp:1
+    BAR  T_STRING
+    ;  | nl:1
 d0 GenericStatement [File]
-    $n  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $o  T_VARIABLE  | @GlobalScope
-    ?->  T_NULLSAFE_OBJECT_OPERATOR  | @GlobalScope
-    p  T_STRING  | @GlobalScope
-    ?->  T_NULLSAFE_OBJECT_OPERATOR  | @GlobalScope
-    q  T_STRING  | @GlobalScope
-    (  | @GlobalScope #1
-    )  | @GlobalScope #1
-    ;  | @GlobalScope nl:1
+    $n  T_VARIABLE  | sp:1
+    =  | sp:1
+    $o  T_VARIABLE
+    ?->  T_NULLSAFE_OBJECT_OPERATOR
+    p  T_STRING
+    ?->  T_NULLSAFE_OBJECT_OPERATOR
+    q  T_STRING
+    (  | #1
+    )  | #1
+    ;  | nl:1
 d0 GenericStatement [File]
-    $r  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $s  T_VARIABLE  | @GlobalScope sp:1
-    ?  | @GlobalScope role:TernaryThen sp:1
-    (  | @GlobalScope #2
-    $t  T_VARIABLE  | @GlobalScope b1 sp:1
-    ?  | @GlobalScope role:TernaryThen b1 sp:1
-    1  T_LNUMBER  | @GlobalScope b1 sp:1
-    :  | @GlobalScope role:TernaryElse b1 sp:1
-    2  T_LNUMBER  | @GlobalScope b1
-    )  | @GlobalScope #2 sp:1
-    :  | @GlobalScope role:TernaryElse sp:1
-    3  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope nl:2
+    $r  T_VARIABLE  | sp:1
+    =  | sp:1
+    $s  T_VARIABLE  | sp:1
+    ?  | role:TernaryThen sp:1
+    (  | #2
+    $t  T_VARIABLE  | b1 sp:1
+    ?  | role:TernaryThen b1 sp:1
+    1  T_LNUMBER  | b1 sp:1
+    :  | role:TernaryElse b1 sp:1
+    2  T_LNUMBER  | b1
+    )  | #2 sp:1
+    :  | role:TernaryElse sp:1
+    3  T_LNUMBER
+    ;  | nl:2
 d0 FunctionDeclaration [File] Function nullable
-    function  T_FUNCTION  | @FunctionDeclaration sp:1
-    nullable  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration #3
-    ?  | @MethodParameters T type:Parameter role:NullableMarker b1
-    Foo  T_STRING  | @MethodParameters T type:Parameter C b1 sp:1
-    $foo  T_VARIABLE  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    ?  | @MethodParameters T type:Parameter role:NullableMarker b1
-    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
-    $count  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    null  T_STRING  | @MethodParameters b1
-    )  | @MethodDeclaration #3
-    :  | @MethodReturnType role:ReturnTypeColon sp:1
-    ?  | @MethodReturnType T type:ReturnType role:NullableMarker
-    Bar  T_STRING  | @MethodReturnType T type:ReturnType C nl:1
-    {  | @MethodReturnType #4 opens:Function nl:1
+    function  T_FUNCTION  | sp:1
+    nullable  T_STRING
+    (  | #3
+    ?  | type:Parameter role:NullableMarker b1
+    Foo  T_STRING  | type:Parameter C b1 sp:1
+    $foo  T_VARIABLE  | b1
+    ,  | b1 sp:1
+    ?  | type:Parameter role:NullableMarker b1
+    int  T_STRING  | type:Parameter b1 sp:1
+    $count  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    null  T_STRING  | b1
+    )  | #3
+    :  | role:ReturnTypeColon sp:1
+    ?  | type:ReturnType role:NullableMarker
+    Bar  T_STRING  | type:ReturnType C nl:1
+    {  | #4 opens:Function nl:1
 d1 ReturnStatement [Function]
-    return  T_RETURN  | @MethodBody sp:1
-    $foo  T_VARIABLE  | @MethodBody sp:1
-    ?  | @MethodBody role:TernaryThen sp:1
-    new  T_NEW  | @MethodBody sp:1
-    Bar  T_STRING  | @MethodBody C
-    (  | @MethodBody #5
-    name  T_STRING  | @MethodBody b1
-    :  | @MethodBody role:NamedArgumentColon b1 sp:1
-    $foo  T_VARIABLE  | @MethodBody b1
-    ->  T_OBJECT_OPERATOR  | @MethodBody b1
-    name  T_STRING  | @MethodBody b1
-    ,  | @MethodBody b1 sp:1
-    count  T_STRING  | @MethodBody b1
-    :  | @MethodBody role:NamedArgumentColon b1 sp:1
-    $count  T_VARIABLE  | @MethodBody b1 sp:1
-    ??  T_COALESCE  | @MethodBody b1 sp:1
-    0  T_LNUMBER  | @MethodBody b1
-    )  | @MethodBody #5 sp:1
-    :  | @MethodBody role:TernaryElse sp:1
-    null  T_STRING  | @MethodBody
-    ;  | @MethodBody nl:1
+    return  T_RETURN  | sp:1
+    $foo  T_VARIABLE  | sp:1
+    ?  | role:TernaryThen sp:1
+    new  T_NEW  | sp:1
+    Bar  T_STRING  | C
+    (  | #5
+    name  T_STRING  | b1
+    :  | role:NamedArgumentColon b1 sp:1
+    $foo  T_VARIABLE  | b1
+    ->  T_OBJECT_OPERATOR  | b1
+    name  T_STRING  | b1
+    ,  | b1 sp:1
+    count  T_STRING  | b1
+    :  | role:NamedArgumentColon b1 sp:1
+    $count  T_VARIABLE  | b1 sp:1
+    ??  T_COALESCE  | b1 sp:1
+    0  T_LNUMBER  | b1
+    )  | #5 sp:1
+    :  | role:TernaryElse sp:1
+    null  T_STRING
+    ;  | nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #4 closes nl:2
+    }  | #4 closes nl:2
 d0 GenericStatement [File]
-    label  T_STRING  | @GlobalScope
-    :  | @GlobalScope role:GotoLabelColon nl:1
-    goto  T_GOTO  | @GlobalScope sp:1
-    label  T_STRING  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    label  T_STRING
+    :  | role:GotoLabelColon nl:1
+    goto  T_GOTO  | sp:1
+    label  T_STRING
+    ;  | nl:1

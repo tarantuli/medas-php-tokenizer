@@ -9,6 +9,9 @@ class Statement implements \IteratorAggregate
     public bool $blankLineAfter = false;
     public int $additionalDepth = 0;
 
+    // Spaces after the indentation, to line the statement up with the one above it
+    public int $extraSpacesBefore = 0;
+
     // What this statement declares, if anything. Set by Passes\DeclarationReader.
     public Declaration|null $declaration = null;
 
@@ -110,10 +113,6 @@ class Statement implements \IteratorAggregate
             }
 
             $last->next = $token;
-        }
-
-        if ($last !== null && isset($last->context)) {
-            $token->context = $last->context;
         }
 
         $token->block = $this->block;

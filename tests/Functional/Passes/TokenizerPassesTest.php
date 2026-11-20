@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizerTest\Functional\Passes;
 
 use Medas\PhpTokenizer\{
-    ContextAdder,
     Exceptions\CircularPassDependency,
     Exceptions\PassDependencyNotFound,
     Passes\BlockTypeResolver,
     Passes\BracketMatcher,
     Passes\Lexer,
     Passes\StatementBuilder,
-    Passes\TokenizerPasses
+    Passes\TokenizerPasses,
+    Passes\TypeDeclarationMarker
 };
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,7 @@ class TokenizerPassesTest extends TestCase
         self::assertTrue($position[Lexer::class] < $position[BracketMatcher::class]);
         self::assertTrue($position[BracketMatcher::class] < $position[BlockTypeResolver::class]);
         self::assertTrue($position[BlockTypeResolver::class] < $position[StatementBuilder::class]);
-        self::assertTrue($position[StatementBuilder::class] < $position[ContextAdder::class]);
+        self::assertTrue($position[StatementBuilder::class] < $position[TypeDeclarationMarker::class]);
     }
 
     public function testMissingDependencyThrows(): void

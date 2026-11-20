@@ -9,13 +9,6 @@ use Medas\Core\Attributes\Service;
 #[Service]
 class TokenGroups
 {
-    public function __construct(
-        AdditionalTokensDefiner $additionalTokensDefiner,
-    )
-    {
-        $additionalTokensDefiner->define();
-    }
-
     public function texts(): array
     {
         return array_merge($this->keywords(), $this->casts(), $this->languageConstructs());
@@ -160,19 +153,19 @@ class TokenGroups
             $this->logicalOperators(),
             $this->typeOperators(),
             [
-                T_AMPERSAND,
-                T_ASSIGNMENT,
-                T_AT,
-                T_COLON,
+                ...TokenType::AMPERSANDS,
+                TokenType::ASSIGNMENT,
+                TokenType::AT,
+                TokenType::COLON,
                 T_PAAMAYIM_NEKUDOTAYIM,
-                T_COMMA,
-                T_DOLLAR,
+                TokenType::COMMA,
+                TokenType::DOLLAR,
                 T_DOUBLE_ARROW,
                 T_ELLIPSIS,
-                T_EXCLAMATION_POINT,
+                TokenType::EXCLAMATION_POINT,
                 T_NS_SEPARATOR,
-                T_QUESTION_MARK,
-                T_SEMICOLON,
+                TokenType::QUESTION_MARK,
+                TokenType::SEMICOLON,
             ],
         );
 
@@ -188,19 +181,19 @@ class TokenGroups
     {
         return [
             T_POW,
-            T_MINUS,
-            T_MOD,
-            T_ASTERISK,
-            T_CONCATENATOR,
-            T_SLASH,
-            T_PLUS,
+            TokenType::MINUS,
+            TokenType::MOD,
+            TokenType::ASTERISK,
+            TokenType::CONCATENATOR,
+            TokenType::SLASH,
+            TokenType::PLUS,
         ];
     }
 
     public function assignmentOperators(): array
     {
         return [
-            T_ASSIGNMENT,
+            TokenType::ASSIGNMENT,
             T_AND_EQUAL,
             T_COALESCE_EQUAL,
             T_CONCAT_EQUAL,
@@ -228,12 +221,12 @@ class TokenGroups
     public function brackets(): array
     {
         return [
-            T_ROUND_BRACKET_OPEN,
-            T_ROUND_BRACKET_CLOSE,
-            T_SQUARE_BRACKET_OPEN,
-            T_SQUARE_BRACKET_CLOSE,
-            T_CURLY_BRACKET_OPEN,
-            T_CURLY_BRACKET_CLOSE,
+            TokenType::ROUND_BRACKET_OPEN,
+            TokenType::ROUND_BRACKET_CLOSE,
+            TokenType::SQUARE_BRACKET_OPEN,
+            TokenType::SQUARE_BRACKET_CLOSE,
+            TokenType::CURLY_BRACKET_OPEN,
+            TokenType::CURLY_BRACKET_CLOSE,
         ];
     }
 
@@ -248,8 +241,8 @@ class TokenGroups
             T_IS_NOT_IDENTICAL,
             T_IS_SMALLER_OR_EQUAL,
             T_SPACESHIP,
-            T_LESS_THAN,
-            T_MORE_THAN,
+            TokenType::LESS_THAN,
+            TokenType::MORE_THAN,
         ];
     }
 
@@ -374,8 +367,8 @@ class TokenGroups
             T_CALLABLE,
             T_NAME_FULLY_QUALIFIED,
             T_NAME_QUALIFIED,
-            T_VERTICAL_BAR,
-            T_QUESTION_MARK,
+            TokenType::VERTICAL_BAR,
+            TokenType::QUESTION_MARK,
             T_STRING,
         ];
     }

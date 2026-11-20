@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{BlockType, Token, TokenRole};
+use Medas\PhpTokenizer\{BlockType, Token, TokenRole, TokenType};
 
 /**
  * Sets ```role``` on ?, :, & and ..., which each mean different things depending on where they are.
@@ -14,10 +14,10 @@ use Medas\PhpTokenizer\{BlockType, Token, TokenRole};
 readonly class RoleAssigner implements TokenizerPass
 {
     private const array BY_REFERENCE_PREFIXES = [
-        T_ROUND_BRACKET_OPEN,
-        T_SQUARE_BRACKET_OPEN,
-        T_COMMA,
-        T_ASSIGNMENT,
+        TokenType::ROUND_BRACKET_OPEN,
+        TokenType::SQUARE_BRACKET_OPEN,
+        TokenType::COMMA,
+        TokenType::ASSIGNMENT,
         T_AS,
         T_DOUBLE_ARROW,
         T_FUNCTION,
@@ -38,22 +38,22 @@ readonly class RoleAssigner implements TokenizerPass
         $brackets = [];
 
         foreach ($job->tokens as $token) {
-            if ($token->is([T_ROUND_BRACKET_CLOSE, T_SQUARE_BRACKET_CLOSE, T_CURLY_BRACKET_CLOSE])) {
+            if ($token->is([TokenType::ROUND_BRACKET_CLOSE, TokenType::SQUARE_BRACKET_CLOSE, TokenType::CURLY_BRACKET_CLOSE])) {
                 array_pop($brackets);
             }
 
-            if ($token->is(T_SEMICOLON)) {
+            if ($token->is(TokenType::SEMICOLON)) {
                 $openTernaries = [];
             }
 
-            if ($token->is(T_QUESTION_MARK)) {
+            if ($token->is(TokenType::QUESTION_MARK)) {
                 $token->role = $this->questionMarkRole($token);
 
                 if ($token->role === TokenRole::TernaryThen) {
                     $openTernaries[] = $token->bracketDepth;
                 }
             }
-            elseif ($token->is(T_COLON)) {
+            elseif ($token->is(TokenType::COLON)) {
                 $token->role = $this->colonRole($token, $openTernaries);
             }
             elseif ($token->is([
@@ -67,9 +67,9 @@ readonly class RoleAssigner implements TokenizerPass
             }
 
             if ($token->matchingBracket !== null && !$token->is([
-                T_ROUND_BRACKET_CLOSE,
-                T_SQUARE_BRACKET_CLOSE,
-                T_CURLY_BRACKET_CLOSE,
+                TokenType::ROUND_BRACKET_CLOSE,
+                TokenType::SQUARE_BRACKET_CLOSE,
+                TokenType::CURLY_BRACKET_CLOSE,
             ])) {
                 $brackets[] = $token;
             }
@@ -82,7 +82,7 @@ readonly class RoleAssigner implements TokenizerPass
             return TokenRole::NullableMarker;
         }
 
-        if ($token->next?->is(T_COLON)) {
+        if ($token->next?->is(TokenType::COLON)) {
             return TokenRole::ShortTernary;
         }
 
@@ -123,7 +123,7 @@ readonly class RoleAssigner implements TokenizerPass
         }
 
         if ($previous !== null && preg_match('/^\w+$/', $previous->text)) {
-            if ($previous->previous?->is([T_ROUND_BRACKET_OPEN, T_COMMA])) {
+            if ($previous->previous?->is([TokenType::ROUND_BRACKET_OPEN, TokenType::COMMA])) {
                 return TokenRole::NamedArgumentColon;
             }
 
@@ -164,7 +164,7 @@ readonly class RoleAssigner implements TokenizerPass
             return TokenRole::Variadic;
         }
 
-        if ($ellipsis->previous?->is(T_ROUND_BRACKET_OPEN) && $ellipsis->next?->is(T_ROUND_BRACKET_CLOSE)) {
+        if ($ellipsis->previous?->is(TokenType::ROUND_BRACKET_OPEN) && $ellipsis->next?->is(TokenType::ROUND_BRACKET_CLOSE)) {
             return TokenRole::FirstClassCallable;
         }
 

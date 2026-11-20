@@ -14,11 +14,10 @@ use Medas\Core\Attributes\Service;
  * Statement lines end with the type of their block in brackets, like `[ClassLike]`, followed by what the statement
  * declares: its kind, name and modifiers, like `Method __construct public`.
  *
- * Token flags: `@<Context>` the context, `A` in an attribute, `]A` closes an attribute, `S` in a string, `T` in a
- * type declaration (deprecated), `type:<Kind>` the kind of type declaration, `role:<Role>` the token role, `C` a class
- * reference, `b<n>` the bracket depth, `#<n>` the number of a bracket pair (the same on both brackets),
- * `opens:<BlockType>` opens a block, `closes` closes a block, `nl:<n>` and `sp:<n>` the original line breaks and spaces
- * after the token.
+ * Token flags: `A` in an attribute, `]A` closes an attribute, `S` in a string, `type:<Kind>` the kind of type
+ * declaration, `role:<Role>` the token role, `C` a class reference, `b<n>` the bracket depth, `#<n>` the number of a
+ * bracket pair (the same on both brackets), `opens:<BlockType>` opens a block, `closes` closes a block, `nl:<n>` and
+ * `sp:<n>` the original line breaks and spaces after the token.
  *
  * @see BlockDumper for a coloured version on the console
  */
@@ -98,10 +97,6 @@ readonly class TreeDumper
     {
         $flags = [];
 
-        if ($token->context !== null) {
-            $flags[] = '@' . $this->shortName($token->context);
-        }
-
         if ($token->inAttribute) {
             $flags[] = 'A';
         }
@@ -112,10 +107,6 @@ readonly class TreeDumper
 
         if ($token->inString) {
             $flags[] = 'S';
-        }
-
-        if ($token->inTypeDeclaration) {
-            $flags[] = 'T';
         }
 
         if ($token->typeDeclaration !== null) {

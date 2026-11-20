@@ -75,13 +75,4 @@ class TypeDeclarationMarkerTest extends PassTestCase
             self::assertNull($token->typeDeclaration, $token->text);
         }
     }
-
-    public function testInTypeDeclarationKeepsItsOldMeaning(): void
-    {
-        $job = $this->job('<?php function f(A&B $a): static {}');
-
-        self::assertTrue($this->token($job, 'A')->inTypeDeclaration);
-        self::assertFalse($this->token($job, '&')->inTypeDeclaration);
-        self::assertFalse($this->token($job, 'static')->inTypeDeclaration);
-    }
 }

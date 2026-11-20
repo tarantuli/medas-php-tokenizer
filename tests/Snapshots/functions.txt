@@ -1,190 +1,190 @@
 d0 PhpOpenTag [File]
-    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+    <?php  T_OPEN_TAG  | nl:2
 d0 FunctionDeclaration [File] Function plain
-    function  T_FUNCTION  | @FunctionDeclaration sp:1
-    plain  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration #1
-    $a  T_VARIABLE  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    $b  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    1  T_LNUMBER  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    ...  T_ELLIPSIS  | @MethodParameters role:Variadic b1
-    $rest  T_VARIABLE  | @MethodParameters b1
-    )  | @MethodDeclaration #1 nl:1
-    {  | @MethodReturnType #2 opens:Function nl:1
+    function  T_FUNCTION  | sp:1
+    plain  T_STRING
+    (  | #1
+    $a  T_VARIABLE  | b1
+    ,  | b1 sp:1
+    $b  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    1  T_LNUMBER  | b1
+    ,  | b1 sp:1
+    ...  T_ELLIPSIS  | role:Variadic b1
+    $rest  T_VARIABLE  | b1
+    )  | #1 nl:1
+    {  | #2 opens:Function nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #2 closes nl:2
+    }  | #2 closes nl:2
 d0 FunctionDeclaration [File] Function typed
-    function  T_FUNCTION  | @FunctionDeclaration sp:1
-    typed  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration #3
-    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
-    $a  T_VARIABLE  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    ?  | @MethodParameters T type:Parameter role:NullableMarker b1
-    string  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
-    $b  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    null  T_STRING  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    int  T_STRING  | @MethodParameters T type:Parameter b1
-    |  | @MethodParameters T type:Parameter b1
-    float  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
-    $c  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    0  T_LNUMBER  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    array  T_ARRAY  | @MethodParameters T type:Parameter b1 sp:1
-    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @MethodParameters role:ByReference b1
-    $d  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    [  | @MethodParameters b1 #4
-    ]  | @MethodParameters b1 #4
-    ,  | @MethodParameters b1 sp:1
-    Foo  T_STRING  | @MethodParameters T type:Parameter C b1
-    |  | @MethodParameters T type:Parameter b1
-    Bar  T_STRING  | @MethodParameters T type:Parameter C b1
-    |  | @MethodParameters T type:Parameter b1
-    null  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
-    $e  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    null  T_STRING  | @MethodParameters b1
-    )  | @MethodDeclaration #3
-    :  | @MethodReturnType role:ReturnTypeColon sp:1
-    ?  | @MethodReturnType T type:ReturnType role:NullableMarker
-    string  T_STRING  | @MethodReturnType T type:ReturnType nl:1
-    {  | @MethodReturnType #5 opens:Function nl:1
+    function  T_FUNCTION  | sp:1
+    typed  T_STRING
+    (  | #3
+    int  T_STRING  | type:Parameter b1 sp:1
+    $a  T_VARIABLE  | b1
+    ,  | b1 sp:1
+    ?  | type:Parameter role:NullableMarker b1
+    string  T_STRING  | type:Parameter b1 sp:1
+    $b  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    null  T_STRING  | b1
+    ,  | b1 sp:1
+    int  T_STRING  | type:Parameter b1
+    |  | type:Parameter b1
+    float  T_STRING  | type:Parameter b1 sp:1
+    $c  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    0  T_LNUMBER  | b1
+    ,  | b1 sp:1
+    array  T_ARRAY  | type:Parameter b1 sp:1
+    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | role:ByReference b1
+    $d  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    [  | b1 #4
+    ]  | b1 #4
+    ,  | b1 sp:1
+    Foo  T_STRING  | type:Parameter C b1
+    |  | type:Parameter b1
+    Bar  T_STRING  | type:Parameter C b1
+    |  | type:Parameter b1
+    null  T_STRING  | type:Parameter b1 sp:1
+    $e  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    null  T_STRING  | b1
+    )  | #3
+    :  | role:ReturnTypeColon sp:1
+    ?  | type:ReturnType role:NullableMarker
+    string  T_STRING  | type:ReturnType nl:1
+    {  | #5 opens:Function nl:1
 d1 ReturnStatement [Function]
-    return  T_RETURN  | @MethodBody sp:1
-    null  T_STRING  | @MethodBody
-    ;  | @MethodBody nl:1
+    return  T_RETURN  | sp:1
+    null  T_STRING
+    ;  | nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #5 closes nl:2
+    }  | #5 closes nl:2
 d0 FunctionDeclaration [File] Function byReference
-    function  T_FUNCTION  | @FunctionDeclaration sp:1
-    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | @FunctionDeclaration role:ByReference
-    byReference  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration #6
-    )  | @MethodDeclaration #6
-    :  | @MethodReturnType role:ReturnTypeColon sp:1
-    array  T_ARRAY  | @MethodReturnType T type:ReturnType nl:1
-    {  | @MethodReturnType #7 opens:Function nl:1
+    function  T_FUNCTION  | sp:1
+    &  T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG  | role:ByReference
+    byReference  T_STRING
+    (  | #6
+    )  | #6
+    :  | role:ReturnTypeColon sp:1
+    array  T_ARRAY  | type:ReturnType nl:1
+    {  | #7 opens:Function nl:1
 d1 GenericStatement [Function]
-    static  T_STATIC  | @MethodBody sp:1
-    $cache  T_VARIABLE  | @MethodBody sp:1
-    =  | @MethodBody sp:1
-    [  | @MethodBody #8
-    ]  | @MethodBody #8
-    ;  | @MethodBody nl:2
+    static  T_STATIC  | sp:1
+    $cache  T_VARIABLE  | sp:1
+    =  | sp:1
+    [  | #8
+    ]  | #8
+    ;  | nl:2
 d1 ReturnStatement [Function]
-    return  T_RETURN  | @MethodBody sp:1
-    $cache  T_VARIABLE  | @MethodBody
-    ;  | @MethodBody nl:1
+    return  T_RETURN  | sp:1
+    $cache  T_VARIABLE
+    ;  | nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #7 closes nl:2
+    }  | #7 closes nl:2
 d0 FunctionDeclaration [File] Function defaults
-    function  T_FUNCTION  | @FunctionDeclaration sp:1
-    defaults  T_STRING  | @FunctionDeclaration
-    (  | @FunctionDeclaration #9
-    $a  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    FOO  T_STRING  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    $b  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    Bar  T_STRING  | @MethodParameters C b1
-    ::  T_DOUBLE_COLON  | @MethodParameters b1
-    BAZ  T_STRING  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    $c  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    [  | @MethodParameters b1 #10
-    1  T_LNUMBER  | @MethodParameters b2
-    ,  | @MethodParameters b2 sp:1
-    2  T_LNUMBER  | @MethodParameters b2
-    ]  | @MethodParameters b1 #10
-    ,  | @MethodParameters b1 sp:1
-    $d  T_VARIABLE  | @MethodParameters b1 sp:1
-    =  | @MethodParameters b1 sp:1
-    new  T_NEW  | @MethodParameters b1 sp:1
-    Foo  T_STRING  | @MethodParameters C b1
-    (  | @MethodParameters b1 #11
-    1  T_LNUMBER  | @MethodParameters b2
-    )  | @MethodParameters b1 #11
-    )  | @MethodDeclaration #9
-    :  | @MethodReturnType role:ReturnTypeColon sp:1
-    void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
-    {  | @MethodReturnType #12 opens:Function nl:1
+    function  T_FUNCTION  | sp:1
+    defaults  T_STRING
+    (  | #9
+    $a  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    FOO  T_STRING  | b1
+    ,  | b1 sp:1
+    $b  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    Bar  T_STRING  | C b1
+    ::  T_DOUBLE_COLON  | b1
+    BAZ  T_STRING  | b1
+    ,  | b1 sp:1
+    $c  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    [  | b1 #10
+    1  T_LNUMBER  | b2
+    ,  | b2 sp:1
+    2  T_LNUMBER  | b2
+    ]  | b1 #10
+    ,  | b1 sp:1
+    $d  T_VARIABLE  | b1 sp:1
+    =  | b1 sp:1
+    new  T_NEW  | b1 sp:1
+    Foo  T_STRING  | C b1
+    (  | b1 #11
+    1  T_LNUMBER  | b2
+    )  | b1 #11
+    )  | #9
+    :  | role:ReturnTypeColon sp:1
+    void  T_STRING  | type:ReturnType nl:1
+    {  | #12 opens:Function nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #12 closes nl:2
+    }  | #12 closes nl:2
 d0 GenericStatement [File]
-    $closure  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    function  T_FUNCTION  | @GlobalScope sp:1
-    (  | @GlobalScope #13
-    int  T_STRING  | @GlobalScope T type:Parameter b1 sp:1
-    $x  T_VARIABLE  | @GlobalScope b1
-    )  | @GlobalScope #13 sp:1
-    use  T_USE  | @GlobalScope sp:1
-    (  | @GlobalScope #14
-    $y  T_VARIABLE  | @GlobalScope b1
-    ,  | @GlobalScope b1 sp:1
-    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | @GlobalScope role:ByReference b1
-    $z  T_VARIABLE  | @GlobalScope b1
-    )  | @GlobalScope #14
-    :  | @GlobalScope role:ReturnTypeColon sp:1
-    int  T_STRING  | @GlobalScope T type:ReturnType sp:1
-    {  | @GlobalScope #15 opens:Closure nl:1
+    $closure  T_VARIABLE  | sp:1
+    =  | sp:1
+    function  T_FUNCTION  | sp:1
+    (  | #13
+    int  T_STRING  | type:Parameter b1 sp:1
+    $x  T_VARIABLE  | b1
+    )  | #13 sp:1
+    use  T_USE  | sp:1
+    (  | #14
+    $y  T_VARIABLE  | b1
+    ,  | b1 sp:1
+    &  T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG  | role:ByReference b1
+    $z  T_VARIABLE  | b1
+    )  | #14
+    :  | role:ReturnTypeColon sp:1
+    int  T_STRING  | type:ReturnType sp:1
+    {  | #15 opens:Closure nl:1
 d1 ReturnStatement [Closure]
-    return  T_RETURN  | @GlobalScope sp:1
-    $x  T_VARIABLE  | @GlobalScope sp:1
-    +  | @GlobalScope sp:1
-    $y  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    return  T_RETURN  | sp:1
+    $x  T_VARIABLE  | sp:1
+    +  | sp:1
+    $y  T_VARIABLE
+    ;  | nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #15 closes
+    }  | #15 closes
 d0 GenericStatement [File]
-    ;  | @GlobalScope nl:2
+    ;  | nl:2
 d0 GenericStatement [File]
-    $static  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    static  T_STATIC  | @GlobalScope sp:1
-    fn  T_FN  | @GlobalScope
-    (  | @GlobalScope #16
-    int  T_STRING  | @GlobalScope T type:Parameter b1 sp:1
-    $x  T_VARIABLE  | @GlobalScope b1
-    )  | @GlobalScope #16
-    :  | @GlobalScope role:ReturnTypeColon sp:1
-    int  T_STRING  | @GlobalScope T type:ReturnType sp:1
-    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
-    $x  T_VARIABLE  | @GlobalScope sp:1
-    *  | @GlobalScope sp:1
-    2  T_LNUMBER  | @GlobalScope
-    ;  | @GlobalScope nl:2
+    $static  T_VARIABLE  | sp:1
+    =  | sp:1
+    static  T_STATIC  | sp:1
+    fn  T_FN
+    (  | #16
+    int  T_STRING  | type:Parameter b1 sp:1
+    $x  T_VARIABLE  | b1
+    )  | #16
+    :  | role:ReturnTypeColon sp:1
+    int  T_STRING  | type:ReturnType sp:1
+    =>  T_DOUBLE_ARROW  | sp:1
+    $x  T_VARIABLE  | sp:1
+    *  | sp:1
+    2  T_LNUMBER
+    ;  | nl:2
 d0 GenericStatement [File]
-    $nested  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    fn  T_FN  | @GlobalScope
-    (  | @GlobalScope #17
-    $x  T_VARIABLE  | @GlobalScope b1
-    )  | @GlobalScope #17 sp:1
-    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
-    fn  T_FN  | @GlobalScope
-    (  | @GlobalScope #18
-    $y  T_VARIABLE  | @GlobalScope b1
-    )  | @GlobalScope #18 sp:1
-    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
-    $x  T_VARIABLE  | @GlobalScope sp:1
-    +  | @GlobalScope sp:1
-    $y  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:2
+    $nested  T_VARIABLE  | sp:1
+    =  | sp:1
+    fn  T_FN
+    (  | #17
+    $x  T_VARIABLE  | b1
+    )  | #17 sp:1
+    =>  T_DOUBLE_ARROW  | sp:1
+    fn  T_FN
+    (  | #18
+    $y  T_VARIABLE  | b1
+    )  | #18 sp:1
+    =>  T_DOUBLE_ARROW  | sp:1
+    $x  T_VARIABLE  | sp:1
+    +  | sp:1
+    $y  T_VARIABLE
+    ;  | nl:2
 d0 GenericStatement [File]
-    $callable  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    strlen  T_STRING  | @GlobalScope
-    (  | @GlobalScope #19
-    ...  T_ELLIPSIS  | @GlobalScope role:FirstClassCallable b1
-    )  | @GlobalScope #19
-    ;  | @GlobalScope nl:1
+    $callable  T_VARIABLE  | sp:1
+    =  | sp:1
+    strlen  T_STRING
+    (  | #19
+    ...  T_ELLIPSIS  | role:FirstClassCallable b1
+    )  | #19
+    ;  | nl:1

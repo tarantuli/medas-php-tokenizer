@@ -97,11 +97,6 @@ class BlockDumper
         $this->printer->printText((string) $index, SafeColor::Blue)
             ->printText('·');
 
-        if (isset($token->context)) {
-            $this->printer->printText((string) $token->context, new HexColor('#878700'))
-                ->printText('·');
-        }
-
         if ($token->inAttribute) {
             $this->printer->printText('A', new HexColor('#d7d700'))
                 ->printText('·');
@@ -109,11 +104,6 @@ class BlockDumper
 
         if ($token->inString) {
             $this->printer->printText('S', new HexColor('#d70000'))
-                ->printText('·');
-        }
-
-        if ($token->inTypeDeclaration) {
-            $this->printer->printText('T', new HexColor('#d70000'))
                 ->printText('·');
         }
 

@@ -6,11 +6,8 @@ namespace Medas\PhpTokenizer;
 
 /**
  * The ids of the tokens that PHP has no ```T_*``` constant for: a single character, whose id is its character code.
- * Use them with ```Token::is()```, like ```$token->is(TokenType::COMMA)```.
- *
- * These replace the global ```T_COMMA```-style constants of ```AdditionalTokensDefiner```. Those are text, which
- * ```PhpToken::is()``` compares with the token's text, so they also matched tokens that only look the same, like the
- * ```{``` of ```"{$a}"``` (```T_CURLY_OPEN```). These are ids, so they only match the token itself.
+ * Use them with ```Token::is()```, like ```$token->is(TokenType::COMMA)```. Being ids, they only match the token
+ * itself, not a token that only looks the same, like the ```{``` of ```"{$a}"``` (```T_CURLY_OPEN```).
  *
  * Two characters are never a token of their own. An ```&``` is ```T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG``` or
  * ```T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG```, so ```AMPERSANDS``` lists both. A ```\``` on its own is

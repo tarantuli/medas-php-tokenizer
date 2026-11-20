@@ -9,13 +9,6 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class Tokenizer
 {
-    public function __construct(
-        AdditionalTokensDefiner $additionalTokensDefiner,
-    )
-    {
-        $additionalTokensDefiner->define();
-    }
-
     public function tokenize(string $code): TokenCollection
     {
         $collection = new TokenCollection();

@@ -99,7 +99,7 @@ readonly class StatementTypeFinder
             return StatementTypes\AttributeStatement::instance();
         }
 
-        if ($firstToken->is(T_CURLY_BRACKET_CLOSE)) {
+        if ($firstToken->is(TokenType::CURLY_BRACKET_CLOSE)) {
             return StatementTypes\BlockCloser::instance();
         }
 
@@ -134,7 +134,7 @@ readonly class StatementTypeFinder
 
         if ($firstToken->is(T_CASE)) {
             foreach ($statement as $token) {
-                if ($token->is(T_COLON)) {
+                if ($token->is(TokenType::COLON)) {
                     return StatementTypes\SwitchBranch::instance();
                 }
             }

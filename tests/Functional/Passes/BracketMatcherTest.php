@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizerTest\Functional\Passes;
 
-use Medas\PhpTokenizer\{Exceptions\BracketsAreUnbalanced, Token, TokenCollection, TreeBuilder};
+use Medas\PhpTokenizer\{Exceptions\BracketsAreUnbalanced, Token, TokenCollection, TokenType, TreeBuilder};
 
 class BracketMatcherTest extends PassTestCase
 {
@@ -29,7 +29,7 @@ class BracketMatcherTest extends PassTestCase
     }
 
     /**
-     * The string parts "[" and "]" of "[$b]" are text, even though ```T_SQUARE_BRACKET_CLOSE``` is the text "]".
+     * The string parts "[" and "]" of "[$b]" are text, not brackets.
      */
     public function testStringPartsAreNoBrackets(): void
     {
@@ -37,8 +37,8 @@ class BracketMatcherTest extends PassTestCase
 
         self::assertNull($this->token($job, '[')->matchingBracket);
         self::assertNull($this->token($job, ']')->matchingBracket);
-        self::assertFalse($this->token($job, ']')->is(T_SQUARE_BRACKET_CLOSE));
-        self::assertFalse($this->token($job, ')')->is([T_ROUND_BRACKET_CLOSE, T_SEMICOLON]));
+        self::assertFalse($this->token($job, ']')->is(TokenType::SQUARE_BRACKET_CLOSE));
+        self::assertFalse($this->token($job, ')')->is([TokenType::ROUND_BRACKET_CLOSE, TokenType::SEMICOLON]));
         self::assertTrue($this->token($job, ')')->is(T_ENCAPSED_AND_WHITESPACE));
         self::assertSame($this->token($job, ']', 2), $this->token($job, '[', 2)->matchingBracket);
         self::assertSame($this->token($job, '}'), $this->token($job, '{')->matchingBracket);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{BlockType, Token};
+use Medas\PhpTokenizer\{BlockType, Token, TokenType};
 
 /**
  * Sets ```isClassReference``` on names that refer to a class, interface, trait or enum: in types, after new and
@@ -88,7 +88,7 @@ readonly class ClassReferenceMarker implements TokenizerPass
     {
         $previous = $token->previous;
 
-        while ($previous?->is(T_COMMA) && $previous->previous?->is(self::NAMES)) {
+        while ($previous?->is(TokenType::COMMA) && $previous->previous?->is(self::NAMES)) {
             $previous = $previous->previous->previous;
         }
 
@@ -124,7 +124,7 @@ readonly class ClassReferenceMarker implements TokenizerPass
             return true;
         }
 
-        if (!$previous?->is(T_COMMA)) {
+        if (!$previous?->is(TokenType::COMMA)) {
             return false;
         }
 
@@ -134,7 +134,7 @@ readonly class ClassReferenceMarker implements TokenizerPass
                 return $before->bracketDepth + 1 === $previous->bracketDepth;
             }
 
-            if ($before->matchingBracket !== null && $before->is([T_ROUND_BRACKET_CLOSE, T_SQUARE_BRACKET_CLOSE])) {
+            if ($before->matchingBracket !== null && $before->is([TokenType::ROUND_BRACKET_CLOSE, TokenType::SQUARE_BRACKET_CLOSE])) {
                 $before = $before->matchingBracket;
             }
         }

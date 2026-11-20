@@ -1,120 +1,120 @@
 d0 PhpOpenTag [File]
-    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+    <?php  T_OPEN_TAG  | nl:2
 d0 ClassDeclaration [File] Class_ User
-    #[  T_ATTRIBUTE  | @ClassDeclaration #1
-    Entity  T_STRING  | @ClassDeclaration A C b1
-    ]  | @ClassDeclaration A ]A #1 nl:1
-    #[  T_ATTRIBUTE  | @ClassDeclaration #2
-    Table  T_STRING  | @ClassDeclaration A C b1
-    (  | @ClassDeclaration A b1 #3
-    name  T_STRING  | @ClassDeclaration A b2
-    :  | @ClassDeclaration A role:NamedArgumentColon b2 sp:1
-    'users'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A b2
-    ,  | @ClassDeclaration A b2 sp:1
-    options  T_STRING  | @ClassDeclaration A b2
-    :  | @ClassDeclaration A role:NamedArgumentColon b2 sp:1
-    [  | @ClassDeclaration A b2 #4
-    'charset'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A b3 sp:1
-    =>  T_DOUBLE_ARROW  | @ClassDeclaration A b3 sp:1
-    'utf8'  T_CONSTANT_ENCAPSED_STRING  | @ClassDeclaration A b3
-    ]  | @ClassDeclaration A b2 #4
-    )  | @ClassDeclaration A b1 #3
-    ]  | @ClassDeclaration A ]A #2 nl:1
-    class  T_CLASS  | @ClassDeclaration sp:1
-    User  T_STRING  | @ClassDeclaration nl:1
-    {  | @ClassDeclaration #5 opens:ClassLike nl:1
+    #[  T_ATTRIBUTE  | #1
+    Entity  T_STRING  | A C b1
+    ]  | A ]A #1 nl:1
+    #[  T_ATTRIBUTE  | #2
+    Table  T_STRING  | A C b1
+    (  | A b1 #3
+    name  T_STRING  | A b2
+    :  | A role:NamedArgumentColon b2 sp:1
+    'users'  T_CONSTANT_ENCAPSED_STRING  | A b2
+    ,  | A b2 sp:1
+    options  T_STRING  | A b2
+    :  | A role:NamedArgumentColon b2 sp:1
+    [  | A b2 #4
+    'charset'  T_CONSTANT_ENCAPSED_STRING  | A b3 sp:1
+    =>  T_DOUBLE_ARROW  | A b3 sp:1
+    'utf8'  T_CONSTANT_ENCAPSED_STRING  | A b3
+    ]  | A b2 #4
+    )  | A b1 #3
+    ]  | A ]A #2 nl:1
+    class  T_CLASS  | sp:1
+    User  T_STRING  | nl:1
+    {  | #5 opens:ClassLike nl:1
 d1 ClassPropertyDeclaration [ClassLike] Property $name public
-    #[  T_ATTRIBUTE  | @ClassBody #6
-    Column  T_STRING  | @ClassBody A C b1
-    (  | @ClassBody A b1 #7
-    type  T_STRING  | @ClassBody A b2
-    :  | @ClassBody A role:NamedArgumentColon b2 sp:1
-    Types  T_STRING  | @ClassBody A C b2
-    ::  T_DOUBLE_COLON  | @ClassBody A b2
-    STRING  T_STRING  | @ClassBody A b2
-    ,  | @ClassBody A b2 sp:1
-    length  T_STRING  | @ClassBody A b2
-    :  | @ClassBody A role:NamedArgumentColon b2 sp:1
-    255  T_LNUMBER  | @ClassBody A b2
-    )  | @ClassBody A b1 #7
-    ]  | @ClassBody A ]A #6 nl:1
-    public  T_PUBLIC  | @ClassBody sp:1
-    string  T_STRING  | @ClassBody T type:Property sp:1
-    $name  T_VARIABLE  | @ClassBody
-    ;  | @ClassBody nl:2
+    #[  T_ATTRIBUTE  | #6
+    Column  T_STRING  | A C b1
+    (  | A b1 #7
+    type  T_STRING  | A b2
+    :  | A role:NamedArgumentColon b2 sp:1
+    Types  T_STRING  | A C b2
+    ::  T_DOUBLE_COLON  | A b2
+    STRING  T_STRING  | A b2
+    ,  | A b2 sp:1
+    length  T_STRING  | A b2
+    :  | A role:NamedArgumentColon b2 sp:1
+    255  T_LNUMBER  | A b2
+    )  | A b1 #7
+    ]  | A ]A #6 nl:1
+    public  T_PUBLIC  | sp:1
+    string  T_STRING  | type:Property sp:1
+    $name  T_VARIABLE
+    ;  | nl:2
 d1 FunctionDeclaration [ClassLike] Method show public
-    #[  T_ATTRIBUTE  | @MethodDeclaration #8
-    Route  T_STRING  | @MethodDeclaration A C b1
-    (  | @MethodDeclaration A b1 #9
-    '/users/{id}'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A b2
-    ,  | @MethodDeclaration A b2 sp:1
-    methods  T_STRING  | @MethodDeclaration A b2
-    :  | @MethodDeclaration A role:NamedArgumentColon b2 sp:1
-    [  | @MethodDeclaration A b2 #10
-    'GET'  T_CONSTANT_ENCAPSED_STRING  | @MethodDeclaration A b3
-    ]  | @MethodDeclaration A b2 #10
-    )  | @MethodDeclaration A b1 #9
-    ]  | @MethodDeclaration A ]A #8 nl:1
-    public  T_PUBLIC  | @MethodDeclaration sp:1
-    function  T_FUNCTION  | @MethodDeclaration sp:1
-    show  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration #11
-    #[  T_ATTRIBUTE  | @MethodParameters b1 #12
-    FromRoute  T_STRING  | @MethodParameters A C b2
-    ]  | @MethodParameters A ]A b1 #12 sp:1
-    int  T_STRING  | @MethodParameters T type:Parameter b1 sp:1
-    $id  T_VARIABLE  | @MethodParameters b1
-    ,  | @MethodParameters b1 sp:1
-    #[  T_ATTRIBUTE  | @MethodParameters b1 #13
-    Inject  T_STRING  | @MethodParameters A C b2
-    (  | @MethodParameters A b2 #14
-    Logger  T_STRING  | @MethodParameters A C b3
-    ::  T_DOUBLE_COLON  | @MethodParameters A b3
-    class  T_STRING  | @MethodParameters A b3
-    )  | @MethodParameters A b2 #14
-    ]  | @MethodParameters A ]A b1 #13 sp:1
-    Logger  T_STRING  | @MethodParameters T type:Parameter C b1 sp:1
-    $logger  T_VARIABLE  | @MethodParameters b1
-    )  | @MethodDeclaration #11
-    :  | @MethodReturnType role:ReturnTypeColon sp:1
-    void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
-    {  | @MethodReturnType #15 opens:Function nl:1
+    #[  T_ATTRIBUTE  | #8
+    Route  T_STRING  | A C b1
+    (  | A b1 #9
+    '/users/{id}'  T_CONSTANT_ENCAPSED_STRING  | A b2
+    ,  | A b2 sp:1
+    methods  T_STRING  | A b2
+    :  | A role:NamedArgumentColon b2 sp:1
+    [  | A b2 #10
+    'GET'  T_CONSTANT_ENCAPSED_STRING  | A b3
+    ]  | A b2 #10
+    )  | A b1 #9
+    ]  | A ]A #8 nl:1
+    public  T_PUBLIC  | sp:1
+    function  T_FUNCTION  | sp:1
+    show  T_STRING
+    (  | #11
+    #[  T_ATTRIBUTE  | b1 #12
+    FromRoute  T_STRING  | A C b2
+    ]  | A ]A b1 #12 sp:1
+    int  T_STRING  | type:Parameter b1 sp:1
+    $id  T_VARIABLE  | b1
+    ,  | b1 sp:1
+    #[  T_ATTRIBUTE  | b1 #13
+    Inject  T_STRING  | A C b2
+    (  | A b2 #14
+    Logger  T_STRING  | A C b3
+    ::  T_DOUBLE_COLON  | A b3
+    class  T_STRING  | A b3
+    )  | A b2 #14
+    ]  | A ]A b1 #13 sp:1
+    Logger  T_STRING  | type:Parameter C b1 sp:1
+    $logger  T_VARIABLE  | b1
+    )  | #11
+    :  | role:ReturnTypeColon sp:1
+    void  T_STRING  | type:ReturnType nl:1
+    {  | #15 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @ClassBody #15 closes nl:2
+    }  | #15 closes nl:2
 d1 FunctionDeclaration [ClassLike] Method multiple public
-    #[  T_ATTRIBUTE  | @MethodDeclaration #16
-    First  T_STRING  | @MethodDeclaration A C b1
-    ,  | @MethodDeclaration A b1 sp:1
-    Second  T_STRING  | @MethodDeclaration A C b1
-    (  | @MethodDeclaration A b1 #17
-    1  T_LNUMBER  | @MethodDeclaration A b2
-    )  | @MethodDeclaration A b1 #17
-    ]  | @MethodDeclaration A ]A #16 nl:1
-    public  T_PUBLIC  | @MethodDeclaration sp:1
-    function  T_FUNCTION  | @MethodDeclaration sp:1
-    multiple  T_STRING  | @MethodDeclaration
-    (  | @MethodDeclaration #18
-    )  | @MethodDeclaration #18
-    :  | @MethodReturnType role:ReturnTypeColon sp:1
-    void  T_STRING  | @MethodReturnType T type:ReturnType nl:1
-    {  | @MethodReturnType #19 opens:Function nl:1
+    #[  T_ATTRIBUTE  | #16
+    First  T_STRING  | A C b1
+    ,  | A b1 sp:1
+    Second  T_STRING  | A C b1
+    (  | A b1 #17
+    1  T_LNUMBER  | A b2
+    )  | A b1 #17
+    ]  | A ]A #16 nl:1
+    public  T_PUBLIC  | sp:1
+    function  T_FUNCTION  | sp:1
+    multiple  T_STRING
+    (  | #18
+    )  | #18
+    :  | role:ReturnTypeColon sp:1
+    void  T_STRING  | type:ReturnType nl:1
+    {  | #19 opens:Function nl:1
 d1 BlockCloser [ClassLike]
-    }  | @ClassBody #19 closes nl:1
+    }  | #19 closes nl:1
 d0 BlockCloser [File]
-    }  | @GlobalScope #5 closes nl:2
+    }  | #5 closes nl:2
 d0 GenericStatement [File]
-    $fn  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    #[  T_ATTRIBUTE  | @GlobalScope #20
-    Pure  T_STRING  | @GlobalScope A C b1
-    ]  | @GlobalScope A ]A #20 sp:1
-    fn  T_FN  | @GlobalScope
-    (  | @GlobalScope #21
-    int  T_STRING  | @GlobalScope T type:Parameter b1 sp:1
-    $x  T_VARIABLE  | @GlobalScope b1
-    )  | @GlobalScope #21
-    :  | @GlobalScope role:ReturnTypeColon sp:1
-    int  T_STRING  | @GlobalScope T type:ReturnType sp:1
-    =>  T_DOUBLE_ARROW  | @GlobalScope sp:1
-    $x  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $fn  T_VARIABLE  | sp:1
+    =  | sp:1
+    #[  T_ATTRIBUTE  | #20
+    Pure  T_STRING  | A C b1
+    ]  | A ]A #20 sp:1
+    fn  T_FN
+    (  | #21
+    int  T_STRING  | type:Parameter b1 sp:1
+    $x  T_VARIABLE  | b1
+    )  | #21
+    :  | role:ReturnTypeColon sp:1
+    int  T_STRING  | type:ReturnType sp:1
+    =>  T_DOUBLE_ARROW  | sp:1
+    $x  T_VARIABLE
+    ;  | nl:1

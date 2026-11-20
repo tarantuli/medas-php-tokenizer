@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{Exceptions, Token};
+use Medas\PhpTokenizer\{Exceptions, Token, TokenType};
 
 /**
  * Links each opening bracket to its closing bracket and back (```matchingBracket```), and marks the tokens that are
@@ -17,18 +17,18 @@ use Medas\PhpTokenizer\{Exceptions, Token};
 readonly class BracketMatcher implements TokenizerPass
 {
     private const array OPENERS = [
-        T_ROUND_BRACKET_OPEN,
-        T_SQUARE_BRACKET_OPEN,
-        T_CURLY_BRACKET_OPEN,
+        TokenType::ROUND_BRACKET_OPEN,
+        TokenType::SQUARE_BRACKET_OPEN,
+        TokenType::CURLY_BRACKET_OPEN,
         T_CURLY_OPEN,
         T_DOLLAR_OPEN_CURLY_BRACES,
         T_ATTRIBUTE,
     ];
 
     private const array CLOSERS = [
-        T_ROUND_BRACKET_CLOSE,
-        T_SQUARE_BRACKET_CLOSE,
-        T_CURLY_BRACKET_CLOSE,
+        TokenType::ROUND_BRACKET_CLOSE,
+        TokenType::SQUARE_BRACKET_CLOSE,
+        TokenType::CURLY_BRACKET_CLOSE,
     ];
 
     public function runsAfter(): array
@@ -73,7 +73,7 @@ readonly class BracketMatcher implements TokenizerPass
      */
     private function markString(Token $token, bool $inString): bool
     {
-        if ($inString && $token->is(T_DOUBLE_QUOTE)) {
+        if ($inString && $token->is(TokenType::DOUBLE_QUOTE)) {
             $token->inString = false;
 
             return false;
@@ -81,7 +81,7 @@ readonly class BracketMatcher implements TokenizerPass
 
         $token->inString = $inString;
 
-        if ($token->is([T_DOUBLE_QUOTE, T_START_HEREDOC])) {
+        if ($token->is([TokenType::DOUBLE_QUOTE, T_START_HEREDOC])) {
             return true;
         }
 

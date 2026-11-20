@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{BlockType, Declaration, DeclarationKind, Statement, Token};
+use Medas\PhpTokenizer\{BlockType, Declaration, DeclarationKind, Statement, Token, TokenType};
 
 /**
  * Sets ```Statement::$declaration``` and ```Statement::$attributes``` on statements that declare a class, interface,
@@ -87,7 +87,7 @@ readonly class DeclarationReader implements TokenizerPass
     {
         $inClass = $statement->block->type === BlockType::ClassLike;
 
-        if ($keyword->is(array_keys(self::STRUCTURES)) && !$keyword->next?->is(T_ROUND_BRACKET_OPEN)) {
+        if ($keyword->is(array_keys(self::STRUCTURES)) && !$keyword->next?->is(TokenType::ROUND_BRACKET_OPEN)) {
             $kind = self::STRUCTURES[$keyword->id];
 
             return new Declaration($kind, $keyword->next?->text, $modifiers, $keyword);
@@ -99,7 +99,7 @@ readonly class DeclarationReader implements TokenizerPass
                 T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG,
             ]) ? $keyword->next->next : $keyword->next;
 
-            if ($name === null || $name->is(T_ROUND_BRACKET_OPEN)) {
+            if ($name === null || $name->is(TokenType::ROUND_BRACKET_OPEN)) {
                 // A closure, not a declaration
                 return null;
             }
@@ -147,11 +147,11 @@ readonly class DeclarationReader implements TokenizerPass
     private function constantName(Token $const): string|null
     {
         for ($token = $const->next; $token !== null; $token = $token->next) {
-            if ($token->is(T_ASSIGNMENT)) {
+            if ($token->is(TokenType::ASSIGNMENT)) {
                 return $token->previous->text;
             }
 
-            if ($token->is(T_SEMICOLON)) {
+            if ($token->is(TokenType::SEMICOLON)) {
                 return null;
             }
         }

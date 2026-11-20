@@ -11,9 +11,6 @@ class Token extends \PhpToken
     public bool $inString = false;
     public bool $inAttribute = false;
     public bool $closesAttribute = false;
-    /** @deprecated Use $typeDeclaration, which also covers DNF groups, constants and catch */
-    public bool $inTypeDeclaration = false;
-    public Contexts\Context|null $context = null;
     public bool $spaceAfter = false;
     public bool $lineBreakAfter = false;
     public int $extraSpacesAfter = 0;
@@ -71,8 +68,6 @@ class Token extends \PhpToken
             'inString' => $this->inString,
             'inAttribute' => $this->inAttribute,
             'closesAttribute' => $this->closesAttribute,
-            'inTypeDeclaration' => $this->inTypeDeclaration,
-            'context' => $this->context ?? null,
             'spaceAfter' => $this->spaceAfter,
             'lineBreakAfter' => $this->lineBreakAfter,
             'extraSpacesAfter' => $this->extraSpacesAfter,
@@ -90,25 +85,6 @@ class Token extends \PhpToken
         ];
     }
 
-    /**
-     * Like ```PhpToken::is()```, except that the text of a string or of HTML outside the PHP tags never matches a kind
-     * given as text. ```PhpToken::is()``` compares such a kind with the token's text, and ```T_SQUARE_BRACKET_CLOSE```
-     * and the other ```AdditionalTokensDefiner``` constants are text. Without this, the part ```]``` of
-     * ```"[$a]"``` would be a closing bracket.
-     */
-    public function is($kind): bool
-    {
-        if ($this->id !== T_ENCAPSED_AND_WHITESPACE && $this->id !== T_INLINE_HTML) {
-            return parent::is($kind);
-        }
-
-        if (is_array($kind)) {
-            return in_array($this->id, $kind, true);
-        }
-
-        return $kind === $this->id;
-    }
-
     public function isTrueFalseNull(): bool
     {
         return $this->is(T_STRING)
@@ -123,13 +99,6 @@ class Token extends \PhpToken
     public function isFirstToken(): bool
     {
         return $this === $this->statement->firstToken();
-    }
-
-    public function context(Contexts\Context $context): self
-    {
-        $this->context = $context;
-
-        return $this;
     }
 
     public function id(int $id): self

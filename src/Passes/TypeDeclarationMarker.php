@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{BlockType, Token, TokenGroups, TypeDeclarationKind};
+use Medas\PhpTokenizer\{BlockType, Token, TokenType, TypeDeclarationKind};
 
 /**
  * Sets ```typeDeclaration``` on every token of a type: the names, ?, |, the & of an intersection, and the
  * parentheses of a DNF group like (A&B)|null. Covers parameters, return types, properties, typed class constants
  * and catch.
- *
- * Until 4.0 it also sets the deprecated ```inTypeDeclaration```, on the same tokens as before: names, ?, |, array
- * and callable, in parameters (but not those of set hooks), return types and properties.
  */
 #[Service]
 readonly class TypeDeclarationMarker implements TokenizerPass
@@ -26,8 +23,8 @@ readonly class TypeDeclarationMarker implements TokenizerPass
         T_ARRAY,
         T_CALLABLE,
         T_STATIC,
-        T_QUESTION_MARK,
-        T_VERTICAL_BAR,
+        TokenType::QUESTION_MARK,
+        TokenType::VERTICAL_BAR,
         T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG,
     ];
 
@@ -45,21 +42,6 @@ readonly class TypeDeclarationMarker implements TokenizerPass
         T_ABSTRACT,
     ];
 
-    private const array LEGACY_KINDS = [
-        TypeDeclarationKind::Parameter,
-        TypeDeclarationKind::ReturnType,
-        TypeDeclarationKind::Property,
-    ];
-
-    private array $legacyTokens;
-
-    public function __construct(
-        TokenGroups $tokenGroups,
-    )
-    {
-        $this->legacyTokens = $tokenGroups->typeDeclarationTypes();
-    }
-
     public function runsAfter(): array
     {
         return [StatementBuilder::class];
@@ -68,13 +50,13 @@ readonly class TypeDeclarationMarker implements TokenizerPass
     public function run(TokenizerJob $job): void
     {
         foreach ($job->tokens as $token) {
-            if ($token->is(T_ROUND_BRACKET_OPEN) && Signatures::isParameterList($token)) {
+            if ($token->is(TokenType::ROUND_BRACKET_OPEN) && Signatures::isParameterList($token)) {
                 $this->markParameters($token);
             }
-            elseif ($token->is(T_COLON) && Signatures::isReturnTypeColon($token)) {
+            elseif ($token->is(TokenType::COLON) && Signatures::isReturnTypeColon($token)) {
                 $this->markTypeFrom($token->next, TypeDeclarationKind::ReturnType);
             }
-            elseif ($token->is(T_CATCH) && $token->next?->is(T_ROUND_BRACKET_OPEN)) {
+            elseif ($token->is(T_CATCH) && $token->next?->is(TokenType::ROUND_BRACKET_OPEN)) {
                 $this->markTypeFrom($token->next->next, TypeDeclarationKind::Catch);
             }
         }
@@ -82,15 +64,6 @@ readonly class TypeDeclarationMarker implements TokenizerPass
         foreach ($job->tree->statements() as $statement) {
             if ($statement->block->type === BlockType::ClassLike && $statement->firstToken() !== null) {
                 $this->markClassMember($statement->firstToken());
-            }
-        }
-
-        foreach ($job->tokens as $token) {
-            // As in 3.x, the parameters of set hooks are left out
-            if (in_array($token->typeDeclaration, self::LEGACY_KINDS, true)
-                    && $token->is($this->legacyTokens)
-                    && $token->block->type !== BlockType::HookList) {
-                $token->inTypeDeclaration = true;
             }
         }
     }
@@ -110,7 +83,7 @@ readonly class TypeDeclarationMarker implements TokenizerPass
                 if ($token->is(T_VARIABLE)) {
                     $beforeVariable = false;
                 }
-                elseif ($token->is(T_ROUND_BRACKET_OPEN)) {
+                elseif ($token->is(TokenType::ROUND_BRACKET_OPEN)) {
                     $this->markUpTo($token, $token->matchingBracket, TypeDeclarationKind::Parameter);
                     $token = $token->matchingBracket;
                 }
@@ -118,7 +91,7 @@ readonly class TypeDeclarationMarker implements TokenizerPass
                     $token->typeDeclaration = TypeDeclarationKind::Parameter;
                 }
             }
-            elseif ($token->is(T_COMMA)) {
+            elseif ($token->is(TokenType::COMMA)) {
                 $beforeVariable = true;
             }
             elseif ($token->matchingBracket !== null) {
@@ -138,7 +111,7 @@ readonly class TypeDeclarationMarker implements TokenizerPass
     private function markTypeFrom(Token|null $token, TypeDeclarationKind $kind): void
     {
         while ($token !== null) {
-            if ($token->is(T_ROUND_BRACKET_OPEN) && $token->matchingBracket !== null) {
+            if ($token->is(TokenType::ROUND_BRACKET_OPEN) && $token->matchingBracket !== null) {
                 $this->markUpTo($token, $token->matchingBracket, $kind);
                 $token = $token->matchingBracket->next;
             }
@@ -194,7 +167,7 @@ readonly class TypeDeclarationMarker implements TokenizerPass
     {
         $tokens = [];
 
-        for ($token = $first; $token !== null && !$token->is([T_ASSIGNMENT, T_SEMICOLON]); $token = $token->next) {
+        for ($token = $first; $token !== null && !$token->is([TokenType::ASSIGNMENT, TokenType::SEMICOLON]); $token = $token->next) {
             $tokens[] = $token;
         }
 

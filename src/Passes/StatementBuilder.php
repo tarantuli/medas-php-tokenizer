@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{Block, BlockType, Token, TokenTree};
+use Medas\PhpTokenizer\{Block, BlockType, Token, TokenTree, TokenType};
 
 /**
  * Puts the tokens into statements and the statements into blocks, using the blocks found by @class(BlockTypeResolver).
@@ -47,7 +47,7 @@ readonly class StatementBuilder implements TokenizerPass
             $state->openTernaries = 0;
         }
 
-        if ($token->is(T_ROUND_BRACKET_CLOSE)) {
+        if ($token->is(TokenType::ROUND_BRACKET_CLOSE)) {
             --$state->parenthesesDepth;
         }
 
@@ -59,17 +59,17 @@ readonly class StatementBuilder implements TokenizerPass
         if ($token->is(T_OPEN_TAG)) {
             $state->startNewStatementBeforeNext = true;
         }
-        elseif ($state->forClauseDepth === 0 && $token->is(T_SEMICOLON)) {
+        elseif ($state->forClauseDepth === 0 && $token->is(TokenType::SEMICOLON)) {
             $state->startNewStatementBeforeNext = true;
         }
         elseif ($token->opensBlock !== null) {
             $this->openBlock($state, $token->opensBlock);
         }
-        elseif ($token->is(T_QUESTION_MARK) && !$token->next?->is(T_COLON)) {
+        elseif ($token->is(TokenType::QUESTION_MARK) && !$token->next?->is(TokenType::COLON)) {
             ++$state->openTernaries;
         }
-        elseif ($token->is(T_COLON)) {
-            if ($state->openTernaries > 0 && !$token->previous?->is(T_QUESTION_MARK)) {
+        elseif ($token->is(TokenType::COLON)) {
+            if ($state->openTernaries > 0 && !$token->previous?->is(TokenType::QUESTION_MARK)) {
                 // The colon of a ternary, like in "case $a ? 1 : 2:"
                 --$state->openTernaries;
             }
@@ -82,7 +82,7 @@ readonly class StatementBuilder implements TokenizerPass
         elseif ($token->is(T_FOR)) {
             $state->nextParenthesisOpensForClause = true;
         }
-        elseif ($token->is(T_ROUND_BRACKET_OPEN)) {
+        elseif ($token->is(TokenType::ROUND_BRACKET_OPEN)) {
             if ($state->forClauseDepth || $state->nextParenthesisOpensForClause) {
                 $state->nextParenthesisOpensForClause = false;
 
@@ -91,10 +91,10 @@ readonly class StatementBuilder implements TokenizerPass
 
             ++$state->parenthesesDepth;
         }
-        elseif ($state->forClauseDepth && $token->is(T_ROUND_BRACKET_CLOSE)) {
+        elseif ($state->forClauseDepth && $token->is(TokenType::ROUND_BRACKET_CLOSE)) {
             --$state->forClauseDepth;
         }
-        elseif ($token->closesBlock && $token->is(T_CURLY_BRACKET_CLOSE)) {
+        elseif ($token->closesBlock && $token->is(TokenType::CURLY_BRACKET_CLOSE)) {
             if ($state->matchClauseDepth === 0) {
                 $state->startNewStatementBeforeNext = true;
             }
@@ -108,7 +108,7 @@ readonly class StatementBuilder implements TokenizerPass
             // The => of a match arm. A later one, like in "1 => ['a' => 1, 'b' => 2]", is part of the arm's value.
             $state->nextCommaAtThisDepthEndsStatement = $token->bracketDepth;
         }
-        elseif ($token->is(T_COMMA)) {
+        elseif ($token->is(TokenType::COMMA)) {
             // Counting all brackets, so a comma inside "1 => [2, 3]" doesn't end the arm
             if ($state->nextCommaAtThisDepthEndsStatement === $token->bracketDepth) {
                 // The comma ends a match arm

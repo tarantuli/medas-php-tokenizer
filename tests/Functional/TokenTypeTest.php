@@ -64,7 +64,7 @@ class TokenTypeTest extends TestCase
     {
         $tokens = Token::tokenize('<?php "{$a}";');
 
-        // The { of "{$a}" is T_CURLY_OPEN, which the text constant T_CURLY_BRACKET_OPEN also matched
+        // The { of "{$a}" is T_CURLY_OPEN, a token that only looks like a {
         self::assertSame('{', $tokens[2]->text);
         self::assertFalse($tokens[2]->is(TokenType::CURLY_BRACKET_OPEN));
         self::assertTrue($tokens[4]->is(TokenType::CURLY_BRACKET_CLOSE));

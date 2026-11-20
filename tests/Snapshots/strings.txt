@@ -1,71 +1,71 @@
 d0 PhpOpenTag [File]
-    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+    <?php  T_OPEN_TAG  | nl:2
 d0 GenericStatement [File]
-    $single  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    'it\'s {$not} interpolated'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $single  T_VARIABLE  | sp:1
+    =  | sp:1
+    'it\'s {$not} interpolated'  T_CONSTANT_ENCAPSED_STRING
+    ;  | nl:1
 d0 GenericStatement [File]
-    $double  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    "  | @GlobalScope
-    Hello   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    $name  T_VARIABLE  | @GlobalScope S
-    , you have   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    {  T_CURLY_OPEN  | @GlobalScope S #1
-    $count  T_VARIABLE  | @GlobalScope S b1
-    }  | @GlobalScope S #1
-     new   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    {  T_CURLY_OPEN  | @GlobalScope S #2
-    $items  T_VARIABLE  | @GlobalScope S b1
-    [  | @GlobalScope S b1 #3
-    'type'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope S b2
-    ]  | @GlobalScope S b1 #3
-    }  | @GlobalScope S #2
-    s and   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    {  T_CURLY_OPEN  | @GlobalScope S #4
-    $user  T_VARIABLE  | @GlobalScope S b1
-    ->  T_OBJECT_OPERATOR  | @GlobalScope S b1
-    name  T_STRING  | @GlobalScope S b1
-    (  | @GlobalScope S b1 #5
-    )  | @GlobalScope S b1 #5
-    }  | @GlobalScope S #4
-    "  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $double  T_VARIABLE  | sp:1
+    =  | sp:1
+    "
+    Hello   T_ENCAPSED_AND_WHITESPACE  | S
+    $name  T_VARIABLE  | S
+    , you have   T_ENCAPSED_AND_WHITESPACE  | S
+    {  T_CURLY_OPEN  | S #1
+    $count  T_VARIABLE  | S b1
+    }  | S #1
+     new   T_ENCAPSED_AND_WHITESPACE  | S
+    {  T_CURLY_OPEN  | S #2
+    $items  T_VARIABLE  | S b1
+    [  | S b1 #3
+    'type'  T_CONSTANT_ENCAPSED_STRING  | S b2
+    ]  | S b1 #3
+    }  | S #2
+    s and   T_ENCAPSED_AND_WHITESPACE  | S
+    {  T_CURLY_OPEN  | S #4
+    $user  T_VARIABLE  | S b1
+    ->  T_OBJECT_OPERATOR  | S b1
+    name  T_STRING  | S b1
+    (  | S b1 #5
+    )  | S b1 #5
+    }  | S #4
+    "
+    ;  | nl:1
 d0 GenericStatement [File]
-    $dollarBrace  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    "  | @GlobalScope
-    Value:   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    ${  T_DOLLAR_OPEN_CURLY_BRACES  | @GlobalScope S #6
-    value  T_STRING_VARNAME  | @GlobalScope S b1
-    }  | @GlobalScope S #6
-    "  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $dollarBrace  T_VARIABLE  | sp:1
+    =  | sp:1
+    "
+    Value:   T_ENCAPSED_AND_WHITESPACE  | S
+    ${  T_DOLLAR_OPEN_CURLY_BRACES  | S #6
+    value  T_STRING_VARNAME  | S b1
+    }  | S #6
+    "
+    ;  | nl:1
 d0 GenericStatement [File]
-    $heredoc  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    <<<TEXT\n  T_START_HEREDOC  | @GlobalScope
-        Dear   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    {  T_CURLY_OPEN  | @GlobalScope S #7
-    $user  T_VARIABLE  | @GlobalScope S b1
-    ->  T_OBJECT_OPERATOR  | @GlobalScope S b1
-    name  T_STRING  | @GlobalScope S b1
-    }  | @GlobalScope S #7
-    ,\n    Total:   T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-    $total  T_VARIABLE  | @GlobalScope S
-    \n  T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-        TEXT  T_END_HEREDOC  | @GlobalScope S
-    ;  | @GlobalScope nl:1
+    $heredoc  T_VARIABLE  | sp:1
+    =  | sp:1
+    <<<TEXT\n  T_START_HEREDOC
+        Dear   T_ENCAPSED_AND_WHITESPACE  | S
+    {  T_CURLY_OPEN  | S #7
+    $user  T_VARIABLE  | S b1
+    ->  T_OBJECT_OPERATOR  | S b1
+    name  T_STRING  | S b1
+    }  | S #7
+    ,\n    Total:   T_ENCAPSED_AND_WHITESPACE  | S
+    $total  T_VARIABLE  | S
+    \n  T_ENCAPSED_AND_WHITESPACE  | S
+        TEXT  T_END_HEREDOC  | S
+    ;  | nl:1
 d0 GenericStatement [File]
-    $nowdoc  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    <<<'TEXT'\n  T_START_HEREDOC  | @GlobalScope
-        No {$interpolation} here\n  T_ENCAPSED_AND_WHITESPACE  | @GlobalScope S
-        TEXT  T_END_HEREDOC  | @GlobalScope S
-    ;  | @GlobalScope nl:1
+    $nowdoc  T_VARIABLE  | sp:1
+    =  | sp:1
+    <<<'TEXT'\n  T_START_HEREDOC
+        No {$interpolation} here\n  T_ENCAPSED_AND_WHITESPACE  | S
+        TEXT  T_END_HEREDOC  | S
+    ;  | nl:1
 d0 GenericStatement [File]
-    $escaped  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    "Tab\tand \"quotes\" and \$dollar"  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $escaped  T_VARIABLE  | sp:1
+    =  | sp:1
+    "Tab\tand \"quotes\" and \$dollar"  T_CONSTANT_ENCAPSED_STRING
+    ;  | nl:1

@@ -1,70 +1,70 @@
 d0 PhpOpenTag [File]
-    <?php  T_OPEN_TAG  | @GlobalScope nl:2
+    <?php  T_OPEN_TAG  | nl:2
 d0 GenericStatement [File]
-    $value  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $object  T_VARIABLE  | @GlobalScope
-    ->  T_OBJECT_OPERATOR  | @GlobalScope
-    {  | @GlobalScope #1
-    $property  T_VARIABLE  | @GlobalScope b1
-    }  | @GlobalScope #1
-    ;  | @GlobalScope nl:1
+    $value  T_VARIABLE  | sp:1
+    =  | sp:1
+    $object  T_VARIABLE
+    ->  T_OBJECT_OPERATOR
+    {  | #1
+    $property  T_VARIABLE  | b1
+    }  | #1
+    ;  | nl:1
 d0 GenericStatement [File]
-    $result  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $object  T_VARIABLE  | @GlobalScope
-    ->  T_OBJECT_OPERATOR  | @GlobalScope
-    {  | @GlobalScope #2
-    'method'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope b1 sp:1
-    .  | @GlobalScope b1 sp:1
-    $suffix  T_VARIABLE  | @GlobalScope b1
-    }  | @GlobalScope #2
-    (  | @GlobalScope #3
-    )  | @GlobalScope #3
-    ;  | @GlobalScope nl:1
+    $result  T_VARIABLE  | sp:1
+    =  | sp:1
+    $object  T_VARIABLE
+    ->  T_OBJECT_OPERATOR
+    {  | #2
+    'method'  T_CONSTANT_ENCAPSED_STRING  | b1 sp:1
+    .  | b1 sp:1
+    $suffix  T_VARIABLE  | b1
+    }  | #2
+    (  | #3
+    )  | #3
+    ;  | nl:1
 d0 GenericStatement [File]
-    $static  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    Foo  T_STRING  | @GlobalScope C
-    ::  T_DOUBLE_COLON  | @GlobalScope
-    {  | @GlobalScope #4
-    $method  T_VARIABLE  | @GlobalScope b1
-    }  | @GlobalScope #4
-    (  | @GlobalScope #5
-    )  | @GlobalScope #5
-    ;  | @GlobalScope nl:1
+    $static  T_VARIABLE  | sp:1
+    =  | sp:1
+    Foo  T_STRING  | C
+    ::  T_DOUBLE_COLON
+    {  | #4
+    $method  T_VARIABLE  | b1
+    }  | #4
+    (  | #5
+    )  | #5
+    ;  | nl:1
 d0 GenericStatement [File]
-    $class  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $className  T_VARIABLE  | @GlobalScope
-    ::  T_DOUBLE_COLON  | @GlobalScope
-    create  T_STRING  | @GlobalScope
-    (  | @GlobalScope #6
-    )  | @GlobalScope #6
-    ;  | @GlobalScope nl:1
+    $class  T_VARIABLE  | sp:1
+    =  | sp:1
+    $className  T_VARIABLE
+    ::  T_DOUBLE_COLON
+    create  T_STRING
+    (  | #6
+    )  | #6
+    ;  | nl:1
 d0 GenericStatement [File]
-    $variable  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $  | @GlobalScope
-    $name  T_VARIABLE  | @GlobalScope
-    ;  | @GlobalScope nl:1
+    $variable  T_VARIABLE  | sp:1
+    =  | sp:1
+    $
+    $name  T_VARIABLE
+    ;  | nl:1
 d0 GenericStatement [File]
-    $constant  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    Foo  T_STRING  | @GlobalScope C
-    ::  T_DOUBLE_COLON  | @GlobalScope
-    {  | @GlobalScope #7
-    $constantName  T_VARIABLE  | @GlobalScope b1
-    }  | @GlobalScope #7
-    ;  | @GlobalScope nl:1
+    $constant  T_VARIABLE  | sp:1
+    =  | sp:1
+    Foo  T_STRING  | C
+    ::  T_DOUBLE_COLON
+    {  | #7
+    $constantName  T_VARIABLE  | b1
+    }  | #7
+    ;  | nl:1
 d0 GenericStatement [File]
-    $array  T_VARIABLE  | @GlobalScope sp:1
-    =  | @GlobalScope sp:1
-    $items  T_VARIABLE  | @GlobalScope
-    [  | @GlobalScope #8
-    $key  T_VARIABLE  | @GlobalScope b1
-    ]  | @GlobalScope #8
-    [  | @GlobalScope #9
-    'nested'  T_CONSTANT_ENCAPSED_STRING  | @GlobalScope b1
-    ]  | @GlobalScope #9
-    ;  | @GlobalScope nl:1
+    $array  T_VARIABLE  | sp:1
+    =  | sp:1
+    $items  T_VARIABLE
+    [  | #8
+    $key  T_VARIABLE  | b1
+    ]  | #8
+    [  | #9
+    'nested'  T_CONSTANT_ENCAPSED_STRING  | b1
+    ]  | #9
+    ;  | nl:1

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\PhpTokenizer\Passes;
 
 use Medas\Core\Attributes\Service;
-use Medas\PhpTokenizer\{BlockType, Token};
+use Medas\PhpTokenizer\{BlockType, Token, TokenType};
 
 /**
  * Decides for every { whether it opens a block and what kind of block (```opensBlock```), and marks the } that closes
@@ -23,12 +23,12 @@ readonly class BlockTypeResolver implements TokenizerPass
         T_OBJECT_OPERATOR,
         T_NULLSAFE_OBJECT_OPERATOR,
         T_DOUBLE_COLON,
-        T_DOLLAR,
+        TokenType::DOLLAR,
         T_NS_SEPARATOR,
-        T_BACKSLASH,
+        TokenType::BACKSLASH,
 
         // Kept from the time of $string{0}, removed in PHP 8.0
-        T_SQUARE_BRACKET_CLOSE,
+        TokenType::SQUARE_BRACKET_CLOSE,
     ];
 
     private const array CONTROL_KEYWORDS = [T_IF, T_ELSEIF, T_WHILE, T_FOR, T_FOREACH, T_CATCH, T_DECLARE];
@@ -54,8 +54,8 @@ readonly class BlockTypeResolver implements TokenizerPass
         T_ARRAY,
         T_CALLABLE,
         T_STATIC,
-        T_QUESTION_MARK,
-        T_VERTICAL_BAR,
+        TokenType::QUESTION_MARK,
+        TokenType::VERTICAL_BAR,
         T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG,
         T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG,
     ];
@@ -65,8 +65,8 @@ readonly class BlockTypeResolver implements TokenizerPass
         T_NAME_QUALIFIED,
         T_NAME_FULLY_QUALIFIED,
         T_NAME_RELATIVE,
-        T_COMMA,
-        T_COLON,
+        TokenType::COMMA,
+        TokenType::COLON,
         T_EXTENDS,
         T_IMPLEMENTS,
         T_ARRAY,
@@ -91,31 +91,31 @@ readonly class BlockTypeResolver implements TokenizerPass
                 array_pop($blocks);
             }
 
-            if ($token->is(T_CURLY_BRACKET_CLOSE) && $token->matchingBracket?->opensBlock !== null) {
+            if ($token->is(TokenType::CURLY_BRACKET_CLOSE) && $token->matchingBracket?->opensBlock !== null) {
                 $token->closesBlock = true;
                 array_pop($blocks);
             }
-            elseif ($token->is(T_ROUND_BRACKET_CLOSE) || $token->is(T_SQUARE_BRACKET_CLOSE)
-                    || $token->is(T_CURLY_BRACKET_CLOSE)) {
+            elseif ($token->is(TokenType::ROUND_BRACKET_CLOSE) || $token->is(TokenType::SQUARE_BRACKET_CLOSE)
+                    || $token->is(TokenType::CURLY_BRACKET_CLOSE)) {
                 array_pop($brackets);
             }
 
             $token->bracketDepth = count($brackets);
 
-            if ($token->is(T_CURLY_BRACKET_OPEN) && !$token->inString) {
+            if ($token->is(TokenType::CURLY_BRACKET_OPEN) && !$token->inString) {
                 $token->opensBlock = $this->braceType($token, end($blocks)[0], end($brackets) ?: null);
             }
-            elseif ($token->is(T_COLON)) {
+            elseif ($token->is(TokenType::COLON)) {
                 $token->opensBlock = $this->alternativeSyntaxType($token);
             }
 
             if ($token->opensBlock !== null) {
-                $blocks[] = [$token->opensBlock, $token->is(T_COLON)];
+                $blocks[] = [$token->opensBlock, $token->is(TokenType::COLON)];
             }
             elseif ($token->is([
-                T_ROUND_BRACKET_OPEN,
-                T_SQUARE_BRACKET_OPEN,
-                T_CURLY_BRACKET_OPEN,
+                TokenType::ROUND_BRACKET_OPEN,
+                TokenType::SQUARE_BRACKET_OPEN,
+                TokenType::CURLY_BRACKET_OPEN,
                 T_CURLY_OPEN,
                 T_DOLLAR_OPEN_CURLY_BRACES,
                 T_ATTRIBUTE,
@@ -145,13 +145,13 @@ readonly class BlockTypeResolver implements TokenizerPass
         $beforeTypes = $this->skipBackOverReturnType($previous);
 
         if ($beforeTypes !== $previous
-                && $beforeTypes?->is(T_COLON)
-                && $beforeTypes->previous?->is(T_ROUND_BRACKET_CLOSE)) {
+                && $beforeTypes?->is(TokenType::COLON)
+                && $beforeTypes->previous?->is(TokenType::ROUND_BRACKET_CLOSE)) {
             // ") : type {", the body of a function or closure with a return type
             $previous = $beforeTypes->previous;
         }
 
-        if ($previous->is(T_ROUND_BRACKET_CLOSE)) {
+        if ($previous->is(TokenType::ROUND_BRACKET_CLOSE)) {
             $type = $this->typeAfterParentheses($previous, $enclosing);
 
             if ($type !== null) {
@@ -206,7 +206,7 @@ readonly class BlockTypeResolver implements TokenizerPass
             return BlockType::Control;
         }
 
-        if ($keyword->is(T_USE) && $keyword->previous?->is(T_ROUND_BRACKET_CLOSE)) {
+        if ($keyword->is(T_USE) && $keyword->previous?->is(TokenType::ROUND_BRACKET_CLOSE)) {
             // function (...) use (...) {
             return $this->typeAfterParentheses($keyword->previous, $enclosing);
         }
@@ -254,9 +254,9 @@ readonly class BlockTypeResolver implements TokenizerPass
             if ($token->is(self::TYPE_TOKENS)) {
                 $token = $token->previous;
             }
-            elseif ($token->is(T_ROUND_BRACKET_CLOSE) && $token->matchingBracket?->previous?->is([
-                T_VERTICAL_BAR,
-                T_COLON,
+            elseif ($token->is(TokenType::ROUND_BRACKET_CLOSE) && $token->matchingBracket?->previous?->is([
+                TokenType::VERTICAL_BAR,
+                TokenType::COLON,
             ])) {
                 // A DNF group
                 $token = $token->matchingBracket->previous;
@@ -290,7 +290,7 @@ readonly class BlockTypeResolver implements TokenizerPass
                 return !$token->previous?->is(T_DOUBLE_COLON);
             }
 
-            if ($token->is(T_ROUND_BRACKET_CLOSE)) {
+            if ($token->is(TokenType::ROUND_BRACKET_CLOSE)) {
                 // The arguments of new class (...)
                 $token = $token->matchingBracket?->previous;
             }
@@ -307,7 +307,7 @@ readonly class BlockTypeResolver implements TokenizerPass
 
     private function isTraitUse(Token $token): bool
     {
-        while ($token?->is([T_STRING, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED, T_NAME_RELATIVE, T_COMMA])) {
+        while ($token?->is([T_STRING, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED, T_NAME_RELATIVE, TokenType::COMMA])) {
             $token = $token->previous;
         }
 
@@ -319,7 +319,7 @@ readonly class BlockTypeResolver implements TokenizerPass
      */
     private function isPropertyWithHooks(Token $token, BlockType $enclosing, Token|null $enclosingBracket): bool
     {
-        $inParameters = $enclosingBracket?->is(T_ROUND_BRACKET_OPEN) ?? false;
+        $inParameters = $enclosingBracket?->is(TokenType::ROUND_BRACKET_OPEN) ?? false;
 
         if ($enclosingBracket !== null && !$inParameters) {
             return false;
@@ -329,7 +329,7 @@ readonly class BlockTypeResolver implements TokenizerPass
             return false;
         }
 
-        while ($token !== null && !$token->is([T_SEMICOLON, T_CURLY_BRACKET_OPEN, T_CURLY_BRACKET_CLOSE, T_COMMA])) {
+        while ($token !== null && !$token->is([TokenType::SEMICOLON, TokenType::CURLY_BRACKET_OPEN, TokenType::CURLY_BRACKET_CLOSE, TokenType::COMMA])) {
             if ($token->is(T_VARIABLE)) {
                 return true;
             }
@@ -338,7 +338,7 @@ readonly class BlockTypeResolver implements TokenizerPass
                 return false;
             }
 
-            $token = $token->is([T_ROUND_BRACKET_CLOSE, T_SQUARE_BRACKET_CLOSE])
+            $token = $token->is([TokenType::ROUND_BRACKET_CLOSE, TokenType::SQUARE_BRACKET_CLOSE])
                 ? $token->matchingBracket?->previous
                 : $token->previous;
         }
@@ -358,7 +358,7 @@ readonly class BlockTypeResolver implements TokenizerPass
             return BlockType::Control;
         }
 
-        if (!$previous?->is(T_ROUND_BRACKET_CLOSE)) {
+        if (!$previous?->is(TokenType::ROUND_BRACKET_CLOSE)) {
             return null;
         }
 
@@ -382,11 +382,11 @@ readonly class BlockTypeResolver implements TokenizerPass
         }
 
         if ($token->is(T_ELSE)) {
-            return $token->next?->is(T_COLON) ?? false;
+            return $token->next?->is(TokenType::COLON) ?? false;
         }
 
         if ($token->is(T_ELSEIF)) {
-            return $token->next?->matchingBracket?->next?->is(T_COLON) ?? false;
+            return $token->next?->matchingBracket?->next?->is(TokenType::COLON) ?? false;
         }
 
         return false;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\PhpTokenizer\Passes;
 
-use Medas\PhpTokenizer\{BlockType, Token};
+use Medas\PhpTokenizer\{BlockType, Token, TokenType};
 
 /**
  * Recognises the parameter lists and return types of functions, methods, closures, arrow functions and set hooks.
@@ -22,7 +22,7 @@ final class Signatures
      */
     public static function isParameterList(Token $open): bool
     {
-        if (!$open->is(T_ROUND_BRACKET_OPEN)) {
+        if (!$open->is(TokenType::ROUND_BRACKET_OPEN)) {
             return false;
         }
 
@@ -63,13 +63,13 @@ final class Signatures
     {
         $close = $colon->previous;
 
-        if (!$colon->is(T_COLON) || !$close?->is(T_ROUND_BRACKET_CLOSE) || $close->matchingBracket === null) {
+        if (!$colon->is(TokenType::COLON) || !$close?->is(TokenType::ROUND_BRACKET_CLOSE) || $close->matchingBracket === null) {
             return false;
         }
 
         $open = $close->matchingBracket;
 
-        if ($open->previous?->is(T_USE) && $open->previous->previous?->is(T_ROUND_BRACKET_CLOSE)) {
+        if ($open->previous?->is(T_USE) && $open->previous->previous?->is(TokenType::ROUND_BRACKET_CLOSE)) {
             // function (...) use (...): int
             $open = $open->previous->previous->matchingBracket;
         }
