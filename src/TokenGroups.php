@@ -227,6 +227,9 @@ class TokenGroups
             TokenType::SQUARE_BRACKET_CLOSE,
             TokenType::CURLY_BRACKET_OPEN,
             TokenType::CURLY_BRACKET_CLOSE,
+            // The { of "{$a}" and the ${ of "${a}"
+            T_CURLY_OPEN,
+            T_DOLLAR_OPEN_CURLY_BRACES,
         ];
     }
 
